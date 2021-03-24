@@ -8,7 +8,7 @@ package Prueba;
 /**
  *
  * @author sandr
- */
+ a*/
 public class LOL {
     
 }
