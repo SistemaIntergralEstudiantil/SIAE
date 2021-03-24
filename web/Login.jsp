@@ -32,7 +32,7 @@
         </div><br>
         <div class="content-margin content-linea" >
             <label class="content-linea_label_dos" for="pass">Contraseña:</label>
-            <input class="content-linea_input" id="pass" type="password" name="contraseña" />
+            <input class="content-linea_input" id="pass" type="password" name="contra" />
         </div><br>
         <div class="content-margin content-linea" >
             <select name="TIPO DE USUARIO">

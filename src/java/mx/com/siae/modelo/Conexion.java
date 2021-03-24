@@ -40,6 +40,8 @@ public class Conexion {
  * Este es el constructor de la ConexionBD que iniciara con la conexion a la BD.
  */
     public Conexion(){
+        user = "root";
+        pass = "123456789";
         direccion="jdbc:mysql://localhost:3306/SIAE?serverTimezone=UTC";//configurar la zona horaria
     }
 /**

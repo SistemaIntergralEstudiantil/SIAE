@@ -56,7 +56,8 @@ public class Login extends HttpServlet {
                 case "log":
                     user = new Usuarios();
                     user.setIdUsuario(request.getParameter("idUsuario"));
-                    user.setContraseña(request.getParameter("contraseña"));
+                    user.setContraseña(request.getParameter("contra"));
+                    System.out.println(user.getIdUsuario() + user.getContraseña());
                     validarData(user);
                     crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
