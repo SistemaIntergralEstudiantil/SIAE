@@ -5,8 +5,20 @@
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	 version="3.1">
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
+    <display-name>SIAE</display-name>
+    <description>
+        This is version 1.0 of an application to help students obtain 
+        information about the services that the planter offers and can 
+        make use of it, based on Servlets and JSP Pages. 
+        Written by:
+        *** sbautista@itsoeh.edu.mx
+        ** jgressh@itsoeh.edu.mx
+        ** ojhernandez@itsoeh.edu.mx
+        ** dhernandezr@itsoeh.edu.mx
+        ** nzmorales@itsoeh.edu.mx
+        ** edramirez@itsoeh.edu.mx
+        Who to contact for more information.
+    </description>
 </web-app>
