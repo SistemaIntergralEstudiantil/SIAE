@@ -10,116 +10,87 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
- *
- * @author sandr
+ * Esta clase define la conexión del sistema con la base de datos.
+ * @version 26/03/2021/B
+ * @author Sandra Monserrat B. L.
  */
 public class Conexion {
-    
-    /**
- * Esta variable almacena el Usuario con el que se conectara a la BD*/
-    private String user;
-/**
- * Esta variable almacena la Contraseña del usuario.*/
-    private String pass;
-/**
- * Esta variable almacena la Direccion con la que se conectara a la BD.*/
+    private final String user;
+    private final String pass;
     private final String direccion;
-/**
- * Esta variable almacena la Conexion con la BD.*/
     private Connection conexion;
-/**
- * Esta variable almacena el Estado de la conexion con la BD.*/
     private PreparedStatement estado;
-/**
- * Esta variable almacena los Resultados de las consultas SQL a la BD.*/
     private ResultSet resultado;
-/**
- * Este es el constructor de la ConexionBD que iniciara con la conexion a la BD.
- */
+    /**
+     * Este es el constructor de la ConexionBD que iniciara con la conexion a la BD.
+     */
     public Conexion(){
         user = "root";
         pass = "123456789";
         direccion="jdbc:mysql://localhost:3306/SIAE?serverTimezone=UTC";//configurar la zona horaria
     }
-/**
- * Crea la conexion a la BD.
+    /**
+     * Este método crea la conexion a con la BD.
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
- */ 
+     */ 
     public void conectar() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conexion=DriverManager.getConnection(direccion, user, pass); 
     }
-    
-/**
- * Este Metodo obtiene la conexion a la BD.
- * @return La conexion.
- */
+    /**
+     * Este método obtiene la conexion a la BD.
+     * @return La conexion a la BD.
+     */
     public Connection getConexion() {
         return conexion;
     }
-/**
- * Este Metodo obtiene el Estado de la conexion a la BD.
- * @return La Estado de conexion.
- */
+    /**
+     * Este método obtiene el Estado de la conexion a la BD.
+     * @return El estado de la conexion.
+     */
     public PreparedStatement getEstado() {
         return estado;
     }
-/**
- * Este Metodo asigan el Estado de la coxion para realizar una nueva consulta SQL.
- * @param estado El estado de conexion para una nueva consulta.
- */
+    /**
+     * Este método asigan el Estado de la conexión para realizar una nueva consulta SQL.
+     * @param estado El estado de conexión.
+     */
     public void setEstado(PreparedStatement estado) {
         this.estado = estado;
     }
-/**
- * Este Metodo obtiene los Resultados de una sentencia SQL.
- * @return La conexion.
- */
+    /**
+     * Este método obtiene los resultados de la ejecución del SQL.
+     * @return Los resultados de ejecución.
+     */
     public ResultSet getResultado() {
         return resultado;
     }
-/**
- * Este Metodo asigna el Resultado de la execucion de una consulta SQL.
- * @param resultado El resultado de una consulta SQL.
- */
+    /**
+     * Este método asigna el resultado de la execucion del SQL.
+     * @param resultado El valor del resultado del SQL.
+     */
     public void setResultado(ResultSet resultado) {
         this.resultado = resultado;
     }    
-/**
- * Este Metodo se conecta a la BD
+    /**
+     * Este método cierra la conexión con la BD
      * @throws java.sql.SQLException
      * @throws java.lang.Exception
- */    
-    
+     */
     public void cerrarConexion() throws SQLException, Exception {
         conexion.close();
     }
-    
+    /**
+     * Este método prepara el estado de la conexión para realizar un SQL 
+     * @param sSQL Este es la sentencia SQL
+     * @throws SQLException
+     * @throws Exception 
+     */
     public void prepareStatement(String sSQL) throws SQLException, Exception {
         this.estado = conexion.prepareStatement(sSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-    }
-    
-    
-    
-    
-    public ResultSet consultarBD(String sSQL) throws SQLException, Exception {
-        ResultSet rs = null;
-        Statement stmt = conexion.createStatement();
-        rs = stmt.executeQuery(sSQL);
-        stmt.close();
-        return rs;
-    }
-    
-    public int actualizarBD(String sSQL) throws SQLException, Exception {
-        int iRes = 0;
-        Statement stmt = conexion.createStatement();
-        iRes = stmt.executeUpdate(sSQL);
-        stmt.close();
-        return iRes;
     }
     
 }

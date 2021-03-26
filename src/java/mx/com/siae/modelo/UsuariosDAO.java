@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import mx.com.siae.modelo.beans.Usuarios;
 
 /**
- *
- * @author sandr
+ * Esta clase define las operaciones de los usuarios a la base de datos.
+ * @version 26/03/2021/B
+ * @author Sandra Monserrat B. L.
+ * @see Conexion
+ * @see Usuarios
  */
 public class UsuariosDAO {
     
