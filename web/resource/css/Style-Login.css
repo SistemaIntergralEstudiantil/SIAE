@@ -8,3 +8,12 @@ and open the template in the editor.
     Author     : danielhernandezreyes
 */
 
+.input-val:focus {
+    border-color: #00f;
+    outline: 0 none;
+}
+
+.input-err:focus {
+    border-color: #f00;
+    outline: 0 none;
+}
