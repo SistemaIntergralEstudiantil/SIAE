@@ -26,23 +26,23 @@
     <p align="center"> <img src="images/logo_SIAE.png" height="220" width="220"> </p>
 <center>
     <form action="Login" method="POST" >
-        <div class="content-margin content-linea" >
-            <label class="content-linea_label_uno" for="user">Usuario:</label>
-            <input class="content-linea_input" id="user" type="text" name="idUsuario" />
+        <div  >
+            <label  for="user">Usuario:</label>
+            <input  id="user" type="text" name="idUsuario" />
         </div><br>
-        <div class="content-margin content-linea" >
-            <label class="content-linea_label_dos" for="pass">Contraseña:</label>
-            <input class="content-linea_input" id="pass" type="password" name="contra" />
+        <div  >
+            <label  for="pass">Contraseña:</label>
+            <input  id="pass" type="password" name="contra" />
         </div><br>
-        <div class="content-margin content-linea" >
+        <div  >
             <select name="TIPO DE USUARIO">
                 <option value="1">Alumno</option> 
                 <option value="2">Administrador</option>
             </select>
         </div><br>
-        <div class="content-margin content-linea" >
+        <div  >
             <input type="hidden" name="clave" value="log"/>
-            <input class="content-margin content-padding content-linea_tres" type="submit" value="Ingresar">
+            <input type="submit" value="Ingresar">
         </div>
     </form>
     <br></center>
