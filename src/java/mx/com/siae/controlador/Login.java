@@ -56,8 +56,8 @@ public class Login extends HttpServlet {
                 case "log":
                     user = new Usuarios();
                     user.setIdUsuario(request.getParameter("idUsuario"));
-                    user.setContraseña(request.getParameter("contra"));
-                    System.out.println(user.getIdUsuario() + user.getContraseña());
+                    user.setPassword(request.getParameter("contra"));
+                    System.out.println(user.getIdUsuario() + user.getPassword());
                     validarData(user);
                     crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
@@ -89,11 +89,11 @@ public class Login extends HttpServlet {
     }
     
     private void validarData(Usuarios user) throws Exception {
-        if(user.getIdUsuario() == null || user.getContraseña()== null )
+        if(user.getIdUsuario() == null || user.getPassword()== null )
             throw new Exception("No agrego caracteres a el usuario y/o contraseña.");
-        if(user.getIdUsuario().equals("") || user.getContraseña().equals("") )
+        if(user.getIdUsuario().equals("") || user.getPassword().equals("") )
             throw new Exception("No hay registro de usuario y/o contraseña.");
-        if(user.getIdUsuario().length() > 12 && user.getContraseña().length() > 20)
+        if(user.getIdUsuario().length() > 12 && user.getPassword().length() > 20)
             throw new Exception("La longitud del usuario y/o contraseña son incorrectas.");
     }
     

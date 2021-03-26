@@ -6,8 +6,9 @@
 package mx.com.siae.modelo.beans;
 
 /**
- *
- * @author sandr
+ * Esta clase define a todos los usuarios que acceden al sistema.
+ * @version 26/03/2021/B
+ * @author Sandra Monserrat B. L.
  */
 public class Usuarios {
     private String idUsuario;
@@ -18,12 +19,25 @@ public class Usuarios {
     private String ApellidoMat;
     private String correo_inst;
     private String rol;
-    private String contraseña;
-
+    private String password;
+    /**
+     * Constructor por defecto del usuario.
+     */
     public Usuarios() {
     }
-
-    public Usuarios(String idUsuario, String nombre1, String nombre2, String nombre3, String ApellidoPat, String ApellidoMat, String correo_inst, String rol, String contraseña) {
+    /**
+     * Constructor para asignar los valores iniciales al usuario.
+     * @param idUsuario Este es el valor del identificador del usuario
+     * @param nombre1 Este es el valor del 1° nombre del usuario.
+     * @param nombre2 Este es el valor del 2° nombre del usuario.
+     * @param nombre3 Este es el valor del 3° nombre del usuario.
+     * @param ApellidoPat Este es el valor del apellido paterno del usuario.
+     * @param ApellidoMat Este es el valor del apellido materno del usuario
+     * @param correo_inst Este es el valor del correo del usuario.
+     * @param rol Este es el valor del rol del usuario.
+     * @param password Este es el valor de la contraseña del usuario.
+     */
+    public Usuarios(String idUsuario, String nombre1, String nombre2, String nombre3, String ApellidoPat, String ApellidoMat, String correo_inst, String rol, String password) {
         this.idUsuario = idUsuario;
         this.nombre1 = nombre1;
         this.nombre2 = nombre2;
@@ -32,7 +46,7 @@ public class Usuarios {
         this.ApellidoMat = ApellidoMat;
         this.correo_inst = correo_inst;
         this.rol = rol;
-        this.contraseña = contraseña;
+        this.password = password;
     }
 
     public String getIdUsuario() {
@@ -99,12 +113,12 @@ public class Usuarios {
         this.rol = rol;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     

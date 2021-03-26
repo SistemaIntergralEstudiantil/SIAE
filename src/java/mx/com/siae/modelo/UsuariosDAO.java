@@ -53,7 +53,7 @@ public class UsuariosDAO {
             cn.getEstado().setString(6, user.getApellidoMat());
             cn.getEstado().setString(7, user.getCorreo_inst());
             cn.getEstado().setString(8, user.getRol());
-            cn.getEstado().setString(9, user.getContraseña());
+            cn.getEstado().setString(9, user.getPassword());
             cn.getEstado().executeUpdate();
             cn.getEstado().close();
             cn.getConexion().close();
@@ -82,7 +82,7 @@ public class UsuariosDAO {
             u.setApellidoMat(cn.getResultado().getString("ApellidoMat"));
             u.setCorreo_inst(cn.getResultado().getString("correo_inst"));
             u.setRol(cn.getResultado().getString("rol"));
-            u.setContraseña(cn.getResultado().getString("contraseña"));
+            u.setPassword(cn.getResultado().getString("contraseña"));
             list.add(u);
         }
         cn.getEstado().close();
@@ -98,7 +98,7 @@ public class UsuariosDAO {
         cn.conectar();
         cn.prepareStatement(sql);
         cn.getEstado().setString(1, user.getIdUsuario());
-        cn.getEstado().setString(2, user.getContraseña());
+        cn.getEstado().setString(2, user.getPassword());
         cn.setResultado(cn.getEstado().executeQuery());
         if(cn.getResultado().next()){
             if(cn.getResultado().getInt("act") == 1){
@@ -109,7 +109,7 @@ public class UsuariosDAO {
                 user.setApellidoMat(cn.getResultado().getString("ApellidoMat"));
                 user.setCorreo_inst(cn.getResultado().getString("correo_inst"));
                 user.setRol(cn.getResultado().getString("rol"));
-                user.setContraseña(cn.getResultado().getString("contraseña"));
+                user.setPassword(cn.getResultado().getString("contraseña"));
                 cn.getEstado().close();
                 cn.getConexion().close();
                 return user;
@@ -141,7 +141,7 @@ public class UsuariosDAO {
             bus.setApellidoMat(cn.getResultado().getString("ApellidoMat"));
             bus.setCorreo_inst(cn.getResultado().getString("correo_inst"));
             bus.setRol(cn.getResultado().getString("rol"));
-            bus.setContraseña(cn.getResultado().getString("contraseña"));
+            bus.setPassword(cn.getResultado().getString("contraseña"));
         }
         cn.getEstado().close();
         cn.getConexion().close();
