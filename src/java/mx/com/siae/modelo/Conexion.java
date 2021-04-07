@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 /**
  * Esta clase define la conexión del sistema con la base de datos.
- * @version 26/03/2021/B
+ * @version 26/03/2021/C
  * @author Sandra Monserrat B. L.
  */
 public class Conexion {
@@ -32,13 +32,13 @@ public class Conexion {
         direccion="jdbc:mysql://localhost:3306/SIAE?serverTimezone=UTC";//configurar la zona horaria
     }
     /**
-     * Este método crea la conexion a con la BD.
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
+     * Este método crea la conexion con la BD.
+     * @throws java.lang.ClassNotFoundException Excepción al establecer el conector.
+     * @throws java.sql.SQLException Excepción al realziar la conexión a la base de datos.
      */ 
     public void conectar() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        conexion=DriverManager.getConnection(direccion, user, pass); 
+        conexion = DriverManager.getConnection(direccion, user, pass); 
     }
     /**
      * Este método obtiene la conexion a la BD.
@@ -77,19 +77,17 @@ public class Conexion {
     }    
     /**
      * Este método cierra la conexión con la BD
-     * @throws java.sql.SQLException
-     * @throws java.lang.Exception
+     * @throws java.sql.SQLException Excepción al cerrar la conexión a la BD.
      */
-    public void cerrarConexion() throws SQLException, Exception {
+    public void cerrarConexion() throws SQLException {
         conexion.close();
     }
     /**
      * Este método prepara el estado de la conexión para realizar un SQL 
      * @param sSQL Este es la sentencia SQL
-     * @throws SQLException
-     * @throws Exception 
+     * @throws SQLException Excepción al preparar la conexión para una consulta.
      */
-    public void prepareStatement(String sSQL) throws SQLException, Exception {
+    public void prepareStatement(String sSQL) throws SQLException {
         this.estado = conexion.prepareStatement(sSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
     }
     

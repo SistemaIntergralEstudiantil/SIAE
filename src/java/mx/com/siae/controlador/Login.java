@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mx.com.siae.controlador;
 
 import java.io.IOException;
@@ -61,10 +56,10 @@ public class Login extends HttpServlet {
                     validarData(user);
                     crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
-                    if(user != null){
+                    if(user != null){ // Todos lo datos obtenidos.
                         sec.setUser(user);
                         sesion.setAttribute("user", sec);
-                        response.sendRedirect("session/menu.jsp");
+                        response.sendRedirect("session/Home.jsp");
                     } else
                         throw new Exception("Las credenciales no se encontrarón o la cuenta esta activa en otro equipo.");
                     break;
@@ -76,13 +71,13 @@ public class Login extends HttpServlet {
         } catch (SQLException ex) {
             sesion.setAttribute("user", sec);
             sec.setErrorMsj("Error en la conexión con el SGBD:");
-            sec.setErrorExe(ex.toString());
+            sec.setErrorType(ex.toString());
             sec.setErrorUrl("/SIAE/Login.jsp");
             response.sendRedirect("error/error.jsp");
         } catch (Exception ex) {
             sesion.setAttribute("user", sec);
             sec.setErrorMsj(ex.getMessage());
-            sec.setErrorExe(ex.toString());
+            sec.setErrorType(ex.toString());
             sec.setErrorUrl("/SIAE/Login.jsp");
             response.sendRedirect("error/error.jsp");
         }
@@ -100,7 +95,6 @@ public class Login extends HttpServlet {
     private void cerrarSesion(HttpServletRequest request) throws Exception{
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        UsuariosDAO crl = new UsuariosDAO();
         //crl.cerrarSesion(sec.getUser());
         sesion.invalidate();
     }
