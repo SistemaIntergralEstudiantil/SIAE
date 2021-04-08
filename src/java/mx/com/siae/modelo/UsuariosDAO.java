@@ -38,14 +38,14 @@ public class UsuariosDAO {
         cn.setResultado(cn.getEstado().executeQuery());
         if(cn.getResultado().next()){
             if(cn.getResultado().getInt("act") == 1){
-                user.setNombre1(cn.getResultado().getString("nombre1"));
-                user.setNombre2(cn.getResultado().getString("nombre2"));
-                user.setNombre3(cn.getResultado().getString("nombre3"));
-                user.setApellidoPat(cn.getResultado().getString("ApellidoPat"));
-                user.setApellidoMat(cn.getResultado().getString("ApellidoMat"));
+                user.setNombre1(cn.getResultado().getString("nombre_1"));
+                user.setNombre2(cn.getResultado().getString("nombre_2"));
+                user.setNombre3(cn.getResultado().getString("nombre_3"));
+                user.setApellidoPat(cn.getResultado().getString("apellido_pat"));
+                user.setApellidoMat(cn.getResultado().getString("apellido_mat"));
                 user.setCorreo_inst(cn.getResultado().getString("correo_inst"));
                 user.setRol(cn.getResultado().getString("rol"));
-                user.setPassword(cn.getResultado().getString("contraseña"));
+                user.setPassword(cn.getResultado().getString("contra"));
                 cn.getEstado().close();
                 cn.getConexion().close();
                 return user;

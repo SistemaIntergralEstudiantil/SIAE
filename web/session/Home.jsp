@@ -25,7 +25,7 @@
             Usuarios user = null;
             if(sec == null){
                 sec = new Session();
-                sec.setErrorMsj("No ha iniciado sesión");
+                sec.setErrorMsj("No a iniciado sesión");
                 sec.setErrorType("Cuenta no encontrada");
                 sec.setErrorUrl("/SIAE/Login.jsp");
                 sesion.setAttribute("user", sec);
@@ -36,7 +36,7 @@
         <header>
             <nav>
                 <ul class="content">
-                    <li><a class="content-item" href="../Asignaturas.jsp">Asignaturas</a></li>                    
+                    <li><a class="content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>                    
                     <li><a class="content-item" href="../areas/Menu.jsp">Áreas de apoyo</a></li>
                     <li><a class="content-item" href="../visit/changeVisit.jsp">Curso de verano</a></li>
                     <li><a class="content-item" href="../service/service.jsp">Curricula</a></li>

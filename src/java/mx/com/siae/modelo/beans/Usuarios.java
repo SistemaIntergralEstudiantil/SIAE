@@ -191,7 +191,10 @@ public class Usuarios {
      * @return El nombre completo.
      */
     public String getNombreCompleto() {
-        return nombre1 + " " + nombre2 + " " + nombre3 + " " + ApellidoPat + " " + ApellidoMat;
+        String n2 = (nombre2!=null)?" " + nombre2:"";
+        String n3 = (nombre3!=null)?" " + nombre3:"";
+        String aM = (ApellidoMat!=null)?" " + ApellidoMat:"";
+        return nombre1 + n2 + n3 + " " + ApellidoPat + aM;
     }
     
 }
