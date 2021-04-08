@@ -11,30 +11,28 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Error</title>
+        <link rel="stylesheet" href="../resource/css/Style-General.css"/>
+        <link rel="stylesheet" href="../resource/css/Style-Error.css"/>
+        <link rel="shortcut icon" href="resource/images/logo_SIAE.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <%
             HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
         %>
-        <header class="content-header"></header>
-        <center>
-            <h1>¡Error en el sistema!</h1>
+        <header class="content"><h1 class="content-title" >¡Error en el sistema!</h1></header>
+        <div class="content-msj" >
             <h2>Descripción:</h2>
-            <p>
-                <%= sec.getErrorMsj() %>
-            </p>
-            <p>
-                <%= sec.getErrorType()%>
-            </p>
+            <p><%= sec.getErrorMsj() %></p>
+            <p><%= sec.getErrorType()%></p>
             <%
                 sec.setErrorType(null);
                 sec.setErrorMsj(null);
             %>
-            <a class="content-link" href="<%= sec.getErrorUrl() %>" >Regresar</a>
+            <a class="content-a" href="<%= sec.getErrorUrl() %>" >Regresar</a>
             <% sec.setErrorUrl(null); %>
-        </center>
-        <footer class="content-footer"></footer>
+        </div>
         <%
             if(sec.getUser()==null)
                 sesion.invalidate();

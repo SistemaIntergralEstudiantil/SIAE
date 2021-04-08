@@ -13,6 +13,7 @@
         <link rel="shortcut icon" href="resource/images/logo_SIAE.png" />
         <link rel="stylesheet" href="../resource/css/Style-Home.css"/>
         <link rel="stylesheet" href="../resource/css/Style-General.css"/>
+        <link rel="shortcut icon" href="../resource/images/logo_SIAE.png" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
@@ -48,29 +49,29 @@
         <h1 class="title-header" >Mis datos generales</h1>
         <dl class="content-data" >
             <div class="content-data_row" >
-                <dt class="content-data_dt" >Rol:</dt>
-                <dd class="content-data_dd" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante" %></dd>
+                <dt class="data_dt data_d" >Rol:</dt>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante" %></dd>
             </div>
             <div class="content-data_row" >
-                <dt class="content-data_dt" >Correo:</dt>
-                <dd class="content-data_dd" ><%=(user== null)?"":user.getCorreo_inst() %></dd>
+                <dt class="data_dt data_d" >Correo:</dt>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.getCorreo_inst() %></dd>
             </div>
             <div class="content-data_row" >
-                <dt class="content-data_dt" >Usuario:</dt>
-                <dd class="content-data_dd" ><%=(user== null)?"":user.getIdUsuario() %></dd>
+                <dt class="data_dt data_d" >Usuario:</dt>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.getIdUsuario() %></dd>
             </div>
             <div class="content-data_row" >
-                <dt class="content-data_dt" >Nombre:</dt>
-                <dd class="content-data_dd" ><%=(user== null)?"":user.getNombreCompleto() %></dd>
+                <dt class="data_dt data_d" >Nombre:</dt>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.getNombreCompleto() %></dd>
             </div>
             <div class="content-data_row" >
-                <dt class="content-data_dt" >Semestre:</dt>
-                <dd class="content-data_dd" ><%=(user== null)?"":user.toString() %></dd>
+                <dt class="data_dt data_d" >Semestre:</dt>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.toString() %></dd>
             </div>
         </dl>
-        <form action="action">
+        <form action="/SIAE/Login" method="POST">
             <input type="hidden" name="clave" value="exit"/>
-            <input class="content-header_input" type="submit" value="Cerrar sesión">
+            <input class="content-input" type="submit" value="Cerrar sesión">
         </form>
     </body>
 </html>

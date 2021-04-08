@@ -14,6 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <link rel="stylesheet" href="resource/css/Style-Login.css"/>
+        <link rel="stylesheet" href="resource/css/Style-General.css"/>
     </head>
     <body>
         <p align="right">
@@ -49,7 +50,7 @@
             </form>
             <br>
         </center>
-<a href="session/Home.jsp">Home</a>
+        <a href="session/Home.jsp">Home</a>
         <script src="resource/js/Script-Login.js"></script>
     </body>
 </html>

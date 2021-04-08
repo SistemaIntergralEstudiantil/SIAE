@@ -22,7 +22,7 @@ public class UsuariosDAO {
      * @param user El usuario con los datos de inicio.
      * @return
      * <dl>
-     *  <dt><h3>Objeto Usuario</h3></dt><dd>El usuario con todos los datos del usaurio.</dd>
+     *  <dt><h3>Objeto Usuario</h3></dt><dd>El usuario con todos los datos del usuario.</dd>
      *  <dt><h3>null</h3></dt><dd>No se encontro el usuario.</dd>
      * </dl>
      * @throws SQLException Excepción al realizar la conexión con la BD.

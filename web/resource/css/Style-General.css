@@ -21,3 +21,8 @@ body {
     margin: 0;
     padding: 0;
 }
+
+:root {
+    --color-base: #156590;
+    --color-hover: #1565C0;
+}

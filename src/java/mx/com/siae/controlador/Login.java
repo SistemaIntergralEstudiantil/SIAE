@@ -45,16 +45,14 @@ public class Login extends HttpServlet {
         HttpSession sesion = request.getSession();
         Session sec = new Session();
         try {
-            UsuariosDAO crl;
-            Usuarios user;
             switch(clave){
                 case "log":
-                    user = new Usuarios();
+                    Usuarios user = new Usuarios();
                     user.setIdUsuario(request.getParameter("idUsuario"));
                     user.setPassword(request.getParameter("contra"));
-                    System.out.println(user.getIdUsuario() + user.getPassword());
+                    
                     validarData(user);
-                    crl = new UsuariosDAO();
+                    UsuariosDAO crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
                     if(user != null){ // Todos lo datos obtenidos.
                         sec.setUser(user);
@@ -65,7 +63,7 @@ public class Login extends HttpServlet {
                     break;
                 case "exit":
                     cerrarSesion(request);
-                    response.sendRedirect("Login.jsp");
+                    request.getRequestDispatcher("Login.jsp").forward(request, response);
                     break;
             }
         } catch (SQLException ex) {
@@ -82,20 +80,25 @@ public class Login extends HttpServlet {
             response.sendRedirect("error/error.jsp");
         }
     }
-    
+    /**
+     * Este método valida los datos enviados por el usuario.
+     * @param user El objeto usuario creado para la sesión.
+     * @throws Exception Cuando no hay datos en el usuario y contraseña.
+     */
     private void validarData(Usuarios user) throws Exception {
-        if(user.getIdUsuario() == null || user.getPassword()== null )
+        if(user.getIdUsuario() == null || user.getPassword() == null )
             throw new Exception("No agrego caracteres a el usuario y/o contraseña.");
         if(user.getIdUsuario().equals("") || user.getPassword().equals("") )
             throw new Exception("No hay registro de usuario y/o contraseña.");
-        if(user.getIdUsuario().length() > 12 && user.getPassword().length() > 20)
+        if(user.getIdUsuario().length() > 20 && user.getPassword().length() > 20)
             throw new Exception("La longitud del usuario y/o contraseña son incorrectas.");
     }
-    
-    private void cerrarSesion(HttpServletRequest request) throws Exception{
+    /**
+     * Este método cierra la sesión del usuario dentro del servidor.
+     * @param request servelt request
+     */
+    private void cerrarSesion(HttpServletRequest request) {
         HttpSession sesion = request.getSession();
-        Session sec = (Session) sesion.getAttribute("user");
-        //crl.cerrarSesion(sec.getUser());
         sesion.invalidate();
     }
     
