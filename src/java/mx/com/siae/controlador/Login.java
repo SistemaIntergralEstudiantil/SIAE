@@ -61,10 +61,10 @@ public class Login extends HttpServlet {
                         sesion.setAttribute("user", sec);
                         response.sendRedirect("session/Home.jsp");
                     } else
-                        throw new Exception("Las credenciales no se encontrarón o la cuenta esta activa en otro equipo.");
+                        throw new Exception("Las credenciales no se encontrarón.");
                     break;
                 case "exit":
-                    this.cerrarSesion(request);
+                    cerrarSesion(request);
                     response.sendRedirect("Login.jsp");
                     break;
             }

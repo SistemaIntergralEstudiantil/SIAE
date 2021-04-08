@@ -25,10 +25,10 @@
                 <%= sec.getErrorMsj() %>
             </p>
             <p>
-                <%= sec.getErrorExe() %>
+                <%= sec.getErrorType()%>
             </p>
             <%
-                sec.setErrorExe(null);
+                sec.setErrorType(null);
                 sec.setErrorMsj(null);
             %>
             <a class="content-link" href="<%= sec.getErrorUrl() %>" >Regresar</a>

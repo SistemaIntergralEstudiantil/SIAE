@@ -9,7 +9,7 @@
 <html lang="es" >
     <head>
         <title>Login </title>
-        <link rel="shortcut icon" href="images/logo_SIAE.png" />
+        <link rel="shortcut icon" href="resource/images/logo_SIAE.png" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
@@ -19,13 +19,13 @@
         <p align="right">
             <table width="100%">
                 <tr>
-                    <td align="center" width="33%"> <img src="images/Logo-TecNM.png" height="80" width="180"> </td>
-                    <td align="center" width="33%"> <img src="images/logo_tec.png" height="100" width="190" </td>
-                    <td align="center" width="33%"> <img src="images/logo_ISIC.png" height="80" width="150"> </td>
+                    <td align="center" width="33%"> <img src="resource/images/Logo-TecNM.png" height="80" width="180"> </td>
+                    <td align="center" width="33%"> <img src="resource/images/logo_tec.png" height="100" width="190" </td>
+                    <td align="center" width="33%"> <img src="resource/images/logo_ISIC.png" height="80" width="150"> </td>
                 </tr>
             </table>
         </p>
-        <p align="center"> <img src="images/logo_SIAE.png" height="220" width="220"> </p>
+        <p align="center"> <img src="resource/images/logo_SIAE.png" height="220" width="220"> </p>
         <center>
             <form action="Login" method="POST" >
                 <div  >
@@ -49,6 +49,7 @@
             </form>
             <br>
         </center>
+<a href="session/Home.jsp">Home</a>
         <script src="resource/js/Script-Login.js"></script>
     </body>
 </html>
