@@ -26,7 +26,7 @@
                 </tr>
             </table>
         </p>
-        <p align="center"> <img src="resource/images/logo_SIAE.png" height="220" width="220"> </p>
+        <p align="center"> <img src="resource/images/logo_SIAE.png" height="180" width="180"> </p>
         <center>
             <form action="Login" method="POST" >
                 <div  >
