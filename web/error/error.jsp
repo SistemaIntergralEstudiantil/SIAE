@@ -35,5 +35,9 @@
             <% sec.setErrorUrl(null); %>
         </center>
         <footer class="content-footer"></footer>
+        <%
+            if(sec.getUser()==null)
+                sesion.invalidate();
+        %>
     </body>
 </html>

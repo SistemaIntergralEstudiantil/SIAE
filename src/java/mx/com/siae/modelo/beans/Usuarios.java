@@ -186,7 +186,12 @@ public class Usuarios {
                 + ", correo_inst= " + correo_inst + ", rol= " + rol 
                 + ", password= " + password + '}';
     }
-    
-    
+    /**
+     * Este Método obtiene el nombre completo del usuario. 
+     * @return El nombre completo.
+     */
+    public String getNombreCompleto() {
+        return nombre1 + " " + nombre2 + " " + nombre3 + " " + ApellidoPat + " " + ApellidoMat;
+    }
     
 }

@@ -4,6 +4,7 @@
     Author     : sandr
 --%>
 
+<%@page import="mx.com.siae.modelo.beans.Usuarios"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,9 +20,18 @@
     </head>
     <body>
         <%
-            //HttpSession sesion = request.getSession();
-            //Session sec = (Session) sesion.getAttribute("user");
-            //Usuario user = sec.getUser();
+            HttpSession sesion = request.getSession();
+            Session sec = (Session) sesion.getAttribute("user");
+            Usuarios user = null;
+            if(sec == null){
+                sec = new Session();
+                sec.setErrorMsj("No ha iniciado sesión");
+                sec.setErrorType("Cuenta no encontrada");
+                sec.setErrorUrl("/SIAE/Login.jsp");
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher("../error/error.jsp").forward(request, response);   
+            }else 
+                user = sec.getUser();
         %>
         <header>
             <nav>
@@ -36,5 +46,31 @@
             </nav>
         </header>
         <h1 class="title-header" >Mis datos generales</h1>
+        <dl class="content-data" >
+            <div class="content-data_row" >
+                <dt class="content-data_dt" >Rol:</dt>
+                <dd class="content-data_dd" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante" %></dd>
+            </div>
+            <div class="content-data_row" >
+                <dt class="content-data_dt" >Correo:</dt>
+                <dd class="content-data_dd" ><%=(user== null)?"":user.getCorreo_inst() %></dd>
+            </div>
+            <div class="content-data_row" >
+                <dt class="content-data_dt" >Usuario:</dt>
+                <dd class="content-data_dd" ><%=(user== null)?"":user.getIdUsuario() %></dd>
+            </div>
+            <div class="content-data_row" >
+                <dt class="content-data_dt" >Nombre:</dt>
+                <dd class="content-data_dd" ><%=(user== null)?"":user.getNombreCompleto() %></dd>
+            </div>
+            <div class="content-data_row" >
+                <dt class="content-data_dt" >Semestre:</dt>
+                <dd class="content-data_dd" ><%=(user== null)?"":user.toString() %></dd>
+            </div>
+        </dl>
+        <form action="action">
+            <input type="hidden" name="clave" value="exit"/>
+            <input class="content-header_input" type="submit" value="Cerrar sesión">
+        </form>
     </body>
 </html>
