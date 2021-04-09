@@ -51,6 +51,8 @@
             <br>
         </center>
         <a href="session/Home.jsp">Home</a>
+        <a href="areas/Menu.jsp">Apoyo</a>
+        <a href="areas/Asesorias.jsp">Asesorias</a>
         <script src="resource/js/Script-Login.js"></script>
     </body>
 </html>

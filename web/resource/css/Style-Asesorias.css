@@ -1,0 +1,66 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8/04/2021, 06:46:59 PM
+    Author     : danielhernandezreyes
+*/
+:root {
+    --height-item: 1.8rem;
+    --width-item: 15rem;
+    --color-border: #dddddd;
+}
+
+.content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    
+    background: var(--color-base);
+    list-style: none;
+    margin: 0;
+}
+
+.content-item {
+    text-decoration: none;
+    display: block;
+    color: #fff;
+    padding-top: var(--height-item);
+    padding-bottom: var(--height-item);
+    padding-left: var(--width-item);
+    padding-right: var(--width-item);
+    
+    text-align: center;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.content-img {
+    margin-top: 1rem;
+    padding: 0 var(--width-item) 0 var(--width-item);
+}
+
+.content-table {
+  padding: 3rem;
+  width: 90%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  min-height: 10rem;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  border: 2px solid var(--color-border);
+  text-align: center;
+  padding: .2em;
+}
+
+tr:nth-child(even) {
+  background-color: var(--color-border);
+}

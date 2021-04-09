@@ -7,6 +7,7 @@ package mx.com.siae.modelo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.ReporteAsig;
 
 /**
@@ -33,6 +34,27 @@ public class AsignaturaDAO {
             rep.setDocente( cn.getResultado().getString("docente") );
             rep.setSemestre( cn.getResultado().getInt("semestre") );
             t.add(rep);
+        }
+        cn.getEstado().close();
+        cn.getConexion().close();
+        return t;
+    }
+    
+    public ArrayList<Asignatura> reporteAsignatura() throws SQLException, ClassNotFoundException {
+        String sql = "CALL proce_reporte_asignatura()";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareStatement(sql);
+        cn.setResultado(cn.getEstado().executeQuery());
+        ArrayList<Asignatura> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            Asignatura a = new Asignatura();
+            a.setIdAsignatura( cn.getResultado().getInt("idA") );
+            a.setSemestre( cn.getResultado().getInt("semestre") );
+            a.setNombre( cn.getResultado().getNString("nombre") );
+            a.setArea( cn.getResultado().getString("area") );
+            a.setCredito( cn.getResultado().getInt("credito") );
+            t.add(a);
         }
         cn.getEstado().close();
         cn.getConexion().close();
