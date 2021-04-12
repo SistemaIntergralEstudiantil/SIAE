@@ -19,8 +19,12 @@ import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.beans.ReporteAsig;
 
 /**
- *
+ * Esta clase representa el control de las peticiones de las asignaturas
+ * @version 12/04/2021A
  * @author danielhernandezreyes
+ * @see Session
+ * @see AsignaturaDAO
+ * @see ReporteAsig
  */
 @WebServlet(name = "ReporteAsignatura", urlPatterns = {"/ReporteAsignatura"})
 public class ReporteAsignatura extends HttpServlet {
@@ -37,21 +41,21 @@ public class ReporteAsignatura extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null){
+        if(sec == null){ // Control para el acceso no autorizado.
             sec = new Session();
             sec.setErrorMsj("No a iniciado sesión");
             sec.setErrorType("Cuenta no encontrada");
             sec.setErrorUrl("/SIAE/Login.jsp");
             sesion.setAttribute("user", sec);
             request.getRequestDispatcher("error/error.jsp").forward(request, response);
-        
+            // Redireccionamiento a la pagina de error.
         }else{
-            try {
+            try { // Operaciones a la BD.
                 AsignaturaDAO crl = new AsignaturaDAO();
                 ArrayList<ReporteAsig> list = crl.reporte();
                 request.setAttribute("lista", list);
                 request.getRequestDispatcher("Asignaturas.jsp").forward(request, response);
-                
+                // Redirección a la pagina de asignaturas.
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");

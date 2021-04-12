@@ -6,7 +6,6 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;

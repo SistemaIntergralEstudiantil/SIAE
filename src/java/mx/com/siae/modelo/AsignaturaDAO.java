@@ -11,11 +11,24 @@ import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.ReporteAsig;
 
 /**
- *
+ * Esta clase representa las operaciones de las asignaturas a la base de datos.
+ * @version 12/04/2021A
  * @author danielhernandezreyes
+ * @see Conexion
+ * @see ReporteAsig
+ * @see Asignatura
  */
 public class AsignaturaDAO {
-    
+    /**
+     * Método obtiene un lista de las asignaturas que son ofertadas actualmente.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista contiene las asignaturas encontrados.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>La lista contiene 0 elementos: no hay asignaturas.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
     public ArrayList<ReporteAsig> reporte() throws ClassNotFoundException, SQLException{
         String sql = "CALL proce_reporte_cursos()";
         Conexion cn = new Conexion();
@@ -39,7 +52,16 @@ public class AsignaturaDAO {
         cn.getConexion().close();
         return t;
     }
-    
+    /**
+     * Método obtiene un lista de todas las asignaturas de todos los semestres.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista contiene todas las asignaturas.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>No hay asignaturas registradas.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
     public ArrayList<Asignatura> reporteAsignatura() throws SQLException, ClassNotFoundException {
         String sql = "CALL proce_reporte_asignatura()";
         Conexion cn = new Conexion();

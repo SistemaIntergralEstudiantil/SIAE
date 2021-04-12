@@ -19,8 +19,12 @@ import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.beans.ReporteAsesoria;
 
 /**
- *
+ * Esta clase representa el control de las peticiones para las asesoria.
+ * @version 12/04/2021A
  * @author danielhernandezreyes
+ * @see AreasApoyoDAO
+ * @see Session
+ * @see ReporteAsesoria
  */
 @WebServlet(name = "Asesorias", urlPatterns = {"/Asesorias"})
 public class Asesorias extends HttpServlet {
@@ -37,22 +41,30 @@ public class Asesorias extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null){
+        if(sec == null){ // Control para el acceso no autorizado.
             sec = new Session();
             sec.setErrorMsj("No a iniciado sesión");
             sec.setErrorType("Cuenta no encontrada");
             sec.setErrorUrl("/SIAE/Login.jsp");
             sesion.setAttribute("user", sec);
             request.getRequestDispatcher("error/error.jsp").forward(request, response);
-        
+            // Redireccionamiento a la pagina de error.
         }else{
             try {
                 String servicio = request.getParameter("servicio");
-                if(servicio.equals("A")){
+                if(servicio.equals("A")){ // Control de las asesorias.
                     AreasApoyoDAO crl = new AreasApoyoDAO();
                     ArrayList<ReporteAsesoria> list = crl.reporteAsesorias();
                     request.setAttribute("lista", list);
                     request.getRequestDispatcher("/areas/Asesorias.jsp").forward(request, response);
+                    // Redirección a la pagina de asesorias.
+                }else{ 
+                    if(servicio.equals("S")){ // Control de servicio
+                        // Redirección a la pagina del servicio.
+                    }else{ // No se espesifica la opción
+                        request.getRequestDispatcher("/areas/Menu.jsp").forward(request, response);
+                        // Redirección a la misma pagina
+                    }
                 }
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
