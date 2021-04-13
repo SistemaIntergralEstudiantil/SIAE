@@ -25,17 +25,17 @@
         <div class="content-msj" >
             <h2>Descripción:</h2>
             <p><%= sec.getErrorMsj() %></p>
-            <p><%= sec.getErrorType()%></p>
-            <%
-                sec.setErrorType(null);
-                sec.setErrorMsj(null);
-            %>
+            <p> Tipo: <%= sec.getErrorType()%></p>
             <a class="content-item-G content-a" href="<%= sec.getErrorUrl() %>" >Regresar</a>
-            <% sec.setErrorUrl(null); %>
         </div>
         <%
-            if(sec.getUser()==null)
+            sec.setErrorType(null);
+            sec.setErrorMsj(null);
+            sec.setErrorUrl(null);
+            
+            if(sec.getUser()==null){
                 sesion.invalidate();
+            }
         %>
     </body>
 </html>
