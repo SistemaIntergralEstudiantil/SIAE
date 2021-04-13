@@ -58,6 +58,8 @@ public class AsignaturaServ extends HttpServlet {
                     }else{
                         if(servicio.equals("TE")){ // Control tiempo de estudio
                             request.getRequestDispatcher("/curricula/xxxxx.jsp").forward(request, response);
+                        }else{
+                            response.sendRedirect("curricula/Menu.jsp");
                         }
                     }
                 }
