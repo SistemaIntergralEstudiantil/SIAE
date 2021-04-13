@@ -38,7 +38,7 @@ public class AsignaturaDAO {
         ArrayList<ReporteAsig> t = new ArrayList<>();
         while(cn.getResultado().next()){
             ReporteAsig rep = new ReporteAsig();
-            rep.setIdCurso( cn.getResultado().getString("idCurso") );
+            rep.setIdCurso( cn.getResultado().getString("idC") );
             rep.setCupo( cn.getResultado().getInt("cupo") );
             rep.setDia( cn.getResultado().getString("dia") );
             rep.setHorario( cn.getResultado().getString("horario") );

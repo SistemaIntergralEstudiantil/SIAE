@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`Responsable` (
 -- Table `mydb`.`Asignaturas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SIAE`.`Asignaturas` (
-  idAsignaturas INT NOT NULL,
+  idAsignatura INT NOT NULL,
   semestre INT NOT NULL,
   nombre VARCHAR(70) NOT NULL,
   area CHAR(2) NOT NULL
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`Asignaturas` (
   estado CHAR(1) NOT NULL
    CONSTRAINT `chk_Asignaturas_estado`CHECK ( estado in('E', 'D')) ENFORCED
    COMMENT 'El estado puede ser: (E) enable o (D) disable',
-  PRIMARY KEY (idAsignaturas)
+  PRIMARY KEY (idAsignatura)
   );
 
 -- -----------------------------------------------------
@@ -66,11 +66,11 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`AreasApoyo` (
   hora_fin TIME NOT NULL,
   codigo VARCHAR(100) NULL,
   idResponsable VARCHAR(20) NOT NULL,
-  idAsignaturas INT NULL,
+  idAsignatura INT NULL,
   PRIMARY KEY (idAreasApoyo),
   CONSTRAINT `fk_AreasApoyo_Asignaturas`
-    FOREIGN KEY (idAsignaturas)
-    REFERENCES Asignaturas (idAsignaturas),
+    FOREIGN KEY (idAsignatura)
+    REFERENCES Asignaturas (idAsignatura),
   CONSTRAINT `fk_AreasApoyo_Responsables`
     FOREIGN KEY (idResponsable)
     REFERENCES Responsable (idUsuario)
@@ -89,12 +89,12 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`Cursos` (
     CONSTRAINT `chk_Cursos_estado`CHECK ( estado in('E', 'D')) ENFORCED
     COMMENT 'El estado puede ser: (E) enable o (D) disable',
   cupo INT NULL,
-  idAsignaturas INT NOT NULL,
+  idAsignatura INT NOT NULL,
   idResponsable VARCHAR(20) NOT NULL,
   PRIMARY KEY (idCurso),
   CONSTRAINT `fk_Curso_Asignaturas`
-    FOREIGN KEY (idAsignaturas)
-    REFERENCES Asignaturas (idAsignaturas),
+    FOREIGN KEY (idAsignatura)
+    REFERENCES Asignaturas (idAsignatura),
   CONSTRAINT `fk_Curso_Responsable1`
     FOREIGN KEY (idResponsable)
     REFERENCES Responsable (idUsuario)
@@ -144,11 +144,11 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`Dependencias` (
   PRIMARY KEY (idAsignatura_p, idAsignatura_h),
   CONSTRAINT `fk_Asignaturas_has_Asignaturas_Asignaturas1`
     FOREIGN KEY (idAsignatura_p)
-    REFERENCES Asignaturas (idAsignaturas),
+    REFERENCES Asignaturas (idAsignatura),
   CONSTRAINT `fk_Dependencias_Asignaturas_h`
     FOREIGN KEY (idAsignatura_h)
-    REFERENCES Asignaturas (idAsignaturas)
-    );
+    REFERENCES Asignaturas (idAsignatura)
+);
 
 
 -- -----------------------------------------------------
@@ -314,7 +314,7 @@ INSERT INTO Cursos
        (1010, 'O', 'E',30, 601, 6),
        
        (1003, 'O', 'E',20, 502, 2),
-       (1025, 'O', 'E',30,  602, 1),
+       (1025, 'O', 'E',30, 602, 1),
        (1026, 'O', 'E',15, 102, 4),
        (1027, 'O', 'E',10, 302, 7),
        (1028, 'O', 'E',30, 202, 8),
@@ -366,6 +366,12 @@ VALUES (999, 1001, 'Martes',    '9:00',   '11:00'),
        (996, 1007, 'Viernes',   '16:00',  '17:00'),
        (995, 1008, 'Jueves',    '9:00',   '11:00'),
        (994, 1010, 'Martes',    '11:00',  '13:00'),
+       (954, 1001, 'Miercoles', '9:00',   '11:00'),
+       (953, 1005, 'Martes',    '7:00',   '09:00'),
+       (952, 1006, 'Jueves',    '14:00',  '16:00'),
+       (951, 1007, 'Martes',   '16:00',  '17:00'),
+       (950, 1008, 'Lunes',    '9:00',   '11:00'),
+       (949, 1010, 'Viernes',  '11:00',  '13:00'),
        
        (993, 1003, 'Lunes',     '10:00',  '12:00'),
        (992, 1025, 'Viernes',   '7:00',   '9:00'),
@@ -373,6 +379,12 @@ VALUES (999, 1001, 'Martes',    '9:00',   '11:00'),
        (990, 1027, 'Viernes',   '16:00',  '17:00'),
        (989, 1028, 'Martes',    '14:00',  '16:00'),
        (988, 1023, 'Lunes',     '10:00',  '12:00'),
+       (948, 1003, 'Martes',     '10:00',  '12:00'),
+       (947, 1025, 'Lunes',   '7:00',   '9:00'),
+       (946, 1026, 'Viernes',     '12:00',  '13:00'),
+       (945, 1027, 'Lunes',   '16:00',  '17:00'),
+       (944, 1028, 'Lunes',    '14:00',  '16:00'),
+       (943, 1023, 'Viernes',     '10:00',  '12:00'),
        
        (987, 1014, 'Jueves',    '9:00',   '12:00'),
        (986, 1016, 'Lunes',     '12:00',  '13:00'),
@@ -463,21 +475,41 @@ DELIMITER $$
 CREATE PROCEDURE proce_reporte_cursos ()
     DETERMINISTIC
 BEGIN
-    SELECT idCurso, cupo, dia, horario, asignatura, credito, concat(nombre_1, ' ', apellido_pat) docente, semestre 
-     FROM
+    SELECT idC, cupo, dia, horario, asignatura, credito, docente, semestre
+    FROM
     (
-        SELECT idCurso, cupo, dia, horario, semestre,idR, nombre AS asignatura, credito 
-         FROM
+        SELECT ca.idC, cupo, credito, semestre, asignatura, ca.idR, group_concat(dia SEPARATOR ',') AS dia, group_concat(horario SEPARATOR ',') AS horario
+        FROM
         (
-             SELECT idCurso, cupo, dia, concat(hora_inicio, ' - ', hora_fin) AS horario, idAsignaturas AS idA, idResponsable AS idR
-             FROM Cursos WHERE estado = 'E' AND tipo = 'O'
-        ) a 
-        JOIN Asignaturas ON(a.idA = idAsignaturas)
-    ) b 
-    JOIN Usuarios ON(b.idR = idUsuario) ORDER BY semestre;
+            SELECT c.idC, c.idR, cupo, semestre, asignatura, credito
+            FROM
+            (
+                SELECT idCurso AS idC, cupo, idAsignatura AS idA, idResponsable AS idR 
+                FROM Cursos WHERE estado = 'E' AND tipo = 'O'
+            ) c
+            JOIN 
+            (
+                SELECT idAsignatura AS idA, semestre, nombre AS asignatura, credito
+                FROM Asignaturas
+            ) a
+            ON(c.idA=a.idA)
+        ) ca
+        JOIN
+        (SELECT idSesiones AS idS, idCurso AS idC, dia, concat(horaInicio, ' - ', horaFin) AS horario FROM Sesiones
+        ) s
+        ON(s.idC = ca.idC)
+        GROUP BY ca.idC
+    ) cas
+    JOIN
+    (
+        SELECT idUsuario AS idR, concat(nombre_1, ' ', apellido_pat) AS docente
+        FROM Usuarios WHERE rol = 'R'
+    ) u
+    ON(cas.idR=u.idR)
+    ORDER BY cas.semestre ASC;
 END $$
 DELIMITER ;
--- CALL proce_reporte_cursos();
+ CALL proce_reporte_cursos();
 
 drop procedure if exists proce_reporte_asesorias;
 DELIMITER $$
@@ -490,12 +522,12 @@ BEGIN
         SELECT idAA, url, dia, horario, concat(nombre_1, ' ', apellido_pat) AS docente, idA, codigo
         FROM
         (
-        SELECT idAreasApoyo AS idAA, url, dia, concat(hora_inicio,' - ',hora_fin) AS horario, idResponsable AS idR, idAsignaturas AS idA, codigo 
+        SELECT idAreasApoyo AS idAA, url, dia, concat(hora_inicio,' - ',hora_fin) AS horario, idResponsable AS idR, idAsignatura AS idA, codigo 
         FROM AreasApoyo
         ) a 
         LEFT JOIN Usuarios on(a.idR=idUsuario)
     ) b 
-    LEFT JOIN Asignaturas ON(b.idA=idAsignaturas);
+    LEFT JOIN Asignaturas ON(b.idA=idAsignatura);
 END $$
 DELIMITER ;
 -- CALL proce_reporte_asesorias();
@@ -505,7 +537,7 @@ DELIMITER $$
 CREATE PROCEDURE proce_reporte_asignatura()
     DETERMINISTIC
 BEGIN
-    SELECT idAsignaturas AS idA, semestre, nombre, area, credito 
+    SELECT idAsignatura AS idA, semestre, nombre, area, credito 
     FROM Asignaturas
     ORDER BY area;
 END $$

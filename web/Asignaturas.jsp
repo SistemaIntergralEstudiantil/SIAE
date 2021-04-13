@@ -75,17 +75,28 @@
                             if(sec != null){
                                 ArrayList<ReporteAsig> l = (ArrayList<ReporteAsig>) request.getAttribute("lista");
                                 for(ReporteAsig r : l){
+                                    String[] d = r.getDia().split(",");
+                                    String[] h = r.getHorario().split(",");
                         %>
                         <tr class="<%=r.getSemestre() %>" >
-                            <th><%=r.getIdCurso() %></th>
-                            <th><%=r.getCupo() %></th>
-                            <th><%=r.getDia() %></th>
-                            <th><%=r.getHorario() %></th>
-                            <th><%=r.getAsignatura() %></th>
-                            <th><%=r.getCredito() %></th>
-                            <th><%=r.getDocente() %></th>
+                            <th rowspan="<%= d.length %>" ><%=r.getIdCurso() %></th>
+                            <th rowspan="<%= d.length %>" ><%=r.getCupo() %></th>
+                            <th rowspan="1" ><%=d[0] %></th>
+                            <th rowspan="1" ><%=h[0] %></th>
+                            <th rowspan="<%= d.length %>" ><%=r.getAsignatura() %></th>
+                            <th rowspan="<%= d.length %>" ><%=r.getCredito() %></th>
+                            <th rowspan="<%= d.length %>" ><%=r.getDocente() %></th>
                         </tr>
                         <%
+                                for (int i = 1; i < h.length; i++) {
+                        %>
+                        <tr class="<%=r.getSemestre() %>" >        
+                            <th rowspan="1" ><%=d[i] %></th>
+                            <th rowspan="1" ><%=h[i] %></th>
+                        </tr>
+                        <%   
+                                    }
+                            
                                 }
                             }
                         %>
