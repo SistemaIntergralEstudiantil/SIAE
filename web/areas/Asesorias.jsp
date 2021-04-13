@@ -8,6 +8,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
