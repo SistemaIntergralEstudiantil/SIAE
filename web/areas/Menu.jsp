@@ -4,6 +4,8 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.modelo.Session"%>
+<%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -17,6 +19,19 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-AreasApoyo.css"/>
     </head>
     <body>
+        <%
+            
+            HttpSession sesion = request.getSession();
+            Session sec = (Session) sesion.getAttribute("user");
+            if(sec == null){
+                sec = new Session();
+                sec.setErrorMsj("No a iniciado sesión (JSP)");
+                sec.setErrorType("Cuenta no encontrada");
+                sec.setErrorUrl("/SIAE/Login.jsp");
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+            }
+        %>
         <header>
             <nav>
                 <ul class="content-G content">

@@ -54,7 +54,7 @@
                     </li>
                     <li><h1 class="content-item-G content-item" >Asignaturas</h1></li>                    
                     <li>
-                        <img class="content-item-G content-item content-img" src="resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
+                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
                     </li>
                 </ul>
             </nav>
@@ -95,6 +95,6 @@
                 </table>
         </div>
         <a class="item-G-A-Selec content-a" href="session/Home.jsp" >Menu principal</a>
-        <script src="resource/js/Script-Asignaturas.js"></script>
+        <script src="/SIAE/resource/js/Script-Asignaturas.js"></script>
     </body>
 </html>
