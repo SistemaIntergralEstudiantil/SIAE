@@ -20,6 +20,10 @@
         <%
             HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
+            if(sec == null){
+                sec = new Session();
+                sec.setTypeSessionNull(1);
+            }
         %>
         <header class="content-G content"><h1 class="content-title" >¡Error en el sistema!</h1></header>
         <div class="content-msj" >

@@ -75,7 +75,7 @@ public class Login extends HttpServlet {
         } catch (Exception ex) {
             sesion.setAttribute("user", sec);
             sec.setErrorMsj(ex.getMessage());
-            sec.setErrorType(ex.toString());
+            sec.setErrorType("java.lang.Exception");
             sec.setErrorUrl("/SIAE/Login.jsp");
             response.sendRedirect("error/error.jsp");
         }

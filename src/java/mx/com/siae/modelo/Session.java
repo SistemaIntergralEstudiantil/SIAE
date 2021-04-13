@@ -114,5 +114,17 @@ public class Session {
     public void setErrorUrl(String errorUrl) {
         this.errorUrl = errorUrl;
     }
-    
+    /**
+     * Método agregar la información, cuando el usaurio no ha iniciado sesión. 
+     * @param type El lugar dende se detecto.
+     * <dl>
+     *  <dt><h3>1</h3></dt><dd>Desde una página JSP</dd>
+     * <dt><h3>0</h3></dt><dd>Desde un Servlet</dd>
+     * </dl>
+     */
+    public void setTypeSessionNull(int type ) {
+        this.errorMsj = "No a iniciado sesión ("+type+"):";
+        this.errorType = "Cuenta no encontrada";
+        this.errorUrl = "/SIAE/Login.jsp";
+    }
 }

@@ -27,9 +27,7 @@
             Session sec = (Session) sesion.getAttribute("user");
             if(sec == null){
                 sec = new Session();
-                sec.setErrorMsj("No a iniciado sesión");
-                sec.setErrorType("Cuenta no encontrada");
-                sec.setErrorUrl("/SIAE/Login.jsp");
+                sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
                 request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
             }

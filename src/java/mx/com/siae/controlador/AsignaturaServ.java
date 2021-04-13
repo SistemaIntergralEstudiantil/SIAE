@@ -39,9 +39,7 @@ public class AsignaturaServ extends HttpServlet {
         Session sec = (Session) sesion.getAttribute("user");
         if(sec == null){
             sec = new Session();
-            sec.setErrorMsj("No a iniciado sesión");
-            sec.setErrorType("Cuenta no encontrada");
-            sec.setErrorUrl("/SIAE/Login.jsp");
+            sec.setTypeSessionNull(0);
             sesion.setAttribute("user", sec);
             request.getRequestDispatcher("error/error.jsp").forward(request, response);
         
@@ -58,13 +56,13 @@ public class AsignaturaServ extends HttpServlet {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");
                 sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/Login.jsp");
+                sec.setErrorUrl("/SIAE/session/Home.jsp");
                 response.sendRedirect("error/error.jsp");
             } catch (SQLException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error en la conexión con el SGBD:");
                 sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/Login.jsp");
+                sec.setErrorUrl("/SIAE/session/Home.jsp");
                 response.sendRedirect("error/error.jsp");
             }
         }
