@@ -62,6 +62,7 @@ public class Asesorias extends HttpServlet {
                         // Redirección a la pagina de asesorias.
                     }else{ 
                         if(servicio.equals("S")){ // Control de servicio
+                            response.sendRedirect("areas/ServicioPsicologico.jsp");
                             // Redirección a la pagina del servicio.
                         }
                     }
