@@ -35,10 +35,10 @@
         %>
         <header>
             <nav>
-                <ul class="content">
-                    <li><h1 class="content-item" >Asesorías</h1></li>                    
+                <ul class="content-G content">
+                    <li><h1 class="content-item-G content-item" >Asesorías</h1></li>                    
                     <li>
-                        <img class="content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
+                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/>
                     </li>
                 </ul>
             </nav>

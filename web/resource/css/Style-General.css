@@ -25,4 +25,51 @@ body {
 :root {
     --color-base: #156590;
     --color-hover: #1565C0;
+    --color-border: #DDDDDD;
+}
+
+.content-G {
+    display: flex;
+    justify-content: center;
+    
+    background: var(--color-base);
+    margin: 0;
+}
+
+.content-item-G {
+    display: block;
+    color: #fff;
+    padding-top: var(--height-item);
+    padding-bottom: var(--height-item);
+    padding-left: var(--width-item);
+    padding-right: var(--width-item);
+    
+    text-align: center;
+    font-size: 1.2rem;
+}
+.content-item-G:hover {
+    background: var(--color-hover);
+}
+
+.content-table {
+  padding: 3rem;
+  width: 90%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  min-height: 10rem;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  border: 2px solid var(--color-border);
+  text-align: center;
+  padding: .2em;
+}
+
+tr:nth-child(even) {
+  background-color: var(--color-border);
 }

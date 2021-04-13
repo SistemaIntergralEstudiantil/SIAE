@@ -21,7 +21,7 @@
             HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
         %>
-        <header class="content"><h1 class="content-title" >¡Error en el sistema!</h1></header>
+        <header class="content-G content"><h1 class="content-title" >¡Error en el sistema!</h1></header>
         <div class="content-msj" >
             <h2>Descripción:</h2>
             <p><%= sec.getErrorMsj() %></p>
@@ -30,7 +30,7 @@
                 sec.setErrorType(null);
                 sec.setErrorMsj(null);
             %>
-            <a class="content-a" href="<%= sec.getErrorUrl() %>" >Regresar</a>
+            <a class="content-item-G content-a" href="<%= sec.getErrorUrl() %>" >Regresar</a>
             <% sec.setErrorUrl(null); %>
         </div>
         <%

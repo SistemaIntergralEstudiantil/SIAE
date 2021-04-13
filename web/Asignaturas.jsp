@@ -36,9 +36,9 @@
         %>
         <header>
             <nav>
-                <ul class="content">
+                <ul class="content-G content">
                     <li>
-                        <select class="content-selec" id="semestre">
+                        <select class="item-G-A-Selec content-selec" id="semestre">
                             <option value="0" disabled selected>Semestre ...</option>
                             <option value="1">Primero</option> 
                             <option value="2">Segundo</option>
@@ -52,9 +52,9 @@
                             <option value="10">Todos</option>
                         </select>
                     </li>
-                    <li><h1 class="content-item" >Asignaturas</h1></li>                    
+                    <li><h1 class="content-item-G content-item" >Asignaturas</h1></li>                    
                     <li>
-                        <img class="content-item content-img" src="resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
+                        <img class="content-item-G content-item content-img" src="resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
                     </li>
                 </ul>
             </nav>
@@ -94,7 +94,7 @@
                     </tbody>
                 </table>
         </div>
-        <a class="content-a" href="session/Home.jsp" >Menu principal</a>
+        <a class="item-G-A-Selec content-a" href="session/Home.jsp" >Menu principal</a>
         <script src="resource/js/Script-Asignaturas.js"></script>
     </body>
 </html>

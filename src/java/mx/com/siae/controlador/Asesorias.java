@@ -62,7 +62,7 @@ public class Asesorias extends HttpServlet {
                     if(servicio.equals("S")){ // Control de servicio
                         // Redirección a la pagina del servicio.
                     }else{ // No se espesifica la opción
-                        request.getRequestDispatcher("/areas/Menu.jsp").forward(request, response);
+                        request.getRequestDispatcher("/SIAE/areas/Menu.jsp").forward(request, response);
                         // Redirección a la misma pagina
                     }
                 }

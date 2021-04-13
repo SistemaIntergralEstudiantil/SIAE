@@ -30,7 +30,7 @@ public class AsignaturaDAO {
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
     public ArrayList<ReporteAsig> reporte() throws ClassNotFoundException, SQLException{
-        String sql = "CALL proce_reporte_cursos()";
+        String sql = "CALL proce_reporte_cursos()"; // Cambios del SQL
         Conexion cn = new Conexion();
         cn.conectar();
         cn.prepareStatement(sql);

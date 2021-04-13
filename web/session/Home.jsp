@@ -14,9 +14,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <title>Home</title>
-        <link rel="shortcut icon" href="../resource/images/logo_SIAE.png" />
-        <link rel="stylesheet" href="../resource/css/Style-General.css"/>
-        <link rel="stylesheet" href="../resource/css/Style-Home.css"/>
+        <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
+        <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
+        <link rel="stylesheet" href="/SIAE/resource/css/Style-Home.css"/>
     </head>
     <body>
         <%
@@ -35,13 +35,13 @@
         %>
         <header>
             <nav>
-                <ul class="content">
-                    <li><a class="content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>                    
-                    <li><a class="content-item" href="../areas/Menu.jsp">Áreas de apoyo</a></li>
-                    <li><a class="content-item" href="../visit/changeVisit.jsp">Curso de verano</a></li>
-                    <li><a class="content-item" href="../service/service.jsp">Curricula</a></li>
-                    <li><a class="content-item" href="../career/career.jsp">Altas y bajas</a></li>
-                    <li><a class="content-item" href="/GestionBiblioteca/TempControlServicio?cl=re">Ajustes</a></li>
+                <ul class="content-G content">
+                    <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>                    
+                    <li><a class="content-item-G content-item" href="../areas/Menu.jsp">Áreas de apoyo</a></li>
+                    <li><a class="content-item-G content-item" href="../visit/changeVisit.jsp">Curso de verano</a></li>
+                    <li><a class="content-item-G content-item" href="../service/service.jsp">Curricula</a></li>
+                    <li><a class="content-item-G content-item" href="../career/career.jsp">Altas y bajas</a></li>
+                    <li><a class="content-item-G content-item" href="/GestionBiblioteca/TempControlServicio?cl=re">Ajustes</a></li>
                 </ul>
             </nav>
         </header>
@@ -70,7 +70,7 @@
         </dl>
         <form action="/SIAE/Login" method="POST">
             <input type="hidden" name="clave" value="exit"/>
-            <input class="content-input" type="submit" value="Cerrar sesión">
+            <input class="input-submit" type="submit" value="Cerrar sesión">
         </form>
     </body>
 </html>
