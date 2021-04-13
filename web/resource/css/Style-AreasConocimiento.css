@@ -10,8 +10,7 @@ and open the template in the editor.
 
 :root {
     --height-item: 1.8rem;
-    --width-item: 9rem;
-    --color-border: #dddddd;
+    --width-item: 4rem;
 }
 
 .content {
