@@ -1,0 +1,68 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12/04/2021, 10:20:01 PM
+    Author     : danielhernandezreyes
+*/
+:root {
+    --height-item: 1.8rem;
+    --width-item: 9rem;
+}
+
+.content {
+    flex-flow: row wrap;
+    list-style: none;
+}
+
+.content-item {
+    text-decoration: none;
+    font-size: 2rem;
+    
+    margin: 0;
+}
+.content-item:hover {
+    background: none;
+}
+
+.content-img {
+    margin-top: 1rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: var(--width-item);
+    padding-left: var(--width-item);
+}
+
+.content-data_row {
+    text-align: center;
+    
+    margin-bottom: 6rem;
+    margin-top: 6rem;
+}
+
+.data_d {
+    display: inline-block;
+    font-size: 1.2rem;
+    text-align: center;
+    
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.input-submit {
+    color: #fff;
+    background-color: var(--color-base);
+    
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    padding-right: 3.5rem;
+    padding-left: 3.5rem;
+    border: 0;
+}
+.input-submit:hover{
+    background: var(--color-hover);
+}

@@ -53,6 +53,7 @@
         <a href="session/Home.jsp">Home</a>
         <a href="areas/Menu.jsp">Apoyo</a>
         <a href="areas/Asesorias.jsp">Asesorias</a>
+        <a href="curricula/Menu.jsp">Curricula</a>
         <script src="resource/js/Script-Login.js"></script>
     </body>
 </html>

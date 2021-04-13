@@ -50,18 +50,20 @@ public class Asesorias extends HttpServlet {
         }else{
             try {
                 String servicio = request.getParameter("servicio");
-                if(servicio.equals("A")){ // Control de las asesorias.
-                    AreasApoyoDAO crl = new AreasApoyoDAO();
-                    ArrayList<ReporteAsesoria> list = crl.reporteAsesorias();
-                    request.setAttribute("lista", list);
-                    request.getRequestDispatcher("/areas/Asesorias.jsp").forward(request, response);
-                    // Redirección a la pagina de asesorias.
-                }else{ 
-                    if(servicio.equals("S")){ // Control de servicio
-                        // Redirección a la pagina del servicio.
-                    }else{ // No se espesifica la opción
-                        request.getRequestDispatcher("/SIAE/areas/Menu.jsp").forward(request, response);
-                        // Redirección a la misma pagina
+                if(servicio == null){ // No se espesifica la opción
+                    response.sendRedirect("areas/Menu.jsp");
+                    // Redirección a la misma pagina
+                }else{
+                    if(servicio.equals("A")){ // Control de las asesorias.
+                        AreasApoyoDAO crl = new AreasApoyoDAO();
+                        ArrayList<ReporteAsesoria> list = crl.reporteAsesorias();
+                        request.setAttribute("lista", list);
+                        request.getRequestDispatcher("/areas/Asesorias.jsp").forward(request, response);
+                        // Redirección a la pagina de asesorias.
+                    }else{ 
+                        if(servicio.equals("S")){ // Control de servicio
+                            // Redirección a la pagina del servicio.
+                        }
                     }
                 }
             } catch (ClassNotFoundException ex) {

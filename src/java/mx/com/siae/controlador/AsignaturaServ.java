@@ -46,11 +46,20 @@ public class AsignaturaServ extends HttpServlet {
         }else{
             try {
                 String servicio = request.getParameter("servicio");
-                if(servicio.equals("A")){
-                    AsignaturaDAO crl = new AsignaturaDAO();
-                    ArrayList<Asignatura> list = crl.reporteAsignatura();
-                    request.setAttribute("lista", list);
-                    request.getRequestDispatcher("/curricula/AreasConocimiento.jsp").forward(request, response);
+                if(servicio == null){
+                    response.sendRedirect("curricula/Menu.jsp");
+                    // Redirecciona a la misma pagina
+                }else{
+                    if(servicio.equals("AC")){ // Control areas de conocimiento
+                        AsignaturaDAO crl = new AsignaturaDAO();
+                        ArrayList<Asignatura> list = crl.reporteAsignatura();
+                        request.setAttribute("lista", list);
+                        request.getRequestDispatcher("/curricula/AreasConocimiento.jsp").forward(request, response);
+                    }else{
+                        if(servicio.equals("TE")){ // Control tiempo de estudio
+                            request.getRequestDispatcher("/curricula/xxxxx.jsp").forward(request, response);
+                        }
+                    }
                 }
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);

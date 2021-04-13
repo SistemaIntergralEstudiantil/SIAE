@@ -35,10 +35,10 @@
             <nav>
                 <ul class="content-G content">
                     <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>                    
-                    <li><a class="content-item-G content-item" href="../areas/Menu.jsp">Áreas de apoyo</a></li>
-                    <li><a class="content-item-G content-item" href="../visit/changeVisit.jsp">Curso de verano</a></li>
-                    <li><a class="content-item-G content-item" href="../service/service.jsp">Curricula</a></li>
-                    <li><a class="content-item-G content-item" href="../career/career.jsp">Altas y bajas</a></li>
+                    <li><a class="content-item-G content-item" href="/SIAE/areas/Menu.jsp">Áreas de apoyo</a></li>
+                    <li><a class="content-item-G content-item" href="">Curso de verano</a></li>
+                    <li><a class="content-item-G content-item" href="/SIAE/curricula/Menu.jsp">Curricula</a></li>
+                    <li><a class="content-item-G content-item" href="">Altas y bajas</a></li>
                     <li><a class="content-item-G content-item" href="/GestionBiblioteca/TempControlServicio?cl=re">Ajustes</a></li>
                 </ul>
             </nav>

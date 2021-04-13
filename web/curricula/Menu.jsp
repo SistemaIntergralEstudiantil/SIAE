@@ -1,10 +1,9 @@
 <%-- 
-    Document   : menu
-    Created on : 7/04/2021, 08:12:02 PM
+    Document   : Menu
+    Created on : 12/04/2021, 10:16:06 PM
     Author     : danielhernandezreyes
 --%>
 
-<%@page import="mx.com.siae.modelo.Session"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,10 +12,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
-        <title>Áreas de apoyo</title>
-        <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
+        <title>Curricula</title>
+        <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
-        <link rel="stylesheet" href="/SIAE/resource/css/Style-AreasApoyo.css"/>
+        <link rel="stylesheet" href="/SIAE/resource/css/Style-Curricula.css"/>
     </head>
     <body>
         <%
@@ -33,19 +32,19 @@
         <header>
             <nav>
                 <ul class="content-G content">
-                    <li><h1 class="content-item-G content-item" >Areas de apoyo</h1></li>                    
+                    <li><h1 class="content-item-G content-item" >Curricula</h1></li>                    
                     <li>
-                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" />
+                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/>
                     </li>
                 </ul>
             </nav>
         </header>
-        <form action="/SIAE/Asesorias" method="POST" >
+        <form action="/SIAE/AsignaturaServ" method="POST" >
             <div class="content-data_row" >
                 <select name="servicio" class="data_d">
-                    <option value="" disabled selected>Áreas</option>
-                    <option value="A">Asesorias</option> 
-                    <option value="S">Servicio psicologico</option>
+                    <option value="" disabled selected>Seleccionar ...</option>
+                    <option value="AC">Área de conocimiento</option> 
+                    <option value="TE">Tiempo de estudio</option>
                 </select>
             </div>
             <div class="content-data_row" >
