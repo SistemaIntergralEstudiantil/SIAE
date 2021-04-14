@@ -27,10 +27,9 @@
                 </ul>
             </nav>
         </header>   
-        <div  >
-            <p>Si requieres atención legal o pscologica solicitala al correo 
-                redapoyo@itsoeh.edu.mx 
-                enviando los siguientes datos:
+        <div class="text" >
+            <p>Si requieres atención legal o pscologica solicitala al correo: redapoyo@itsoeh.edu.mx<br>
+                Enviando los siguientes datos:
             </p>
             <ul>
                 <li>Nombre completo</li>

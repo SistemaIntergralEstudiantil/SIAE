@@ -1,3 +1,7 @@
+######################
+# user = ISIC_IS     #
+# pass = 1S_5%g4&21  #
+######################
 DROP SCHEMA SIAE;
 CREATE SCHEMA IF NOT EXISTS SIAE 
  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
@@ -509,7 +513,7 @@ BEGIN
     ORDER BY cas.semestre ASC;
 END $$
 DELIMITER ;
- CALL proce_reporte_cursos();
+ -- CALL proce_reporte_cursos();
 
 drop procedure if exists proce_reporte_asesorias;
 DELIMITER $$
@@ -542,4 +546,4 @@ BEGIN
     ORDER BY area;
 END $$
 DELIMITER ;
-CALL proce_reporte_asignatura();
+-- CALL proce_reporte_asignatura();

@@ -34,3 +34,18 @@ and open the template in the editor.
     padding-right: var(--width-item);
     padding-left: var(--width-item);
 }
+
+.text {
+    font-size: 1.5rem;
+    margin-left: 10rem;
+    margin-right: 10rem;
+    margin-top: 5rem;
+}
+ul {
+    list-style: none;
+}
+
+li::before {
+    content: "\2611"; 
+    padding-right: 1rem;
+}
