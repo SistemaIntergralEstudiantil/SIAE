@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`Asignaturas` (
   );
 
 -- -----------------------------------------------------
--- Table `SIAE`.`areasApoyo`
+-- Table `SIAE`.`AreasApoyo`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SIAE`.`AreasApoyo` (
   idAreasApoyo INT NOT NULL,
@@ -201,44 +201,44 @@ INSERT INTO Usuarios (idUsuario, nombre_1, apellido_pat, apellido_mat, correo_in
        ('12345','Alberto','Montoya','Buendia','amontoyab@itsoeh.edu.mx','R','amontoyab');
 
 -- idAsignatura, semestre, nombre, credito(0 AND 10 ), estado ('E', 'D')
-INSERT INTO Asignaturas 
- VALUES('101',1, 'Calculo Diferencial','CB',5,'E'),
+INSERT INTO Asignaturas VALUES
+       ('101',1, 'Calculo Diferencial','CB',5,'E'),
        ('201',1, 'Fundamentos de Programación','IA',5,'E'),
        ('301',1, 'Taller de Etica','CS',4,'E'),
-       ('401',1, 'Matematicas discretas','CB',5,'E'),# fffrfr
+       ('401',1, 'Matematicas discretas','CB',5,'E'),
        ('501',1, 'Taller de Administracion','CE',4,'E'),
        ('601',1, 'Fundamentos de Investigacion','CS',4,'E');
-INSERT INTO Asignaturas 
- VALUES('102','2','Calculo Integral','CB','5','E'),
+INSERT INTO Asignaturas VALUES
+       ('102','2','Calculo Integral','CB','5','E'),
        ('202','2','Programación Orientada a Objetos','CI','5','E'),
        ('302','2','Contabilidad Financiera','CE','4','E'),
        ('402','2','Química General','CB','4','E'),
        ('502','2','Algebra Lineal','CB','5','E'),
        ('602','2','Probabilidad y Estadistica','CB','5','E');
-INSERT INTO Asignaturas 
- VALUES('103',3,'Calculo Vectorial','CB',5,'E'),
+INSERT INTO Asignaturas VALUES
+       ('103',3,'Calculo Vectorial','CB',5,'E'),
        ('203',3, 'Estructura de Datos','CI',5,'E'),
        ('303',3, 'Cultura Empresarial','CE',4,'E'),
        ('403',3, 'Investigacion de Operaciones','CB',4,'E'),
        ('503',3, 'Sistemas operativos','CI',4,'E'),
        ('603',3, 'Fisica general','CB',5,'E');
-INSERT INTO Asignaturas 
- VALUES('104','4','Ecuaciones Diferenciales','CB','5','E'),
+INSERT INTO Asignaturas VALUES
+       ('104','4','Ecuaciones Diferenciales','CB','5','E'),
        ('204','4','Metodos Numericos','CB','4','E'),
        ('304','4','Topicos Avanzadas De Programacion','CI',5,'E'),
        ('404','4','Fundamentos de Base De Datos','IA','5','E'),
        ('504','4','Taller De Sistemas Operativos','DI','4','E'),
        ('604','4','Principios Electricos y Aplicaciones Digitales','CI','5','E');
-INSERT INTO Asignaturas 
- VALUES('105',5,'Desarrollo sustentable','CC',5,'E'),
+INSERT INTO Asignaturas VALUES
+       ('105',5,'Desarrollo sustentable','CC',5,'E'),
        ('205',5, 'Fundamentos de Telecomunicaciones','CI',4,'E'),
        ('305',5, 'Taller de Base de Datos','DI',4,'E'),
        ('405',5, 'Simulacion','IA',5,'E'),
        ('505',5, 'Fundamentos de Ingenieria de Software','IA',4,'E'),
        ('605',5, 'Arquitectura de Computadoras','IA',5,'E'),
        ('705',5, 'Programacion web','DI',5,'E');
-INSERT INTO Asignaturas 
- VALUES('106','6','Lenguajes y Automatas I','IA','5','E'),
+INSERT INTO Asignaturas VALUES
+       ('106','6','Lenguajes y Automatas I','IA','5','E'),
        ('206','6','Redes de Computadora','DI','5','E'),
        ('306','6','Administracion de Base de Datos','DI','5','E'),
        ('406','6','Programacion Logica y Funcional','IA','4','E'),
@@ -449,7 +449,7 @@ INSERT INTO Alumnos
 -- PROCEDIMIENTOS ALMACENADOS
 
 USE SIAE;
-drop procedure if exists proce_iniciar_sesion;
+DROP PROCEDURE IF EXISTS proce_iniciar_sesion; -- Completado
 DELIMITER $$
 CREATE PROCEDURE proce_iniciar_sesion (
     in in_idUsuario VARCHAR(20),
@@ -474,7 +474,7 @@ END $$
 DELIMITER ;
 -- CALL proce_iniciar_sesion('18011126', 'dhernandezr');
 
-drop procedure if exists proce_reporte_cursos;
+DROP PROCEDURE IF EXISTS proce_reporte_cursos;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_cursos ()
     DETERMINISTIC
@@ -499,7 +499,9 @@ BEGIN
             ON(c.idA=a.idA)
         ) ca
         JOIN
-        (SELECT idSesiones AS idS, idCurso AS idC, dia, concat(horaInicio, ' - ', horaFin) AS horario FROM Sesiones
+        (
+            SELECT idSesiones AS idS, idCurso AS idC, dia, concat(horaInicio, ' - ', horaFin) AS horario
+            FROM Sesiones
         ) s
         ON(s.idC = ca.idC)
         GROUP BY ca.idC
@@ -515,7 +517,7 @@ END $$
 DELIMITER ;
  -- CALL proce_reporte_cursos();
 
-drop procedure if exists proce_reporte_asesorias;
+DROP PROCEDURE IF EXISTS proce_reporte_asesorias;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_asesorias()
     DETERMINISTIC
@@ -523,10 +525,13 @@ BEGIN
     SELECT docente, nombre AS asignatura, dia, horario, url, codigo
     FROM
     (
-        SELECT idAA, url, dia, horario, concat(nombre_1, ' ', apellido_pat) AS docente, idA, codigo
+        SELECT idAA, url, dia, horario, 
+            concat(nombre_1, ' ', apellido_pat) AS docente, idA, codigo
         FROM
         (
-        SELECT idAreasApoyo AS idAA, url, dia, concat(hora_inicio,' - ',hora_fin) AS horario, idResponsable AS idR, idAsignatura AS idA, codigo 
+        SELECT idAreasApoyo AS idAA, url, dia, 
+            concat(hora_inicio,' - ',hora_fin) AS horario, 
+            idResponsable AS idR, idAsignatura AS idA, codigo 
         FROM AreasApoyo
         ) a 
         LEFT JOIN Usuarios on(a.idR=idUsuario)
