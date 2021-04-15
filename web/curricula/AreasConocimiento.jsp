@@ -74,7 +74,7 @@
                             <th><%=a.getSemestre() %></th>
                             <th><%=a.getNombre() %></th>
                             <th><%=a.getCredito() %></th>
-                            <th><%= "PDF" %></th>
+                            <th><a href="/SIAE/resource/pdf/<%=a.getIdAsignatura() %>.pdf" target="_blank">PDF</a></th>
                         </tr>
                         <%
                                 }
