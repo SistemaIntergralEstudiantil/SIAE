@@ -50,7 +50,7 @@
                             <option value="10">Todos</option>
                         </select>
                     </li>
-                    <li><h1 class="content-item-G content-item" >Asignaturas</h1></li>                    
+                    <li><h1 class="content-item-G content-item" >Oferta curricular</h1></li>                    
                     <li>
                         <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
                     </li>
@@ -103,7 +103,7 @@
                     </tbody>
                 </table>
         </div>
-        <a class="item-G-A-Selec content-a" href="session/Home.jsp" >Menu principal</a>
+        <a class="item-G-A-Selec content-a" href="session/Home.jsp" >Menú principal</a>
         <script src="/SIAE/resource/js/Script-Asignaturas.js"></script>
     </body>
 </html>
