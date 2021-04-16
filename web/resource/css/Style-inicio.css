@@ -23,9 +23,7 @@ and open the template in the editor.
 	top: 200px; /* Bajamos la barra 200px de arriba a abajo */
 	z-index: 2000; /* Utilizamos la propiedad z-index para que no se superponga algún otro elemento como sliders, galerías, etc */
 }
-content-item {
-    text-decoration: none;
-}
+
 
 	.social ul {
 		list-style: none;
