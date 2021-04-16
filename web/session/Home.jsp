@@ -17,6 +17,10 @@
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Home.css"/>
+        <link rel="stylesheet" href="/SIAE/resource/css/Style-inicio.css"/>
+        <link rel="stylesheet" href="/SIAE/resource/css/style.css"/>
+        <link rel="stylesheet" href="/SIAE/resource/fonts"/>
+        <script src="https://kit.fontawesome.com/1703782d49.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <%
@@ -79,6 +83,15 @@
             <input type="hidden" name="clave" value="exit"/>
             <input class="input-submit" type="submit" value="Cerrar sesión">
         </form>
-            <script src="../resource/js/Script-ProfilePic.js"></script>
+            <div class="social">
+		<ul>
+			<li><a href="https://www.facebook.com/ING-Sistemas-Computacionales-ITSOEH-916964301664810/" target="_blank"  class="fab fa-facebook"></a></li>
+			<li><a href="https://twitter.com/RolandoPorrasM?s=08" target="_blank"  class="fab fa-twitter" ></a></li>
+			<li><a href="http://www.itsoeh.edu.mx/" target="_blank"   class="fas fa-globe"  ></a></li>
+			<li><a href="http://conect.itsoeh.edu.mx/mix_21_alu" target="_blank"  class="fas fa-laptop-house"></a></li>
+			
+		</ul>
+	</div>
+               <script src="../resource/js/Script-ProfilePic.js"></script>
     </body>
 </html>
