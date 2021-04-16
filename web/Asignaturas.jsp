@@ -50,6 +50,17 @@
                             <option value="10">Todos</option>
                         </select>
                     </li>
+                    <li>
+                        <select class="item-G-A-Selec content-selec" id="semestre">
+                            <option value="0" disabled selected>Áreas existentes ...</option>
+                            <option value="CB">Ciencias Básicas</option> 
+                            <option value="CI">Ciencias de la Ingeniería</option>
+                            <option value="DI">Diseño en Ingeniería</option>
+                            <option value="CS">Ciencias Sociales y Humanidades</option> 
+                            <option value="CC">Cursos Complementarios</option>
+                            <option value="CE">Ciencias Económico Administrativas</option>
+                        </select>
+                    </li>
                     <li><h1 class="content-item-G content-item" >Oferta curricular</h1></li>                    
                     <li>
                         <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
