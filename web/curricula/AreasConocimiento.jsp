@@ -3,7 +3,7 @@
     Created on : 8/04/2021, 11:10:57 PM
     Author     : danielhernandezreyes
 --%>
-
+<%@page import="mx.com.siae.modelo.beans.ReporteAsig"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.beans.Asignatura"%>
 <%@page import="mx.com.siae.modelo.Session"%>
@@ -35,8 +35,23 @@
             <nav>
                 <ul class="content">
                     <li>
-                        <select class="content-selec" id="semestre">
-                            <option value="0" disabled selected>área ...</option>
+                        <select class="item-G-A-Selec content-selec" id="semestre">
+                            <option value="0" disabled selected>Semestre ...</option>
+                            <option value="1">Primero</option> 
+                            <option value="2">Segundo</option>
+                            <option value="3">Tercero</option>
+                            <option value="4">Cuarto</option> 
+                            <option value="5">Quinto</option>
+                            <option value="6">Sexto</option>
+                            <option value="7">Septimo</option> 
+                            <option value="8">Octavo</option>
+                            <option value="9">Noveno</option>
+                            <option value="10">Todos</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="content-selec" id="area">
+                            <option value="0" disabled selected>Áreas existentes ...</option>
                             <option value="CB">Ciencias Básicas</option> 
                             <option value="CI">Ciencias de la Ingeniería</option>
                             <option value="DI">Diseño en Ingeniería</option>
@@ -69,13 +84,13 @@
                                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista");
                                 for(Asignatura a : l){
                         %>
-                        <tr class="<%=a.getArea() %>" >
+                        <tr class="<%=a.getArea() %> <%=a.getSemestre() %>" >
                             <th><%=a.getIdAsignatura() %></th>
                             <th><%=a.getSemestre() %></th>
                             <th><%=a.getNombre() %></th>
                             <th><%=a.getCredito() %></th>
                             <th><%= "PDF" %></th>
-                        </tr>
+                        
                         <%
                                 }
                             }
@@ -83,5 +98,6 @@
                     </tbody>
                 </table>
         </div>
+                    <script src="/SIAE/resource/js/Script-Asignaturas.js"></script>
     </body>
 </html>

@@ -10,7 +10,10 @@ and open the template in the editor.
 :root {
     --height-item: 1.8rem;
     --width-item: 2.5rem;
+    --leftBtn: 12rem;
+    --topBtn: 6rem;
 }
+
 .content {
     flex-flow: row wrap;
     list-style: none;
@@ -65,4 +68,50 @@ and open the template in the editor.
 }
 .input-submit:hover{
     background: var(--color-hover);
+}
+
+.img{
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.profile-pic-div{
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top: var(--topBtn);
+  left: var(--leftBtn);
+  transform: translate(-50%, 50%);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid grey;
+  
+}
+
+#foto{
+    height: 100%;
+    width: 100%;
+}
+
+#file{
+    display: none;
+}
+
+#subirFoto{
+    height: 40%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: wheat;
+    line-height: 30px;
+    font-family: sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
 }

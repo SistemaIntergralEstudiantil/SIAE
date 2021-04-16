@@ -43,8 +43,16 @@
                 </ul>
             </nav>
         </header>
+        
+        
         <h1 class="title-header" >Mis datos generales</h1>
-        <dl class="content-data" >
+       
+            <div class = "profile-pic-div">
+                 <img src="../resource/images/profile_pic.jpg" id="foto"/>
+            <input type="file" id="file">
+            <label for ="file" id="subirFoto"> Seleccionar foto de perfil</label>     
+            </div>
+            <dl class="content-data" >
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Rol:</dt>
                 <dd class="data_dd data_d" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante" %></dd>
@@ -66,9 +74,11 @@
                 <dd class="data_dd data_d" ><%=(user== null)?"":user.toString() %></dd>
             </div>
         </dl>
+        
         <form action="/SIAE/Login" method="POST">
             <input type="hidden" name="clave" value="exit"/>
             <input class="input-submit" type="submit" value="Cerrar sesión">
         </form>
+            <script src="../resource/js/Script-ProfilePic.js"></script>
     </body>
 </html>

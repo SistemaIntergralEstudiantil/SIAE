@@ -66,3 +66,17 @@ and open the template in the editor.
 .input-submit:hover{
     background: var(--color-hover);
 }
+
+.conten-select{
+    font-size: 1.2rem;
+    
+    margin-top: var(--height-item);
+    margin-bottom: var(--height-item);
+    margin-left: var(--width-item);
+    margin-right: var(--width-item);
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+    padding-left: calc( var(--width-item) * .2 );
+    padding-right: calc( var(--width-item) * .2 );
+}
+}
