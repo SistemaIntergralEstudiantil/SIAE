@@ -1,0 +1,56 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25/03/2021, 10:49:38 PM
+    Author     : danielhernandezreyes
+*/
+:root {
+    --top-menu: 14rem;
+    --height-menu: 1.6rem;
+}
+
+.consten-list {
+  margin: 0;
+  padding: 0;
+}
+
+.social {
+    position: fixed;
+    left: 0;
+    top: calc( var(--top-menu) - calc( var(--height-menu) * .5 ) );
+    z-index: 2;
+}
+
+.link {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    
+    width: 2rem;
+    padding: var(--height-menu) 1.2rem;
+    transition: all 200ms ease;
+}
+.link:hover {
+    background: #000;
+    padding: var(--height-menu) 2.5rem;
+}
+
+.fa-facebook {
+    background:#3b5998;
+}
+.fa-twitter {
+    background: #00abf0;
+}
+.fa-globe {
+    background: #d95232;
+}
+.fa-book-reader {
+    background: #ae181f;
+}
+
+.fa-laptop-house {
+    background: #ae181f;
+}

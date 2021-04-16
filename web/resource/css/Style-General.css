@@ -73,3 +73,7 @@ th {
 tr:nth-child(even) {
   background-color: var(--color-border);
 }
+
+.list-none {
+    list-style: none;
+}
