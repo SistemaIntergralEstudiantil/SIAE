@@ -51,7 +51,7 @@
                         </select>
                     </li>
                     <li>
-                        <select class="item-G-A-Selec content-selec" id="semestre">
+                        <select class="item-G-A-Selec content-selec" id="area">
                             <option value="0" disabled selected>Áreas existentes ...</option>
                             <option value="CB">Ciencias Básicas</option> 
                             <option value="CI">Ciencias de la Ingeniería</option>
@@ -59,6 +59,7 @@
                             <option value="CS">Ciencias Sociales y Humanidades</option> 
                             <option value="CC">Cursos Complementarios</option>
                             <option value="CE">Ciencias Económico Administrativas</option>
+                            <option value="AL">Todas</option>
                         </select>
                     </li>
                     <li><h1 class="content-item-G content-item" >Oferta curricular</h1></li>                    
@@ -89,7 +90,7 @@
                                     String[] d = r.getDia().split(",");
                                     String[] h = r.getHorario().split(",");
                         %>
-                        <tr class="<%=r.getSemestre() %>" >
+                        <tr class="<%=r.getSemestre() %> <%=r.getArea() %>" >
                             <th rowspan="<%= d.length %>" ><%=r.getIdCurso() %></th>
                             <th rowspan="<%= d.length %>" ><%=r.getCupo() %></th>
                             <th rowspan="1" ><%=d[0] %></th>
@@ -101,7 +102,7 @@
                         <%
                                 for (int i = 1; i < h.length; i++) {
                         %>
-                        <tr class="<%=r.getSemestre() %>" >        
+                        <tr class="<%=r.getSemestre() %> <%=r.getArea() %>" >        
                             <th rowspan="1" ><%=d[i] %></th>
                             <th rowspan="1" ><%=h[i] %></th>
                         </tr>

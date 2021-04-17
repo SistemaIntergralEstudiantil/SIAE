@@ -445,35 +445,63 @@ INSERT INTO Alumnos
 #       (1005,'R','18011250'),
 #       (1006,'R','18011378'),
 #       (1001,'S','18011530');
+-- FUNCIONES
+DROP FUNCTION IF EXISTS funci_nombre_user
+DELIMITER $$
+CREATE FUNCTION funci_nombre_user (
+    in_idUsuario VARCHAR(20)
+) RETURNS VARCHAR(225)
+deterministic
+BEGIN
+    DECLARE nombre VARCHAR(225) DEFAULT '';
+    SELECT 
+    concat(nombre_1 , ' ', 
+        COALESCE(nombre_2, ''), ' ', 
+        COALESCE(nombre_3, ''), 
+        apellido_pat, ' ', 
+        COALESCE(apellido_mat, '')) INTO nombre
+    FROM Usuarios WHERE idUsuario = in_idUsuario;
+    RETURN nombre;
+END $$
+DELIMITER ;
 
 -- PROCEDIMIENTOS ALMACENADOS
-
+###########################################################################################
 USE SIAE;
-DROP PROCEDURE IF EXISTS proce_iniciar_sesion; -- Completado
+DROP PROCEDURE IF EXISTS proce_iniciar_sesion; -- Completado * Cambios
 DELIMITER $$
 CREATE PROCEDURE proce_iniciar_sesion (
     in in_idUsuario VARCHAR(20),
     in in_contra VARCHAR(20)
 )
-    DETERMINISTIC   
+    NOT DETERMINISTIC   
 BEGIN
     DECLARE ob_verif BOOLEAN DEFAULT FALSE;
     DECLARE act INT DEFAULT 0;
+    DECLARE sem INT DEFAULT -1;
     DECLARE ob_contra VARCHAR(20);
+    DECLARE ob_rol CHAR(1);
+    DECLARE ob_ingreso DATE DEFAULT NULL;
     SELECT contra INTO ob_contra FROM Usuarios WHERE (idUsuario = in_idUsuario);
+    SELECT rol INTO ob_rol FROM Usuarios WHERE (idUsuario = in_idUsuario);
     IF ob_contra = in_contra THEN
 		SET ob_verif = TRUE;
         SET act = 1;
 	ELSE
-        SELECT act FROM DUAL;
+        SELECT act, sem FROM DUAL;
 	END IF;
     IF ob_verif = TRUE THEN
-		SELECT *, act FROM Usuarios WHERE idUsuario = in_idUsuario;
+        IF ob_rol = 'A' THEN
+            SELECT fecha_ingreso INTO ob_ingreso FROM Alumnos WHERE (matricula = in_idUsuario);
+            SET sem = round( (datediff( CURRENT_DATE, ob_ingreso)/183.5) + 1 );
+        END IF;
+		SELECT *, sem, act FROM Usuarios WHERE idUsuario = in_idUsuario;
 	END IF;
 END $$
 DELIMITER ;
 -- CALL proce_iniciar_sesion('18011126', 'dhernandezr');
-
+-- CALL proce_iniciar_sesion('1', 'caguilar');
+###########################################################################################
 DROP PROCEDURE IF EXISTS proce_reporte_cursos;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_cursos ()
@@ -508,15 +536,16 @@ BEGIN
     ) cas
     JOIN
     (
-        SELECT idUsuario AS idR, concat(nombre_1, ' ', apellido_pat) AS docente
+        SELECT idUsuario AS idR, funci_nombre_user(idUsuario) AS docente
         FROM Usuarios WHERE rol = 'R'
     ) u
     ON(cas.idR=u.idR)
     ORDER BY cas.semestre ASC;
 END $$
 DELIMITER ;
- -- CALL proce_reporte_cursos();
-
+--  CALL proce_reporte_cursos();
+ 
+###########################################################################################
 DROP PROCEDURE IF EXISTS proce_reporte_asesorias;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_asesorias()
@@ -526,7 +555,7 @@ BEGIN
     FROM
     (
         SELECT idAA, url, dia, horario, 
-            concat(nombre_1, ' ', apellido_pat) AS docente, idA, codigo
+            funci_nombre_user(idUsuario) AS docente, idA, codigo
         FROM
         (
         SELECT idAreasApoyo AS idAA, url, dia, 
@@ -541,6 +570,7 @@ END $$
 DELIMITER ;
 -- CALL proce_reporte_asesorias();
 
+###########################################################################################
 drop procedure if exists proce_reporte_asignatura;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_asignatura()

@@ -56,7 +56,7 @@
             <dl class="content-data" >
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Rol:</dt>
-                <dd class="data_dd data_d" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante" %></dd>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante y/o Docente" %></dd>
             </div>
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Correo:</dt>
@@ -72,7 +72,7 @@
             </div>
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Semestre:</dt>
-                <dd class="data_dd data_d" ><%=(user== null)?"":user.toString() %></dd>
+                <dd class="data_dd data_d" ><%=(user== null)?"":(user.getSemestre()==-1)?"No aplica":user.getSemestre() %></dd>
             </div>
         </dl>
         <form action="/SIAE/Login" method="POST">

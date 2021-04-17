@@ -46,6 +46,7 @@ public class UsuariosDAO {
                 user.setCorreo_inst(cn.getResultado().getString("correo_inst"));
                 user.setRol(cn.getResultado().getString("rol"));
                 user.setPassword(cn.getResultado().getString("contra"));
+                user.setSemestre(cn.getResultado().getInt("sem"));
                 cn.getEstado().close();
                 cn.getConexion().close();
                 return user;

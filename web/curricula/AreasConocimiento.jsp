@@ -58,6 +58,7 @@
                             <option value="CS">Ciencias Sociales y Humanidades</option> 
                             <option value="CC">Cursos Complementarios</option>
                             <option value="CE">Ciencias Económico Administrativas</option>
+                            <option value="AL">Todas</option>
                         </select>
                     </li>
                     <li><h1 class="content-item" >Áreas de conocimiento curricular</h1></li>                    

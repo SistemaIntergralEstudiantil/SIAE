@@ -46,6 +46,7 @@ public class AsignaturaDAO {
             rep.setCredito( cn.getResultado().getInt("credito") );
             rep.setDocente( cn.getResultado().getString("docente") );
             rep.setSemestre( cn.getResultado().getInt("semestre") );
+            rep.setArea( cn.getResultado().getString("area"));
             t.add(rep);
         }
         cn.getEstado().close();
@@ -76,6 +77,7 @@ public class AsignaturaDAO {
             a.setNombre( cn.getResultado().getNString("nombre") );
             a.setArea( cn.getResultado().getString("area") );
             a.setCredito( cn.getResultado().getInt("credito") );
+            a.setArea( cn.getResultado().getString("area"));
             t.add(a);
         }
         cn.getEstado().close();
