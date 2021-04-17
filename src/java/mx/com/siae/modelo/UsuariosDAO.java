@@ -47,6 +47,7 @@ public class UsuariosDAO {
                 user.setRol(cn.getResultado().getString("rol"));
                 user.setPassword(cn.getResultado().getString("contra"));
                 user.setSemestre(cn.getResultado().getInt("sem"));
+                user.aFoto = cn.getResultado().getBytes("foto");
                 cn.getEstado().close();
                 cn.getConexion().close();
                 return user;

@@ -1,7 +1,17 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
 import mx.com.siae.modelo.beans.Usuarios;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
@@ -18,7 +29,8 @@ import mx.com.siae.modelo.beans.Usuarios;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
-
+    
+    private final Key key = new SecretKeySpec("}u#n@c]l{&v4-D3E16$<yt_>s[".getBytes(),  0, 16, "AES");
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -50,8 +62,10 @@ public class Login extends HttpServlet {
                     Usuarios user = new Usuarios();
                     user.setIdUsuario(request.getParameter("idUsuario"));
                     user.setPassword(request.getParameter("contra"));
-                    
                     validarData(user);
+                    // Encriptar contraseña
+                    //encriptar(user);
+                    
                     UsuariosDAO crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
                     if(user != null){ // Todos lo datos obtenidos.
@@ -111,5 +125,18 @@ public class Login extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    
+    private void encriptar(Usuarios user) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        String pass = user.getPassword();
+        Cipher aes = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        aes.init(Cipher.ENCRYPT_MODE, key);
+        byte[] encriptado = aes.doFinal(pass.getBytes());
+        String tempPass = "";
+        for (byte b : encriptado) {
+           tempPass += Integer.toHexString(0xFF & b);
+        }
+        System.out.println(tempPass);
+        // user.setPassword(tempPass);
+    }
 }

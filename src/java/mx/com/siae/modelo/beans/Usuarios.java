@@ -5,6 +5,7 @@
  */
 package mx.com.siae.modelo.beans;
 
+import java.io.InputStream;
 /**
  * Esta clase define a todos los usuarios que acceden al sistema.
  * @version 26/03/2021/B
@@ -21,6 +22,8 @@ public class Usuarios {
     private String rol;
     private String password;
     private int semestre;
+    public InputStream gFoto;
+    public byte[] aFoto;
     /**
      * Constructor por defecto del usuario.
      */

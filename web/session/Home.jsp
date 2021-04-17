@@ -49,7 +49,11 @@
         <h1 class="title-header" >Mis datos generales</h1>
        
             <div class = "profile-pic-div">
-                 <img src="../resource/images/profile_pic.jpg" id="foto"/>
+                <% if(user != null && user.aFoto != null ) { %>
+                    <img src="data:image/jpg;base64,<%=user.aFoto %>" id="foto"/>
+                <% } else { %>
+                    <img src="../resource/images/profile_pic.jpg" id="foto"/>
+                <% } %>
             <input type="file" id="file">
             <label for ="file" id="subirFoto"> Seleccionar foto de perfil</label>     
             </div>
