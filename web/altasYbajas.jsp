@@ -41,7 +41,7 @@
                     </li>
                 </ul>
             </nav>
-             <img src="META-INF/123.jpg" alt=""/>
+             <img src="META-INF/123.png" alt=""/>
         </header>
         <br>
         <img src="123.jpeg"  width="150" height="150" align="right">
