@@ -4,6 +4,9 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.modelo.Session"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="mx.com.siae.modelo.beans.ReporteCurso"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,25 +19,129 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Control.css"/>
     </head>
     <body>
+        <%
+            
+            HttpSession sesion = request.getSession();
+            Session sec = (Session) sesion.getAttribute("user");
+            if(sec == null){
+                sec = new Session();
+                sec.setTypeSessionNull(1);
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+            }
+        %>
         <header>
             <nav>
                 <ul class="content-G content">
-                    <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Control Cursos</a></li>
-                    <li><a class="content-item-G content-item" href="/SIAE/areas/Menu.jsp">Control Asesorias</a></li>
+                    <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control Cursos</a></li>
+                    <li><a class="content-item-G content-item" href="/SIAE/Control?clave=asesor">Control Asesorias</a></li>
                     <li>
                         <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/>
                     </li>
                 </ul>
             </nav>
         </header>
+        <div class="content-center">
+            <div class="content-left">
+                <div class="item-option" >
+                    <label>idCurso: <input class="input-number" type="number" value="1" id="idCurso" min="1"></label></div>
+                <div class="item-option" >
+                    <label>Habilitado: <input id="estado" type="checkbox" value="E" checked="checked" /></label></div>
+                <div class="item-option" >
+                <label>Curso de ordinal: <input id="ordinario" type="radio" name="tipo" value="O" checked="checked" /></label></div>
+                <div class="item-option" >
+                <label>Curso de verano: <input type="radio" name="tipo" value="V" /></label></div>
+                <div class="item-option" >
+                    <label>Cupo de estudiantes: <input class="input-number" type="number" value="1" min="1" id="cupo" > </label></div>
+                <div class="item-option" >
+                <label>Asignatura:
+                    <select class="item-selec" id="asignatura">
+                        <option value="0" disabled selected>Asignatura ...</option>
+                        <option value="asdasd">Primero</option>
+                    </select>
+                </label></div>
+                <div class="item-option" >
+                <label>id del docente:
+                    <select class="item-selec" id="responsable">
+                        <option value="0" disabled selected>Semestre ...</option>
+                        <option value="1">Primero</option>
+                    </select>
+                </label></div>
+                <div class="item-option" >
+                    <input class="input-submit" id="add" type="button" value="Agregar Curso">
+                </div>
+            </div>
+            <div class="content-right content-table-dimanyc" >
+                <table class="table" >
+                    <thead>
+                        <%
+                            if(sec != null){
+                                String type = (String) request.getAttribute("type");
+                                if(type.equals("Curso")) {
+                        %>
+                        <tr>
+                            <th style="width: 1rem;">Id Curso</th>
+                            <th style="width: 1rem;">Tipo</th>
+                            <th style="width: 1rem;">Estado</th>
+                            <th style="width: 2rem;">Cupo</th>
+                            <th style="width: 6rem;">Asignatura</th>
+                            <th style="width: 6rem;">Docente</th>
+                            <th style="width: 6rem;">Sesiones</th>
+                        </tr>
+                        <%
+                                }
+                            }
+                        %>
+                    </thead>
+                    <tbody>
+                        <%
+                            if(sec != null){
+                                String type = (String) request.getAttribute("type");
+                                if(type.equals("Curso")) {
+                                ArrayList<ReporteCurso> l = (ArrayList<ReporteCurso>) request.getAttribute("lista");
+                                for(ReporteCurso r : l){
+                        %>
+                        <tr>
+                            <th><%=r.getIdCurso() %></th>
+                            <th><%=r.getTipo() %></th>
+                            <th><%=r.getEstado() %></th>
+                            <th><%=r.getCupo() %></th>
+                            <th><%=r.getAsignatura() %></th>
+                            <th><%=r.getResponsable() %></th>
+                            <th>
+                                <form action="action">
+                                    <input type="hidden" name="idCurso" value="<%=r.getIdCurso() %>">
+                                    <input type="submit" value="Sesiones">
+                                </form>
+                            </th>
+                        </tr>
+                        <%   
+                                    }
+                            
+                                }
+                            }
+                        %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <footer class="footer" >
             <nav>
                 <ul class="content-footer">
-                    <li><a class="item-footer" href="session.jsp">Menu principal</a></li>
-                    
-                    <li><a class="item-mensaje" href="">meNSAJE</a></li>
+                    <li><a class="item-footer" href="/SIAE/session/Home.jsp">Menu principal</a></li>
+                    <li>
+                        <%
+                            if(sec != null){
+                                String mensaje = (String) request.getAttribute("msj");
+                        %>
+                        <label class="item-mensaje" href=""><%=mensaje %></label>
+                        <%
+                            }
+                        %>
+                    </li>
                 </ul>
             </nav>
         </footer>
+        <script src="/SIAE/resource/js/Script-Control.js"></script>
     </body>
 </html>

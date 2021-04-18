@@ -6,6 +6,7 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -14,16 +15,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import mx.com.siae.modelo.AsignaturaDAO;
+import mx.com.siae.modelo.CursosDAO;
 import mx.com.siae.modelo.Session;
-import mx.com.siae.modelo.beans.AlumnoRepoD;
+import mx.com.siae.modelo.beans.Curso;
+import mx.com.siae.modelo.beans.ReporteCurso;
 
 /**
  *
  * @author danielhernandezreyes
  */
-@WebServlet(name = "Docente", urlPatterns = {"/Docente"})
-public class Docente extends HttpServlet {
+@WebServlet(name = "Control", urlPatterns = {"/Control"})
+public class Control extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,21 +48,55 @@ public class Docente extends HttpServlet {
         }else{
             try {
                 String clave = request.getParameter("clave");
+                CursosDAO crl;
+                ArrayList<ReporteCurso> list;
                 switch(clave){
-                    case "inicio":
-                        String idUsuario = sec.getUser().getIdUsuario();
-                        AsignaturaDAO crl = new AsignaturaDAO();
-                        ArrayList<AlumnoRepoD> list = crl.reporteAlumnoCursoD(idUsuario);
-                        request.setAttribute("lista", list);
-                        request.getRequestDispatcher("/Docente/Cursos.jsp").forward(request, response);
-                    break;
-                    case "change":
-                        String matricula = request.getParameter("matricula");
+                    case "add":
+                        crl = new CursosDAO();
+                        Curso nuevo = new Curso();
+                        // idCurso&idResponsable&estado&cupo&tipo&idAsignatura
                         String idCurso = request.getParameter("idCurso");
-                        String status = request.getParameter("status");
-                        /* Realizar el enlace a la base de datos cuando termine redireccionar a la misma pagina. 
-                        Para volver a realizar los cambios*/
-                        System.out.println(matricula +" dsa "+idCurso + "sad"+ status);
+                        String idResponsable = request.getParameter("idResponsable");
+                        String estado = request.getParameter("estado");
+                        String cupo = request.getParameter("cupo");
+                        String tipo = request.getParameter("tipo");
+                        String idAsignatura = request.getParameter("idAsignatura");
+                        nuevo.setCupo(Integer.parseInt(cupo));
+                        nuevo.setEstado(estado);
+                        nuevo.setIdAsignatura(Integer.parseInt(idAsignatura));
+                        nuevo.setIdCurso(Integer.parseInt(idCurso));
+                        nuevo.setIdResponsable(idResponsable);
+                        nuevo.setTipo(tipo);
+                        boolean estatus = crl.addCurso(nuevo);
+                        request.setAttribute("msj", (estatus)?"Curso registrado":"Curso no registrado");
+                        list = crl.reporteCursos();
+                        request.setAttribute("lista", list);
+                        request.setAttribute("type", "Curso");
+                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
+                    break;
+                    case "course":
+                        crl = new CursosDAO();
+                        request.setAttribute("msj", "Consulta realizada");
+                        list = crl.reporteCursos();
+                        request.setAttribute("lista", list);
+                        request.setAttribute("type", "Curso");
+                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
+                    break;
+                    case "asesor":
+                        crl = new CursosDAO();
+                        request.setAttribute("msj", "Consulta realizada");
+                        list = crl.reporteCursos();
+                        request.setAttribute("lista", list);
+                        request.setAttribute("type", "Asesor");
+                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
+                    break;
+                    case "session":// Salida de la pagina
+                        crl = new CursosDAO();
+                        request.setAttribute("msj", "Consulta realizada");
+                        list = crl.reporteCursos();
+                        request.setAttribute("lista", list);
+                        request.setAttribute("type", "Curso");
+                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
                     break;
                 }
             } catch (ClassNotFoundException ex) {

@@ -46,7 +46,7 @@
                     <% } %>
                     <li><a class="content-item-G content-item" href="/SIAE/Ajustes.jsp">Ajustes</a></li>
                     <% if(user != null && user.getRol().endsWith("G") ) { %>
-                    <li><a class="content-item-G content-item" href="/SIAE/Ajustes.jsp">Control</a></li>
+                    <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control</a></li>
                     <% } %>
                     <% if(user != null && user.getRol().endsWith("R") && user.getSemestre() == -2 ) { %>
                     <li><a class="content-item-G content-item" href="/SIAE/Docente?clave=inicio">Estatus de alumnos</a></li>

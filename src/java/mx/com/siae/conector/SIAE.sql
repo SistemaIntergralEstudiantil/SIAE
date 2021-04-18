@@ -432,7 +432,7 @@ CALL proce_nueva_area('Asesoria','https://meet.google.com/lookup/fu4xegew2b','Vi
 
 DROP PROCEDURE IF EXISTS proce_nuevo_curso;
 DELIMITER $$
-CREATE PROCEDURE proce_nuevo_curso( in in_idCurso INT, in in_tipo VARCHAR(45), in in_estado CHAR(1), in in_cupo INT,
+CREATE PROCEDURE proce_nuevo_curso( in in_idCurso INT, in in_tipo CHAR(1), in in_estado CHAR(1), in in_cupo INT,
     in in_idAsignatura INT, in in_idResponsable VARCHAR(20) )
     DETERMINISTIC
 BEGIN
@@ -840,3 +840,40 @@ DELIMITER ;
 
 -- CALL proce_cambio_status_alumno(1001, '18011530', 'H');
 -- '1001', 'S', 'P', '18011530'
+
+DROP PROCEDURE IF EXISTS proce_consulta_curso;
+DELIMITER $$
+CREATE PROCEDURE proce_consulta_curso()
+    DETERMINISTIC
+BEGIN
+    SELECT ca.idC, tipo, estado, cupo, idA, d.idR, nombre, docente
+    FROM
+    (
+        SELECT c.idC, a.idA, c.idR, tipo, estado, cupo, nombre FROM
+        (SELECT idCurso AS idC, tipo, estado, cupo, idAsignatura AS idA, idResponsable AS idR FROM Cursos) c
+        JOIN
+        (SELECT idAsignatura AS idA, nombre FROM Asignaturas) a
+        ON(a.idA=c.idA)
+    ) ca
+    JOIN
+    (
+        SELECT r.idR, docente FROM
+        (SELECT idUsuario AS idR FROM Responsables WHERE tipo = 'D') r
+        JOIN
+        (SELECT idUsuario AS idU, funci_nombre_user(idUsuario) AS docente FROM Usuarios) u
+        ON(r.idR=u.idU)
+    ) d
+    ON(ca.idR=d.idR);
+END $$
+DELIMITER ;
+;
+-- CALL proce_consulta_curso();
+DROP PROCEDURE IF EXISTS proce_consulta_materias;
+DELIMITER $$
+CREATE PROCEDURE proce_consulta_materias()
+    DETERMINISTIC
+BEGIN
+    
+END $$
+DELIMITER ;
+;

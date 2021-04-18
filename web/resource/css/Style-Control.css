@@ -21,7 +21,7 @@ and open the template in the editor.
 
 .content-item {
     text-decoration: none;
-    font-size: 2rem;
+    font-size: 1.7rem;
     
     margin: 0;
 }
@@ -49,6 +49,7 @@ and open the template in the editor.
 }
 
 .content-footer {
+    font-size: 1.1rem;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -79,16 +80,76 @@ and open the template in the editor.
     text-align: center;
 }
 
+.content-table-dimanyc {
+  padding: 3rem;
+  width: 50%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  min-height: 10rem;
+}
+
+.content-center { 
+  overflow:auto; 
+  width: 100%;
+  height: 29rem;
+  background: gray; 
+} 
+
+.content-left, .content-right { 
+  text-align: center;
+  
+  margin-top: 1rem;
+  padding: .1rem; 
+  background: white; 
+} 
+
+.content-left {
+    font-size: 1.1rem;
+    
+    width: 25%;
+    float:left;
+    padding-left: 1rem;
+    margin-left: 2rem;
+}
+.content-right {
+    width: 60%;
+    float:right;
+    padding-right: 0rem;
+    margin-right: 2rem;
+} 
+
+
 .input-submit {
     color: #fff;
+    font-size: 1.2rem;
     background-color: var(--color-base);
     
-    padding-top: 1.2rem;
-    padding-bottom: 1.2rem;
-    padding-right: 3.5rem;
-    padding-left: 3.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 3.3rem;
+    padding-left: 3.3rem;
     border: 0;
 }
 .input-submit:hover{
     background: var(--color-hover);
+}
+.input-number {
+    width: 5rem;
+    margin: 1rem 0;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
+    
+}
+.item-option {
+    text-align: center;
+    padding: .3rem .4rem;
+}
+
+.item-selec {
+    font-size: 1.2rem;
+    width: 9rem;
+    margin: .5rem 0;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
+    
 }
