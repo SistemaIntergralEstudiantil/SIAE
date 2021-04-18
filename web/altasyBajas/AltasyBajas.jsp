@@ -1,6 +1,6 @@
 <%-- 
-    Document   : AltasYbajas
-    Created on : 15/04/2021, 01:44:18 PM
+    Document   : AltasyBajas
+    Created on : 18/04/2021, 12:54:56 AM
     Author     : emeli
 --%>
 
@@ -18,7 +18,7 @@ estudiantes consultar información sobre los diferentes servicios del instituto"
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
     </head>
     <body>
-        <select>
+       <select>
                             <option value="0" disabled selected>Semestre</option>
                             <option value="1">Primero</option> 
                             <option value="2">Segundo</option>
@@ -51,6 +51,5 @@ estudiantes consultar información sobre los diferentes servicios del instituto"
                         </tr>
                     </thead>
                     <tbody id="content-body" >
-    
     </body>
 </html>
