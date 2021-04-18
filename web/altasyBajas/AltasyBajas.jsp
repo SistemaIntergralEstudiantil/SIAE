@@ -18,6 +18,7 @@ estudiantes consultar información sobre los diferentes servicios del instituto"
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
     </head>
     <body>
+        <td align="left" width="33%"> <img src="resource/images/logo_ISIC.png" height="80" width="150"> </td>
        <select>
                             <option value="0" disabled selected>Semestre</option>
                             <option value="1">Primero</option> 
@@ -45,11 +46,69 @@ estudiantes consultar información sobre los diferentes servicios del instituto"
             <table class="table" >
                     <thead>
                         <tr>
+                <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
                             <th>Clave de la asignatura</th>
                             <th>Nombre</th>
                             <th>Créditos</th>
                         </tr>
                     </thead>
                     <tbody id="content-body" >
+    <div class="content-table" >
+            <table class="table" >
+                    <thead>
+                        <tr>
+                        <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
+                            <th>Clave de la asignatura</th>
+                            <td> <input type="checkbox"> </td> 
+                            <th>Nombre</th>
+                            <th>Créditos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-body" >
+    <div class="content-table" >
+            <table class="table" >
+                    <thead>
+                        <tr>
+                  <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
+                            <th>Clave de la asignatura</th>
+                            <th>Nombre</th>
+                            <th>Créditos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-body" >
+    <div class="content-table" >
+            <table class="table" >
+                    <thead>
+                        <tr>
+                            <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
+                            <th>Clave de la asignatura</th>
+                            <th>Nombre</th>
+                            <th>Créditos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-body" ></tbody>
+        <input type="submit" value="Menú Principal" style="font-size:100%" FACE="arial"><br><br>
+                    
+                    <div class="content-table" >
+            <table class="table" >
+                    <thead>
+                        <tr>
+                            <th>Clave de la asignatura</th>
+                            <th>Nombre</th>
+                            <th>Créditos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-body" ></tbody>
+                    <div class="content-table" >
+            <table class="table" >
+                    <thead>
+                        <tr>
+                            <th>Clave de la asignatura</th>
+                            <th>Nombre</th>
+                            <th>Créditos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-body" ></tbody>
+        <input type="submit" value="Enviar Solicitud" style="font-size:100%" FACE="arial"><br><br>
     </body>
 </html>
