@@ -86,7 +86,7 @@
                 <label>Nombre: </label>
                 
                 <label id="sel_nombre" ></label>
-                <select id="status" name="status">
+                <select class="item-G-A-Selec content-selec" id="status" name="status">
                     <option value="P" disabled selected>Sin registro</option>
                     <option value="R">Reprobado</option>
                     <option value="A">Aprobado</option>
@@ -94,7 +94,7 @@
                 <input type="hidden" id="sel_mat" name="matricula" value="">
                 <input type="hidden" id="sel_cur" name="idCurso" value="">
                 <input type="hidden" name="clave" value="change">
-                <input type="submit" value="Realizar actualización">
+                <input class="input-submit" type="submit" value="Realizar actualización">
             </form>
         </div>
         <script src="/SIAE/resource/js/Script-Cursos.js"></script>
