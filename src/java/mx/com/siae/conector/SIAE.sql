@@ -774,14 +774,19 @@ DELIMITER ;
 ###########################################################################################
 DROP PROCEDURE IF EXISTS proce_reporte_asignatura;
 DELIMITER $$
-CREATE PROCEDURE proce_reporte_asignatura()
+CREATE PROCEDURE proce_reporte_asignatura(in in_option BOOLEAN)
     DETERMINISTIC
 BEGIN
-    SELECT idAsignatura AS idA, semestre, nombre, area, credito FROM Asignaturas ORDER BY area;
+    IF in_option THEN
+        SELECT idAsignatura AS idA, semestre, nombre, area, credito FROM Asignaturas ORDER BY area;
+    ELSE
+        SELECT idAsignatura, nombre FROM Asignaturas WHERE estado = 'E';
+    END IF;
 END $$
 DELIMITER ;
 ;
--- CALL proce_reporte_asignatura();
+-- CALL proce_reporte_asignatura(true);
+-- CALL proce_reporte_asignatura(false);
 
 ###########################################################################################
 DROP PROCEDURE IF EXISTS proce_reporte_curso_docente;
@@ -863,17 +868,24 @@ BEGIN
         (SELECT idUsuario AS idU, funci_nombre_user(idUsuario) AS docente FROM Usuarios) u
         ON(r.idR=u.idU)
     ) d
-    ON(ca.idR=d.idR);
+    ON(ca.idR=d.idR) ORDER BY ca.tipo, ca.idC;
 END $$
 DELIMITER ;
 ;
--- CALL proce_consulta_curso();
-DROP PROCEDURE IF EXISTS proce_consulta_materias;
+ CALL proce_consulta_curso();
+
+DROP PROCEDURE IF EXISTS proce_consulta_docente;
 DELIMITER $$
-CREATE PROCEDURE proce_consulta_materias()
+CREATE PROCEDURE proce_consulta_docente()
     DETERMINISTIC
 BEGIN
-    
+    SELECT u.idUsuario, nombre FROM
+    (SELECT idUsuario, funci_nombre_user(idUsuario) AS nombre FROM Usuarios WHERE rol = 'R') u
+    JOIN
+    (SELECT idUsuario FROM Responsables WHERE tipo = 'D') r
+    ON(u.idUsuario=r.idUsuario);
 END $$
 DELIMITER ;
 ;
+
+CALL proce_consulta_docente();

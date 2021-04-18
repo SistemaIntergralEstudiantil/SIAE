@@ -66,10 +66,11 @@ public class AsignaturaDAO {
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
     public ArrayList<Asignatura> reporteAsignatura() throws SQLException, ClassNotFoundException {
-        String sql = "CALL proce_reporte_asignatura()";
+        String sql = "CALL proce_reporte_asignatura(?)";
         Conexion cn = new Conexion();
         cn.conectar();
         cn.prepareStatement(sql);
+        cn.getEstado().setBoolean(1, true);
         cn.setResultado(cn.getEstado().executeQuery());
         ArrayList<Asignatura> t = new ArrayList<>();
         while(cn.getResultado().next()){
@@ -80,6 +81,35 @@ public class AsignaturaDAO {
             a.setArea( cn.getResultado().getString("area") );
             a.setCredito( cn.getResultado().getInt("credito") );
             a.setArea( cn.getResultado().getString("area"));
+            t.add(a);
+        }
+        cn.getEstado().close();
+        cn.getConexion().close();
+        return t;
+    }
+    /**
+     * Método obtiene un lista de todas las asignaturas que estan habilitasa en<br> 
+     * el semestre en curso.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista de las asignaturas Habilitadas.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>No hay asignaturas Habilitadas.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<Asignatura> reporteAsignaturaActivas() throws SQLException, ClassNotFoundException {
+        String sql = "CALL proce_reporte_asignatura(?)";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareStatement(sql);
+        cn.getEstado().setBoolean(1, false);
+        cn.setResultado(cn.getEstado().executeQuery());
+        ArrayList<Asignatura> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            Asignatura a = new Asignatura();
+            a.setIdAsignatura( cn.getResultado().getInt("idAsignatura") );
+            a.setNombre( cn.getResultado().getNString("nombre") );
             t.add(a);
         }
         cn.getEstado().close();

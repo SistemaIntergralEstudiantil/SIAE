@@ -56,7 +56,7 @@
         <a href="curricula/Menu.jsp">Curricula</a>
         <a href="areas/ServicioPsicologico.jsp">Servicio psicologico</a>
         <a href="Docente/Cursos.jsp">Docente</a>
-        <a href="Control/Menu.jsp">Control</a>
+        <a href="Control-G/Menu.jsp">Control</a>
         <script src="resource/js/Script-Login.js"></script>
     </body>
 </html>

@@ -4,6 +4,8 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.modelo.beans.DocenteR"%>
+<%@page import="mx.com.siae.modelo.beans.Asignatura"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.beans.ReporteCurso"%>
@@ -43,33 +45,46 @@
         </header>
         <div class="content-center">
             <div class="content-left">
-                <div class="item-option" >
-                    <label>idCurso: <input class="input-number" type="number" value="1" id="idCurso" min="1"></label></div>
-                <div class="item-option" >
-                    <label>Habilitado: <input id="estado" type="checkbox" value="E" checked="checked" /></label></div>
-                <div class="item-option" >
-                <label>Curso de ordinal: <input id="ordinario" type="radio" name="tipo" value="O" checked="checked" /></label></div>
-                <div class="item-option" >
-                <label>Curso de verano: <input type="radio" name="tipo" value="V" /></label></div>
-                <div class="item-option" >
-                    <label>Cupo de estudiantes: <input class="input-number" type="number" value="1" min="1" id="cupo" > </label></div>
-                <div class="item-option" >
-                <label>Asignatura:
-                    <select class="item-selec" id="asignatura">
+                <%
+                    if(sec != null) {
+                        String type = (String) request.getAttribute("type");
+                        if(type.equals("Curso")) {
+                %>
+                <form action="Control" method="POST" onsubmit="return validarForm();" >
+                    <div class="item-option" ><label>idCurso: <input class="input-number" type="number" name="idCurso" value="1" id="idCurso" min="1"></label></div>
+                    <div class="item-option" ><label>Habilitado: <input id="estado" type="checkbox" name="estado" value="E" checked="checked" /></label></div>
+                <div class="item-option" ><label>Curso de ordinal: <input id="ordinario" type="radio" name="tipo" value="O" checked="checked" /></label></div>
+                <div class="item-option" ><label>Curso de verano: <input type="radio" name="tipo" value="V" /></label></div>
+                <div class="item-option" ><label>Cupo de estudiantes: <input class="input-number" type="number" value="1" min="1" name="cupo" id="cupo" > </label></div>
+                <div class="item-option" ><label>Asignatura: <select class="item-selec" id="asignatura" name="idAsignatura">
                         <option value="0" disabled selected>Asignatura ...</option>
-                        <option value="asdasd">Primero</option>
-                    </select>
-                </label></div>
-                <div class="item-option" >
-                <label>id del docente:
-                    <select class="item-selec" id="responsable">
-                        <option value="0" disabled selected>Semestre ...</option>
-                        <option value="1">Primero</option>
-                    </select>
-                </label></div>
-                <div class="item-option" >
-                    <input class="input-submit" id="add" type="button" value="Agregar Curso">
-                </div>
+                <%
+                    ArrayList<Asignatura> la = (ArrayList<Asignatura>) request.getAttribute("lista-A");
+                    for(Asignatura a : la) {
+                %>
+                <option value="<%=a.getIdAsignatura() %>"><%=a.getNombre() %></option>
+                <%
+                    }
+                %>
+                        </select></label></div>
+                <div class="item-option" ><label>id del docente: <select class="item-selec" id="responsable" name="idResponsable">
+                        <option value="0" disabled selected>Docente ...</option>
+                <%
+                    ArrayList<DocenteR> ld = (ArrayList<DocenteR>) request.getAttribute("lista-D");
+                    for(DocenteR d : ld) {
+                %>
+                        <option value="<%=d.getIdUsuario() %>"><%=d.getNombre() %></option>
+                <%
+                    }
+                %>
+                    </select></label></div>
+                <input type="hidden" name="clave" value="add">
+                <div class="item-option" ><input class="input-submit" id="add" type="submit" value="Agregar Curso" ></div>
+                </form>
+                <%
+                        }
+                    }
+                %>
             </div>
             <div class="content-right content-table-dimanyc" >
                 <table class="table" >
@@ -104,12 +119,19 @@
                         <tr>
                             <th><%=r.getIdCurso() %></th>
                             <th><%=r.getTipo() %></th>
-                            <th><%=r.getEstado() %></th>
+                            <th>
+                                <form action="Control" method="POST" >
+                                    <input type="hidden" name="clave" value="change">
+                                    <input type="hidden" name="idCurso" value="<%=r.getIdCurso() %>">
+                                    <input type="submit" value="<%=(r.getEstado().equals("E"))?"Disable":"Enable" %>">
+                                </form>
+                            </th>
                             <th><%=r.getCupo() %></th>
                             <th><%=r.getAsignatura() %></th>
                             <th><%=r.getResponsable() %></th>
                             <th>
-                                <form action="action">
+                                <form action="Control" method="POST">
+                                    <input type="hidden" name="clave" value="session">
                                     <input type="hidden" name="idCurso" value="<%=r.getIdCurso() %>">
                                     <input type="submit" value="Sesiones">
                                 </form>

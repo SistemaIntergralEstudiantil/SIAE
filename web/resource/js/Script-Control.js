@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-function sendAJAX( clave, idCurso, idUsuario, estado, cupo, tipo, idAsignatura ) {
+function sendAJAXAdd( idCurso, idUsuario, estado, cupo, tipo, idAsignatura ) {
     let http = new XMLHttpRequest();
     let url = 'http://localhost:8080/SIAE/Control';
     http.open( 'POST', url, true);
@@ -33,7 +33,7 @@ function validarOptions( options, mensaje ) {
     }
 }
 
-function sendAJAX( idCurso ) {
+function sendAJAXSesion( idCurso ) {
     let http = new XMLHttpRequest();
     let url = 'http://localhost:8080/SIAE/Control';
     http.open( 'POST', url, true);
@@ -41,8 +41,36 @@ function sendAJAX( idCurso ) {
     http.send( 'clave=session&idCurso='+idCurso );
 }
 
+function validarForm( e ){
+    let d = document;
+    let asignatura = d.getElementById( 'asignatura' );
+    let responsable = d.getElementById( 'responsable' );
+
+    let idCurso = d.getElementById( 'idCurso' );
+    let ordinario = d.getElementById( 'ordinario' ).checked;
+    let estado = d.getElementById( 'estado' ).checked;
+    let cupo = d.getElementById( 'cupo' );
+
+    let opC = validarNumber( idCurso, 'Id del curso no valido' );
+    let opS = validarNumber( cupo, 'Cupo no valido' );
+    // console.log(ordinario);
+    let idAsignatura = validarOptions( asignatura, 'Id de asignatura no valido ' );
+    let idResponsable = validarOptions( responsable, 'Id del docente no valido ' );
+    let tipo = (ordinario===true)?'O':'V';
+    if( opC !== null && opS !== null && idAsignatura !== null && idResponsable !== null ) {
+        estado = (estado)?'E':'D';
+        //sendAJAXAdd( opC, idResponsable, estado, opS, tipo, idAsignatura );
+        //console.log( 'SEND' );
+        
+        return true;
+    }
+    return false;
+}
 (function( d ) {
-    d.getElementById( 'add' ).addEventListener( 'click', () => {
+    
+    /*
+     * 
+     d.getElementById( 'add' ).addEventListener( 'click', () => {
         let asignatura = d.getElementById( 'asignatura' );
         let responsable = d.getElementById( 'responsable' );
         
@@ -59,10 +87,10 @@ function sendAJAX( idCurso ) {
         let tipo = (ordinario===true)?'O':'V';
         if( opC !== null && opS !== null && idAsignatura !== null && idResponsable !== null ) {
             estado = (estado)?'E':'D';
+            //sendAJAXAdd( opC, idResponsable, estado, opS, tipo, idAsignatura );
             console.log( 'SEND' );
-            sendAJAX( idCurso, idResponsable, estado, cupo, tipo, idAsignatura );
         }
     } );
-    
+    */
     
 })( document );
