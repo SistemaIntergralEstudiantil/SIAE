@@ -5,11 +5,9 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpSession;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
 import mx.com.siae.modelo.beans.Usuarios;
-import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
@@ -126,17 +123,4 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    
-    private void encriptar(Usuarios user) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        String pass = user.getPassword();
-        Cipher aes = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        aes.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encriptado = aes.doFinal(pass.getBytes());
-        String tempPass = "";
-        for (byte b : encriptado) {
-           tempPass += Integer.toHexString(0xFF & b);
-        }
-        System.out.println(tempPass);
-        // user.setPassword(tempPass);
-    }
 }

@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`AreasApoyo` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SIAE`.`Cursos` (
   idCurso INT NOT NULL,
-  tipo VARCHAR(45) NOT NULL
+  tipo CHAR(1) NOT NULL
   CONSTRAINT `chk_Cursos_tipo`CHECK ( tipo in('O', 'V')) ENFORCED
     COMMENT 'El tipo de curso puede ser: (O) ordinario o (V) verano',
   estado CHAR(1) NOT NULL
@@ -198,12 +198,9 @@ BEGIN
     DECLARE t_msg_error CONDITION FOR 1062;
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg = '1062 Clave duplicada'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg = '1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
         INSERT INTO Usuarios VALUES(in_idUsuario, 
             in_nombre_1, in_nombre_2, in_nombre_3, 
@@ -257,12 +254,9 @@ BEGIN
     DECLARE t_msg_error CONDITION FOR 1062;
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg = '1062 Clave duplicada'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg = '1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
         INSERT INTO Asignaturas VALUES(in_idAsignatura, in_semestre, in_nombre, in_area, in_credito, in_estado);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
@@ -354,14 +348,10 @@ BEGIN
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_fk CONDITION FOR 1452;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_fk
-        BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;                                                                                                                         
         INSERT INTO Responsables VALUES(in_tipo, in_idUsuario);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
@@ -403,18 +393,14 @@ BEGIN
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_fk CONDITION FOR 1452;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_fk
-        BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
         INSERT INTO
             AreasApoyo(nombre, url, dia, hora_inicio, hora_fin, codigo, idResponsable, idAsignatura, estado) 
-            VALUES(in_nombre, in_url, dia, in_hora_inicio, in_hora_fin, in_codigo, in_idResponsable, in_idAsignatura, in_estado);
+        VALUES(in_nombre, in_url, dia, in_hora_inicio, in_hora_fin, in_codigo, in_idResponsable, in_idAsignatura, in_estado);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
     ELSE COMMIT;
     END IF;
@@ -456,17 +442,12 @@ BEGIN
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_fk CONDITION FOR 1452;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_fk
-        BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
-        INSERT INTO
-            Cursos(idCurso, tipo, estado, cupo, idAsignatura, idResponsable) 
+        INSERT INTO Cursos(idCurso, tipo, estado, cupo, idAsignatura, idResponsable) 
             VALUES(in_idCurso, in_tipo, in_estado, in_cupo, in_idAsignatura, in_idResponsable);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
     ELSE COMMIT;
@@ -541,19 +522,14 @@ BEGIN
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_fk CONDITION FOR 1452;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = TRUE; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = TRUE; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_fk
-        BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = TRUE; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = TRUE; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = TRUE; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = TRUE; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = TRUE; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = TRUE; END;
     SELECT count(*) INTO count FROM SIAE.Sesiones WHERE (idCurso = in_idCurso) AND dia = in_dia AND hora_inicio = in_hora_inicio;
     IF count > 0 THEN SET t_msg = 'XXXX La Sesión ya existe'; SET t_error = TRUE; END IF;
     START TRANSACTION;
-        INSERT INTO
-            Sesiones(idCurso, dia, hora_inicio, hora_fin) 
+        INSERT INTO Sesiones(idCurso, dia, hora_inicio, hora_fin) 
             VALUES(in_idCurso, in_dia, in_hora_inicio, in_hora_fin);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
     ELSE COMMIT;
@@ -639,14 +615,10 @@ BEGIN
     DECLARE t_msg_error_chk CONDITION FOR 3819;
     DECLARE t_msg_error_fk CONDITION FOR 1452;
     DECLARE t_msg_error_null CONDITION FOR 1048;
-    DECLARE CONTINUE HANDLER FOR t_msg_error
-        BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_chk
-        BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_fk
-        BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
-    DECLARE CONTINUE HANDLER FOR t_msg_error_null
-        BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
         INSERT INTO Alumnos(matricula, fecha_ingreso) VALUES(in_matricula, in_fecha_ingreso);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
@@ -664,16 +636,23 @@ CALL proce_nuevo_alumno('18011250','2018-08-06');
 CALL proce_nuevo_alumno('18011378','2016-08-06');
 CALL proce_nuevo_alumno('18011530','2020-08-06');
 
--- idCurso, estado('S', 'A', 'R'), matricula
-# INSERT INTO Cursos_Alumnos VALUES(1001,'A','18011830'),
-#       (1002,'A','18011225'),
-#       (1003,'A','18011362'),
-#       (1004,'A','18011126'),
-#       (1005,'R','18011250'),
-#       (1006,'R','18011378'),
-#       (1001,'S','18011530');
-
-
+-- idCurso, estado('S', 'A', 'R'), estado('P', 'A', 'R'), matricula
+ INSERT INTO Cursos_Alumnos VALUES
+       (1001,'A','P','18011830'),
+       (1003,'A','P','18011225'),
+       (1003,'A','P','18011362'),
+       (1005,'A','P','18011126'),
+       (1005,'R','P','18011250'),
+       (1006,'R','P','18011378'),
+       (1001,'S','P','18011530'),
+       (1010,'A','P','18011830'),
+       (1011,'A','P','18011830'),
+       (1012,'A','P','18011225'),
+       (1014,'A','P','18011362'),
+       (1015,'A','P','18011126'),
+       (1015,'R','P','18011250'),
+       (1016,'R','P','18011378'),
+       (1017,'S','P','18011530');
 
 
 
@@ -719,6 +698,7 @@ BEGIN
     DECLARE ob_contra VARCHAR(128);
     DECLARE ob_in_contra VARCHAR(128);
     DECLARE ob_rol CHAR(1);
+    DECLARE ob_tipoR CHAR(1);
     DECLARE ob_ingreso DATE DEFAULT NULL;
     
     SELECT contra INTO ob_contra FROM Usuarios WHERE (idUsuario = in_idUsuario);
@@ -731,14 +711,18 @@ BEGIN
         IF ob_rol = 'A' THEN
             SELECT fecha_ingreso INTO ob_ingreso FROM Alumnos WHERE (matricula = in_idUsuario);
             SET sem = round( (datediff( CURRENT_DATE, ob_ingreso)/183.5) + 1 );
+        ELSE
+            SELECT tipo INTO ob_tipoR FROM Responsables WHERE idUsuario = in_idUsuario;
+            IF ob_tipoR = 'D' THEN SET sem = -2; 
+            END IF;
         END IF;
 		SELECT *, sem, act FROM Usuarios WHERE idUsuario = in_idUsuario;
 	END IF;
 END $$
 DELIMITER ;
 ;
- CALL proce_iniciar_sesion('18011126', 'dhernandezr');
--- CALL proce_iniciar_sesion('1', 'caguilar');
+-- CALL proce_iniciar_sesion('18011126', 'dhernandezr');
+-- CALL proce_iniciar_sesion('D00001', 'caguilar');
 ###########################################################################################
 DROP PROCEDURE IF EXISTS proce_reporte_cursos;
 DELIMITER $$
@@ -796,4 +780,63 @@ BEGIN
     SELECT idAsignatura AS idA, semestre, nombre, area, credito FROM Asignaturas ORDER BY area;
 END $$
 DELIMITER ;
+;
 -- CALL proce_reporte_asignatura();
+
+###########################################################################################
+DROP PROCEDURE IF EXISTS proce_reporte_curso_docente;
+DELIMITER $$
+CREATE PROCEDURE proce_reporte_curso_docente( in in_idUsuario VARCHAR(20) )
+    DETERMINISTIC
+BEGIN
+    SELECT cm.idC, tipo, m, alumno, foto, caa.idA, asignatura, semestre, reporte
+    FROM
+    (SELECT ca.idC AS idC, a.m, alumno, foto, reporte
+        FROM
+        (SELECT idUsuario AS m, funci_nombre_user(idUsuario) AS alumno, foto FROM Usuarios WHERE rol = 'A') a
+        JOIN 
+        (SELECT idCurso AS idC, matricula AS m, reporte FROM Cursos_Alumnos WHERE estado = 'A') ca 
+        ON(a.m = ca.m)
+    ) cm
+    JOIN
+    (SELECT c.idC, semestre, asignatura, tipo, c.idA 
+        FROM
+        (SELECT idCurso AS idC, idAsignatura AS idA, tipo FROM Cursos WHERE estado = 'E' AND idResponsable = in_idUsuario) c
+        JOIN
+        (SELECT idAsignatura AS idA, semestre, nombre AS asignatura FROM Asignaturas) a
+        ON(c.idA = a.idA)
+    )caa
+    ON(caa.idC=cm.idC) ORDER BY(caa.idA);
+END $$
+DELIMITER ;
+;
+-- CALL proce_reporte_curso_docente('D00005');
+
+-- UPDATE Cursos_Alumnos SET reporte = in_reporte WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+###########################################################################################
+DROP PROCEDURE IF EXISTS proce_cambio_status_alumno;
+DELIMITER $$
+CREATE PROCEDURE proce_cambio_status_alumno( in in_idCurso INT, in in_matricula VARCHAR(20), in in_reporte CHAR(1) )
+    DETERMINISTIC
+BEGIN
+    DECLARE t_error BOOLEAN;
+    DECLARE t_msg VARCHAR(100) DEFAULT 'OK';
+    DECLARE t_msg_error CONDITION FOR 1062;
+    DECLARE t_msg_error_chk CONDITION FOR 3819;
+    DECLARE t_msg_error_fk CONDITION FOR 1452;
+    DECLARE t_msg_error_null CONDITION FOR 1048;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    START TRANSACTION;
+        UPDATE Cursos_Alumnos SET reporte = in_reporte WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+    IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
+    ELSE COMMIT;
+    END IF;
+END $$
+DELIMITER ;
+;
+
+-- CALL proce_cambio_status_alumno(1001, '18011530', 'H');
+-- '1001', 'S', 'P', '18011530'

@@ -35,12 +35,22 @@
         <header>
             <nav>
                 <ul class="content-G content">
-                    <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>                    
+                    <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>
                     <li><a class="content-item-G content-item" href="/SIAE/areas/Menu.jsp">Áreas de apoyo</a></li>
+                    <% if(user != null && user.getRol().endsWith("A") ) { %>
                     <li><a class="content-item-G content-item" href="">Curso de verano</a></li>
+                    <% } %>
                     <li><a class="content-item-G content-item" href="/SIAE/curricula/Menu.jsp">Curricula</a></li>
+                    <% if(user != null && user.getRol().endsWith("A") ) { %>
                     <li><a class="content-item-G content-item" href="">Altas y bajas</a></li>
-                    <li><a class="content-item-G content-item" href="/GestionBiblioteca/TempControlServicio?cl=re">Ajustes</a></li>
+                    <% } %>
+                    <li><a class="content-item-G content-item" href="/SIAE/Ajustes.jsp">Ajustes</a></li>
+                    <% if(user != null && user.getRol().endsWith("G") ) { %>
+                    <li><a class="content-item-G content-item" href="/SIAE/Ajustes.jsp">Control</a></li>
+                    <% } %>
+                    <% if(user != null && user.getRol().endsWith("R") && user.getSemestre() == -2 ) { %>
+                    <li><a class="content-item-G content-item" href="/SIAE/Docente?clave=inicio">Estatus de alumnos</a></li>
+                    <% } %>
                 </ul>
             </nav>
         </header>
@@ -60,7 +70,7 @@
             <dl class="content-data" >
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Rol:</dt>
-                <dd class="data_dd data_d" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":"Representante y/o Docente" %></dd>
+                <dd class="data_dd data_d" ><%=(user== null)?"":user.getRol().equals("A")?"Alumno":user.getRol().equals("G")?"Administrador":"Representante y/o Docente" %></dd>
             </div>
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Correo:</dt>
@@ -76,7 +86,7 @@
             </div>
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Semestre:</dt>
-                <dd class="data_dd data_d" ><%=(user== null)?"":(user.getSemestre()==-1)?"No aplica":user.getSemestre() %></dd>
+                <dd class="data_dd data_d" ><%=(user== null)?"":(user.getSemestre()<0)?"No aplica":user.getSemestre() %></dd>
             </div>
         </dl>
         <form action="/SIAE/Login" method="POST">
