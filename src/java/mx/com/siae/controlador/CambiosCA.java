@@ -6,7 +6,6 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
 import mx.com.siae.modelo.beans.Asesoria;
 import mx.com.siae.modelo.beans.Asignatura;
-import mx.com.siae.modelo.beans.Curso;
 import mx.com.siae.modelo.beans.DocenteR;
 import mx.com.siae.modelo.beans.ReporteAsesoria;
 import mx.com.siae.modelo.beans.ReporteCurso;
@@ -47,24 +45,18 @@ public class CambiosCA extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null){ // Control para el acceso no autorizado.
+        if(sec == null) { // Control para el acceso no autorizado.
             sec = new Session();
             sec.setTypeSessionNull(0);
             sesion.setAttribute("user", sec);
             request.getRequestDispatcher("error/error.jsp").forward(request, response);
             // Redireccionamiento a la pagina de error.
-        }else{
+        } else {
             try {
                 String clave = request.getParameter("clave");
-                AreasApoyoDAO crlA;
-                CursosDAO crl;
-                ArrayList<ReporteCurso> list;
-                ArrayList<ReporteAsesoria> listRA;
-                
                 // Asesorias
-                if(clave.equals("asesor") || clave.equals("add-A")) {
-                    crlA = new AreasApoyoDAO();
-                    
+                if(clave.equals("asesor") || clave.equals("add-A") || clave.equals("change-A") ) {
+                    AreasApoyoDAO crlA = new AreasApoyoDAO();
                     // Solo consultar Consulta
                     if(clave.equals("asesor")) {
                         request.setAttribute("msj", "Consulta registro de asesoria");
@@ -79,7 +71,6 @@ public class CambiosCA extends HttpServlet {
                         String codigo = request.getParameter("codigo");
                         String idAsignaturaA = request.getParameter("idAsignatura");
                         String idResponsableA = request.getParameter("idResponsable");
-                        
                         Asesoria nueva = new Asesoria();
                         nueva.setUrl(url);
                         nueva.setDia(dia);
@@ -89,63 +80,28 @@ public class CambiosCA extends HttpServlet {
                         nueva.setIdAsignatura(Integer.parseInt(idAsignaturaA));
                         nueva.setIdResponsable(idResponsableA);
                         crlA.addAsesoria(nueva); // Registrar la nueva Asesoria
-                        
                         request.setAttribute("msj", "Asesoria registrada");
-                        
                     }
                     
-                    listRA = crlA.consultaAsesoria();
-                    request.setAttribute("lista-RA", listRA);
-                    request.setAttribute("lista-AA", consultarA());
-                    request.setAttribute("lista-DA", consultarD());
-                    request.setAttribute("type", "Asesor");
-                    
-                    request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
-                }
-                
-                
-                switch(clave){
-                    case "change-A":// Habilitar o desabilitar un curso
-                        crlA = new AreasApoyoDAO();
+                    if(clave.equals("change-A")) {
                         String idAsesoria = request.getParameter("idAsesoria");
-                        String estadoC = request.getParameter("estado");
+                        String estado = request.getParameter("estado");
                         // Crear el objeto del cambio
                         Asesoria change = new Asesoria();
                         change.setIdAreasApoyo(Integer.parseInt(idAsesoria));
-                        change.setEstado((estadoC=="E")?"D":"E");
+                        change.setEstado((estado=="E")?"D":"E");
                         crlA.changeStatusAsesoria(change);
-                        request.setAttribute("msj", "Asesoria actualizada");
-                        
-                        crlA = new AreasApoyoDAO();
-                        listRA = crlA.consultaAsesoria();
-                        // Obtener la lista de las asignaturas habilitadas
-                        ArrayList<Asignatura> listaAA = consultarA();
-                        // Obtener la lista de los docentes
-                        ArrayList<DocenteR> listaDA = consultarD();
-                        // Enviar los datos obtenidos
-                        request.setAttribute("lista", listRA);
-                        request.setAttribute("lista-A", listaAA);
-                        request.setAttribute("lista-D", listaDA);
-                        request.setAttribute("clave", "asesor"); // 
-                        request.getRequestDispatcher("/Control").forward(request, response);
-                    break;
-                    case "change":// Habilitar o desabilitar un curso
-                        crl = new CursosDAO();
-                        request.setAttribute("msj", "Consulta realizada"); // 
-                        list = crl.reporteCursos();
-                        request.setAttribute("lista", list);
-                        request.setAttribute("type", "Curso");
-                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
-                    break;
-                    case "session":// Salida de la pagina
-                        crl = new CursosDAO();
-                        request.setAttribute("msj", "Consulta realizada");
-                        list = crl.reporteCursos();
-                        request.setAttribute("lista", list);
-                        request.setAttribute("type", "Curso");
-                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
-                    break;
+                        request.setAttribute("msj", "Operación asesoria");
+                    }
+                    
+                    ArrayList<ReporteAsesoria> listRA = crlA.consultaAsesoria();
+                    request.setAttribute("lista-RA", listRA);
+                    request.setAttribute("lista-AA", consultarA());
+                    request.setAttribute("lista-DA", consultarD());
+                    request.getRequestDispatcher("Control-G/Menu_2.jsp").forward(request, response);
                 }
+                
+                
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");

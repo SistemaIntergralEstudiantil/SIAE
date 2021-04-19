@@ -30,7 +30,7 @@ and open the template in the editor.
 }
 
 .content-img {
-    margin-top: 1rem;
+    margin-top: .5rem;
     padding-top: 0;
     padding-bottom: 0;
     padding-right: var(--width-item);

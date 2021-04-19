@@ -115,14 +115,13 @@ public class AreasApoyoDAO {
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
     public void changeStatusAsesoria(Asesoria change) throws ClassNotFoundException, SQLException{
-        String sql = "CALL proce_cambio_estado( ?, ?, ?)";
+        String sql = "CALL proce_estado_asignatura( ?, ?)";
         Conexion cn = new Conexion();
         cn.conectar();
         cn.prepareStatement(sql);
         cn.getEstado().setInt(1, change.getIdAreasApoyo());
         cn.getEstado().setString(2, change.getEstado());
-        cn.getEstado().setString(3, "A");
-        cn.setResultado(cn.getEstado().executeQuery());
+        cn.getEstado().executeUpdate();
         cn.getEstado().close();
         cn.getConexion().close();
     }

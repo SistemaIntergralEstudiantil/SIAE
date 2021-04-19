@@ -57,12 +57,18 @@ public class Control extends HttpServlet {
                 ArrayList<ReporteAsesoria> listRA;
                 
                 // Cursos
-                if(clave.equals("add") || clave.equals("course")){
+                if(clave.equals("add") || clave.equals("course")) {
                     CursosDAO crl = new CursosDAO();
                     
                     if(clave.equals("course")) {
                         request.setAttribute("msj", "Consulta registro de cursos");
                     }
+                    if(clave.equals("change")) {
+                        
+                    }
+                    if(clave.equals("session")) {
+                    }
+                    
                     if(clave.equals("add")) {
                         // Leer los parametros
                         String idCurso = request.getParameter("idCurso");

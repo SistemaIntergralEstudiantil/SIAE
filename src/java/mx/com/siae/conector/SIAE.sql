@@ -917,18 +917,25 @@ DELIMITER ;
 ;
 -- CALL proce_consulta_asesoria();
 
-DROP PROCEDURE IF EXISTS proce_cambio_estado;
+DROP PROCEDURE IF EXISTS proce_estado_curso;
 DELIMITER $$
-CREATE PROCEDURE proce_cambio_estado( in in_id INT, in in_estado CHAR(1), in in_option CHAR(1) )
+CREATE PROCEDURE proce_estado_curso( in in_id INT, in in_estado CHAR(1) )
     DETERMINISTIC
 BEGIN
-    IF in_option = 'C' THEN 
-        UPDATE Cursos SET estado = in_estado WHERE (idCurso = in_id);
-    ELSE
-        UPDATE AreasApoyo SET estado = in_estado WHERE (idAreasApoyo = in_id);
-    END IF;
+    UPDATE Cursos SET estado = in_estado WHERE (idCurso = in_id);
 END $$
 DELIMITER ;
 ;
- CALL proce_cambio_estado( 1, 'E', 'A');
- CALL proce_cambio_estado( 999, 'E', 'C');
+
+-- CALL proce_estado_curso(1001, 'D');
+
+DROP PROCEDURE IF EXISTS proce_estado_asignatura;
+DELIMITER $$
+CREATE PROCEDURE proce_estado_asignatura( in in_id INT, in in_estado CHAR(1) )
+    DETERMINISTIC
+BEGIN
+    UPDATE AreasApoyo SET estado = in_estado WHERE (idAreasApoyo = in_id);
+END $$
+DELIMITER ;
+;
+CALL proce_estado_asignatura(1, 'D');
