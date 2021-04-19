@@ -888,4 +888,47 @@ END $$
 DELIMITER ;
 ;
 
-CALL proce_consulta_docente();
+-- CALL proce_consulta_docente();
+
+DROP PROCEDURE IF EXISTS proce_consulta_asesoria;
+DELIMITER $$
+CREATE PROCEDURE proce_consulta_asesoria()
+    DETERMINISTIC
+BEGIN
+    SELECT rua.idAA, asignatura, url, dia, horario, estado, docente, extra FROM
+        (SELECT a.idAA, idA, dia, horario, url, estado, ru.docente, extra
+        FROM
+        (SELECT idAreasApoyo AS idAA, url, dia, concat(hora_inicio, ' - ', hora_fin) AS horario, codigo AS extra, idAsignatura AS idA, idResponsable AS idR, estado
+        FROM 
+            AreasApoyo WHERE idAsignatura is not null) a
+        JOIN
+            (SELECT r.idR, docente FROM
+                (SELECT idUsuario AS idR FROM Responsables WHERE tipo = 'D') r
+            JOIN
+                (SELECT idUsuario AS idU, funci_nombre_user(idUsuario) AS docente FROM Usuarios) u
+            ON(r.idR=u.idU)
+            )ru
+        ON(ru.idR=a.idR)) rua
+    JOIN
+        (SELECT idAsignatura AS idA, nombre AS asignatura FROM Asignaturas) a
+    ON(rua.idA=a.idA);
+END $$
+DELIMITER ;
+;
+-- CALL proce_consulta_asesoria();
+
+DROP PROCEDURE IF EXISTS proce_cambio_estado;
+DELIMITER $$
+CREATE PROCEDURE proce_cambio_estado( in in_id INT, in in_estado CHAR(1), in in_option CHAR(1) )
+    DETERMINISTIC
+BEGIN
+    IF in_option = 'C' THEN 
+        UPDATE Cursos SET estado = in_estado WHERE (idCurso = in_id);
+    ELSE
+        UPDATE AreasApoyo SET estado = in_estado WHERE (idAreasApoyo = in_id);
+    END IF;
+END $$
+DELIMITER ;
+;
+ CALL proce_cambio_estado( 1, 'E', 'A');
+ CALL proce_cambio_estado( 999, 'E', 'C');

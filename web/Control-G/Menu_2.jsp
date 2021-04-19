@@ -1,15 +1,15 @@
 <%-- 
-    Document   : Menu
-    Created on : 17/04/2021, 10:04:53 PM
+    Document   : Menu_2
+    Created on : 18/04/2021, 10:40:15 PM
     Author     : danielhernandezreyes
 --%>
 
 <%@page import="mx.com.siae.modelo.beans.ReporteAsesoria"%>
-<%@page import="mx.com.siae.modelo.beans.DocenteR"%>
-<%@page import="mx.com.siae.modelo.beans.Asignatura"%>
-<%@page import="mx.com.siae.modelo.Session"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.beans.ReporteCurso"%>
+<%@page import="mx.com.siae.modelo.Session"%>
+<%@page import="mx.com.siae.modelo.beans.DocenteR"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="mx.com.siae.modelo.beans.Asignatura"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

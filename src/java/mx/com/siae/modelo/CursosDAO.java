@@ -51,16 +51,12 @@ public class CursosDAO {
     }
     /**
      * Método agrega un nuevo curso a la BD.
-     * @param nuevo El curso nuevo para ingresar
-     * @return
-     * <dl>
-     *  <dt><h3>True</h3></dt><dd>La operación fue completada.</dd>
-     *  <dt><h3>False</h3></dt><dd>La operación fue cancelada.</dd>
-     * </dl>
+     * @param nuevo Los datos del curso nuevo a registrar.
+     * 
      * @throws ClassNotFoundException Excepción al establecer el conector.
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
-    public boolean addCurso(Curso nuevo) throws ClassNotFoundException, SQLException{
+    public void addCurso(Curso nuevo) throws ClassNotFoundException, SQLException{
         String sql = "CALL proce_nuevo_curso(?, ?, ?, ?, ?, ?)";
         Conexion cn = new Conexion();
         cn.conectar();
@@ -71,13 +67,9 @@ public class CursosDAO {
         cn.getEstado().setInt(4, nuevo.getCupo());
         cn.getEstado().setInt(5, nuevo.getIdAsignatura());
         cn.getEstado().setString(6, nuevo.getIdResponsable());
-        cn.setResultado(cn.getEstado().executeQuery());
-        boolean estado = true;
-        while(cn.getResultado().next()){
-            estado = false;
-        }
+        cn.getEstado().executeUpdate();
+        
         cn.getEstado().close();
         cn.getConexion().close();
-        return estado;
     }
 }

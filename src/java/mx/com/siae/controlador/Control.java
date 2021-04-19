@@ -21,6 +21,7 @@ import mx.com.siae.modelo.UsuariosDAO;
 import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.Curso;
 import mx.com.siae.modelo.beans.DocenteR;
+import mx.com.siae.modelo.beans.ReporteAsesoria;
 import mx.com.siae.modelo.beans.ReporteCurso;
 
 /**
@@ -51,78 +52,45 @@ public class Control extends HttpServlet {
         }else{
             try {
                 String clave = request.getParameter("clave");
-                CursosDAO crl;
+                response.resetBuffer();
                 ArrayList<ReporteCurso> list;
-                switch(clave){
-                    case "add":
-                        crl = new CursosDAO();
-                        Curso nuevo = new Curso();
-                        // idCurso&idResponsable&estado&cupo&tipo&idAsignatura
+                ArrayList<ReporteAsesoria> listRA;
+                
+                // Cursos
+                if(clave.equals("add") || clave.equals("course")){
+                    CursosDAO crl = new CursosDAO();
+                    
+                    if(clave.equals("course")) {
+                        request.setAttribute("msj", "Consulta registro de cursos");
+                    }
+                    if(clave.equals("add")) {
+                        // Leer los parametros
                         String idCurso = request.getParameter("idCurso");
                         String idResponsable = request.getParameter("idResponsable");
                         String estado = request.getParameter("estado");
                         String cupo = request.getParameter("cupo");
                         String tipo = request.getParameter("tipo");
                         String idAsignatura = request.getParameter("idAsignatura");
-                        nuevo.setCupo(Integer.parseInt(cupo));
-                        nuevo.setEstado((estado==null)?"D":"E");
-                        nuevo.setIdAsignatura(Integer.parseInt(idAsignatura));
-                        nuevo.setIdCurso(Integer.parseInt(idCurso));
-                        nuevo.setIdResponsable(idResponsable);
-                        nuevo.setTipo(tipo);
-                        boolean estatus = crl.addCurso(nuevo);
-                        request.setAttribute("msj", (estatus)?"Curso registrado":"Curso no registrado");
-                        list = crl.reporteCursos();
-                        // Obtener la lista de las asignaturas habilitadas
-                        ArrayList<Asignatura> listaA = consultarA();
-                        // Obtener la lista de los docentes
-                        ArrayList<DocenteR> listaD = consultarD();
-                        // Enviar los datos obtenidos
-                        request.setAttribute("lista", list);
-                        request.setAttribute("lista-A", listaA);
-                        request.setAttribute("lista-D", listaD);
-                        request.setAttribute("type", "Curso");
-                        //response.reset();
-                        //request.removeAttribute("clave");
-                        request.getRequestDispatcher("Control-G/Menu.jsp").forward(request, response);
-                    break;
-                    case "course":
-                        crl = new CursosDAO();
-                        request.setAttribute("msj", "Consulta registro de cursos");
-                        list = crl.reporteCursos();
-                        // Enviar los datos obtenidos
-                        request.setAttribute("lista", list);
-                        // Consultar Asignaturas activas y los docentes
-                        request.setAttribute("lista-A", consultarA());
-                        request.setAttribute("lista-D", consultarD());
-                        request.setAttribute("type", "Curso");
-                        request.getRequestDispatcher("/Control-G/Menu.jsp").forward(request, response);
-                    break;
-                    case "asesor":
-                        crl = new CursosDAO();
-                        request.setAttribute("msj", "Consulta realizada");
-                        list = crl.reporteCursos();
-                        request.setAttribute("lista", list);
-                        request.setAttribute("type", "Asesor");
-                        request.getRequestDispatcher("/Control-G/Menu.jsp").forward(request, response);
-                    break;
-                    case "change":// Habilitar o desabilitar un curso
-                        crl = new CursosDAO();
-                        request.setAttribute("msj", "Consulta realizada"); // 
-                        list = crl.reporteCursos();
-                        request.setAttribute("lista", list);
-                        request.setAttribute("type", "Curso");
-                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
-                    break;
-                    case "session":// Salida de la pagina
-                        crl = new CursosDAO();
-                        request.setAttribute("msj", "Consulta realizada");
-                        list = crl.reporteCursos();
-                        request.setAttribute("lista", list);
-                        request.setAttribute("type", "Curso");
-                        request.getRequestDispatcher("/Control/Menu.jsp").forward(request, response);
-                    break;
+                        Curso nuevo = addDataCurso(idCurso,idResponsable,estado,cupo,tipo,idAsignatura);
+                        // Resutado de la consulta con la base de datos
+                        crl.addCurso(nuevo);
+                        request.setAttribute("msj", "Operación de curso");
+                        
+                    }
+                    
+                    list = crl.reporteCursos();
+                    request.setAttribute("lista", list); // Enviar los datos obtenidos
+                    // Consultar Asignaturas activas y los docentes
+                    request.setAttribute("lista-A", consultarA());
+                    request.setAttribute("lista-D", consultarD());
+                    request.setAttribute("type", "Curso");
+                    
+                    request.getRequestDispatcher("Control-G/Menu.jsp").forward(request, response);
                 }
+                
+                
+                
+                
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");
@@ -139,6 +107,19 @@ public class Control extends HttpServlet {
         }
         
     }
+    
+    private Curso addDataCurso(String idCurso, String idResponsable, String estado, String cupo, String tipo, String idAsignatura){
+        Curso nuevo = new Curso();
+        nuevo.setCupo(Integer.parseInt(cupo));
+        nuevo.setEstado((estado==null)?"D":"E");
+        nuevo.setIdAsignatura(Integer.parseInt(idAsignatura));
+        nuevo.setIdCurso(Integer.parseInt(idCurso));
+        nuevo.setIdResponsable(idResponsable);
+        nuevo.setTipo(tipo);
+        return nuevo;
+    }
+    
+    
     
     private ArrayList<Asignatura> consultarA() throws SQLException, ClassNotFoundException {
         AsignaturaDAO crlA = new AsignaturaDAO();
