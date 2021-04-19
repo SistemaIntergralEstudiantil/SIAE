@@ -40,7 +40,6 @@ content-item {
 
 .text {
     font-size: 1.5rem;
-    
     margin-left: 10rem;
     margin-right: 10rem;
     margin-top: 5rem;
@@ -64,3 +63,10 @@ content-item {
     background: var(--color-hover);
 }
 
+#image {
+  background-image: url(/SIAE/resource/images/portada_ITSOEH.jpg);
+  max-width:100%;
+  width: auto;
+  height:300;
+  opacity: 0.2;
+}
