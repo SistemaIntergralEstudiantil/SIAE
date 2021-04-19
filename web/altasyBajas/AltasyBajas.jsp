@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y
 estudiantes consultar información sobre los diferentes servicios del instituto"/>
-        <title>Altas y bajas</title>
+        <title>Altas y bajas de Materias</title>
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
     </head>
