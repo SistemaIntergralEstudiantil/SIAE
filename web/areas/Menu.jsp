@@ -18,16 +18,16 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-AreasApoyo.css"/>
     </head>
-    <body>
+    <body style="background-image: url(/SIAE/resource/images/menuAreas.png);background-size: 80% 100%;background-position: 60% -100%">
         <%
-            
+
             HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
-            if(sec == null){
+            if (sec == null) {
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);
             }
         %>
         <header>
@@ -40,6 +40,12 @@
                 </ul>
             </nav>
         </header>
+        
+        <div style="color: #00a3aa;text-align: center;">
+            <h1>
+                Las áreas de apoyo buscan fortalecer los procesos de formación de los estudiantes vulnerables a través de la implementación de un programa.
+            </h1>
+        </div>
         <form action="/SIAE/Asesorias" method="POST" >
             <div class="content-data_row" >
                 <select name="servicio" class="data_d">

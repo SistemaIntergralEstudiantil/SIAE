@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="resource/css/Style-General.css"/>
         <link rel="stylesheet" href="resource/css/Style-Login.css"/>
     </head>
-    <body>
+    <body style="background-image: url(/SIAE/resource/images/Login.png);background-size: 100% 150%;">
         <p align="right">
             <table width="100%">
                 <tr>
@@ -31,11 +31,11 @@
             <form action="Login" method="POST" >
                 <div  >
                     <label  for="user">Usuario:</label>
-                    <input  id="user" type="text" name="idUsuario" />
+                    <input  id="user" type="text" name="idUsuario" placeholder="Matricula o Número de control"/>
                 </div><br>
                 <div  >
                     <label  for="pass">Contraseña:</label>
-                    <input  id="pass" type="password" name="contra" />
+                    <input  id="pass" type="password" name="contra" placeholder="Introduce tu contraseña" />
                 </div><br>
                 <div  >
                     <select name="TIPO DE USUARIO">

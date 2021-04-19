@@ -69,6 +69,9 @@
                 </ul>
             </nav>
         </header>
+        <abbr title="Seleccione el menú desplegable para filtrar las asignaturas por semestre ">
+            <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right"/>  
+        </abbr>
         <div class="content-table" >
             <table class="table" >
                     <thead>

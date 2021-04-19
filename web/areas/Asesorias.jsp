@@ -21,15 +21,16 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Asesorias.css"/>
     </head>
     <body>
+
         <%
-            
+
             HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
-            if(sec == null){
+            if (sec == null) {
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);
             }
         %>
         <header>
@@ -42,38 +43,50 @@
                 </ul>
             </nav>
         </header>
+        <div style="color: #00a3aa;text-align: center;">
+            <h3>
+                <BR>
+                DIRECTORIO DE ASESORES ACADÉMICOS PARA EL SEMESTRE ENERO-MAYO 2021
+            </h3>
+            <h5>
+                EL ESTUDIANTE PODRÁ SOLICITAR EL APOYO DE CUALQUIER ASESOR SIN IMPORTAR EL PROGRAMA EDUCATIVO 
+                AL QUE PERTENEZCA.
+            </h5>
+        </div>
+
+
         <div class="content-table" >
             <table class="table" >
-                    <thead>
-                        <tr>
-                            <th style="width: 6rem;">Docente</th>
-                            <th style="width: 14rem;">Asignatura</th>
-                            <th style="width: 2rem;">Dia</th>
-                            <th style="width: 10rem;">Horario</th>
-                            <th style="width: 6rem;">URL</th>
-                            <th style="width: 6rem;">Código</th>
-                        </tr>
-                    </thead>
-                    <tbody id="content-body" >
-                        <%
-                            if(sec != null){
-                                ArrayList<ReporteAsesoria> l = (ArrayList<ReporteAsesoria>) request.getAttribute("lista");
-                                for(ReporteAsesoria r : l){
-                        %>
-                        <tr >
-                            <th><%=r.getDocente() %></th>
-                            <th><%=(r.getAsignatura()==null)?"No espesificado":r.getAsignatura() %></th>
-                            <th><%=r.getDia() %></th>
-                            <th><%=r.getHorario() %></th>
-                            <th><%=r.getUrl() %></th>
-                            <th><%=r.getCodigo() %></th>
-                        </tr>
-                        <%
-                                }
+                <thead>
+                    <tr>
+                        <th style="width: 6rem;">Docente</th>
+                        <th style="width: 14rem;">Asignatura</th>
+                        <th style="width: 2rem;">Dia</th>
+                        <th style="width: 10rem;">Horario</th>
+                        <th style="width: 6rem;">URL</th>
+                        <th style="width: 6rem;">Código</th>
+                    </tr>
+                </thead>
+                <tbody id="content-body" >
+                    <%
+                        if (sec != null) {
+                            ArrayList<ReporteAsesoria> l = (ArrayList<ReporteAsesoria>) request.getAttribute("lista");
+                            for (ReporteAsesoria r : l) {
+                    %>
+                    <tr >
+                        <th><%=r.getDocente()%></th>
+                        <th><%=(r.getAsignatura() == null) ? "No espesificado" : r.getAsignatura()%></th>
+                        <th><%=r.getDia()%></th>
+                        <th><%=r.getHorario()%></th>
+                        <th><%=r.getUrl()%></th>
+                        <th><%=r.getCodigo()%></th>
+                    </tr>
+                    <%
                             }
-                        %>
-                    </tbody>
-                </table>
+                        }
+                    %>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

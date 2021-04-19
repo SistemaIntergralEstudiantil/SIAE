@@ -16,8 +16,9 @@
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Curricula.css"/>
+        
     </head>
-    <body>
+    <body style="background-image: url(/SIAE/resource/images/menuPrincipal.png);background-size: 100% 150%;background-repeat: no-repeat">
         <%
             
             HttpSession sesion = request.getSession();
@@ -52,5 +53,8 @@
                 <input class="data_d input-submit" type="submit" value="Consultar">
             </div>
         </form>
+        <abbr title="Seleccione el menú desplegable para realizar una busqueda acerca de tu seguimiento académico ">
+            <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right;"/>  
+        </abbr>
     </body>
 </html>

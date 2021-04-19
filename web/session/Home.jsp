@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Home.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Redes.css"/>
     </head>
-    <body>
+    <body style="background-image: url(/SIAE/resource/images/menuPrincipal.png);background-size: 100% 150%;background-position: 0% -35%;background-repeat: no-repeat">
         <%
             HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
@@ -40,7 +40,7 @@
                     <% if(user != null && user.getRol().endsWith("A") ) { %>
                     <li><a class="content-item-G content-item" href="">Curso de verano</a></li>
                     <% } %>
-                    <li><a class="content-item-G content-item" href="/SIAE/curricula/Menu.jsp">Curricula</a></li>
+                    <li><a class="content-item-G content-item" href="/SIAE/curricula/Menu.jsp">Currícula</a></li>
                     <% if(user != null && user.getRol().endsWith("A") ) { %>
                     <li><a class="content-item-G content-item" href="">Altas y bajas</a></li>
                     <% } %>
