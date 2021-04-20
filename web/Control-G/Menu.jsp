@@ -93,7 +93,7 @@
                         <input type="hidden" name="clave" value="change-c">
                         <input type="hidden" name="idCurso" value="<%=r.getIdCurso()%>">
                         <input type="hidden" name="estado" value="<%=r.getEstado()%>">
-                        <input type="submit" value="<%=(r.getEstado().equals("E"))?"Disable":"Enable" %>">
+                        <input class="input-submit-table input-T-E" type="submit" value="<%=(r.getEstado().equals("E"))?"Disable":"Enable" %>">
                         </form></th>
                     <th><%=r.getCupo() %></th>
                     <th><%=r.getAsignatura() %></th>
@@ -103,7 +103,7 @@
                         <input type="hidden" name="idCurso" value="<%=r.getIdCurso() %>">
                         <input type="hidden" name="responsable" value="<%=r.getResponsable() %>">
                         <input type="hidden" name="asignatura" value="<%=r.getAsignatura() %>">
-                        <input type="submit" value="Sesiones">
+                        <input class="<%=(r.getEstado().equals("E"))?"input-submit-table input-T-E":" input-submit-table input-T-D" %>" type="submit" value="Sesiones">
                         </form></th>
                 </tr><% } } %>
             </tbody>

@@ -34,8 +34,8 @@
         </ul>
         </nav>
         </header>
-        <div style="color: #00a3aa;text-align: center;">
-            <h1>Las áreas de apoyo buscan fortalecer los procesos de formación de los estudiantes vulnerables a través de la implementación de un programa.</h1>
+        <div class="content-data_row description">
+            <p>Las áreas de apoyo buscan fortalecer los procesos de formación de los estudiantes vulnerables a través de la implementación de un programa.</p>
         </div>
         <form action="/SIAE/Asesorias" method="POST" >
         <div class="content-data_row" ><select name="servicio" class="data_d">
@@ -45,6 +45,8 @@
         <div class="content-data_row" >
             <input type="hidden" name="clave" value="menu">
             <input class="data_d input-submit" type="submit" value="Consultar"></div>
+        <div class="content-data_row" >
+            <a class="item-G-A-Selec content-a" href="/SIAE/session/Home.jsp">Ménu principal</a></div>
         </form>
     </body>
 </html>

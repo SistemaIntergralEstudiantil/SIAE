@@ -102,7 +102,9 @@
                     </tbody>
                 </table>
         </div>
-        <a class="item-G-A-Selec content-a" href="session/Home.jsp" >Menú principal</a>
+        <div class="content-data_row" >
+            <a class="item-G-A-Selec content-a" href="session/Home.jsp" >Menú principal</a>
+        </div>
         <script src="/SIAE/resource/js/Script-Asignaturas.js"></script>
     </body>
 </html>

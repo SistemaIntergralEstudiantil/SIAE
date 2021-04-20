@@ -43,16 +43,16 @@
         <div class="content-center">
         <div class="content-left">
             <form action="CambiosCA" method="POST" onsubmit="return validarForm2();" >
-                <div class="item-option" ><label>URL: <input class="input-number" id="url" type="url" name="url" maxlength="200" /></label></div>
-                <div class="item-option" ><label>Dia: <select class="item-selec" id="dia" name="dia">
+                <div><label>URL: <input class="input-number" id="url" type="url" name="url" maxlength="200" /></label></div>
+                <div><label>Dia: <select class="item-selec" id="dia" name="dia">
                     <option value="0" disabled selected>Dia ...</option>
                     <option value="Lunes">Lunes</option><option value="Martes">Martes</option><option value="Miercoles">Miercoles</option>
                     <option value="Lunes">Jueves</option><option value="Lunes">Viernes</option>
                 </select></label>
                 </div>
-                <div class="item-option" ><label>Hora inicio: <input class="input-number" type="time" name="hora_inicio" id="hora_inicio" min="07:00" max="21:00" value="08:00" ></label></div>
-                <div class="item-option" ><label>Hora fin: <input class="input-number" type="time" name="hora_fin" id="hora_fin" min="07:00" max="21:00" value="08:00" ></label></div>
-                <div class="item-option" ><label>Código: <input class="input-number" id="codigo" type="text" maxlength="100" name="codigo" /></label></div>
+                <div><label>Hora inicio: <input class="input-number" type="time" name="hora_inicio" id="hora_inicio" min="07:00" max="21:00" value="08:00" ></label></div>
+                <div><label>Hora fin: <input class="input-number" type="time" name="hora_fin" id="hora_fin" min="07:00" max="21:00" value="08:00" ></label></div>
+                <div><label>Código: <input class="input-number" id="codigo" type="text" maxlength="100" name="codigo" /></label></div>
                 <div class="item-option" ><label>Asignatura: <select class="item-selec" id="idAsignatura" name="idAsignatura">
                         <option value="0" disabled selected>Asignatura ...</option>
                 <% if(sec != null) { 
@@ -69,7 +69,7 @@
                         <option value="<%=d.getIdUsuario() %>"><%=d.getNombre() %></option>
                 <% } } %></select></label>
                 </div>
-                <div class="item-option" ><input type="hidden" name="clave" value="add-A">
+                <div><input type="hidden" name="clave" value="add-A">
                     <input class="input-submit" id="add" type="submit" value="Agregar Asesoria" ></div>
             </form>
         </div>
@@ -99,7 +99,7 @@
                         <input type="hidden" name="clave" value="change-A">
                         <input type="hidden" name="idAsesoria" value="<%=r.getIdAsesoria() %>">
                         <input type="hidden" name="estado" value="<%=r.getEstado() %>">
-                        <input type="submit" value="<%=(r.getEstado().equals("E"))?"Disable":"Enable" %>">
+                        <input class="input-submit-table <%=(r.getEstado().equals("E"))?"input-T-E":"input-T-D" %> " type="submit" value="<%=(r.getEstado().equals("E"))?"Disable":"Enable" %>">
                         </form></th>
                     <th><%=r.getDocente() %></th>
                     <th><%=r.getCodigo() %></th></tr><% } } %>

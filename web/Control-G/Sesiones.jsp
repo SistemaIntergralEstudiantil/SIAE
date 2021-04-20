@@ -31,7 +31,7 @@
     <ul class="content-G content">
         <% String asignatura = (String)request.getAttribute("asignatura"); %>
         <% String responsable = (String)request.getAttribute("responsable"); %>
-        <li><a class="content-item-G content-item" href="#dia">Clases de: <%=(responsable==null)?"":responsable %> de la materia <%=(asignatura==null)?"":asignatura %></a></li>
+        <li><a class="content-item-G content-item info" href="#dia">Clases de: <%=(responsable==null)?"":responsable %> de<br>la materia <%=(asignatura==null)?"":asignatura %></a></li>
         <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control Cursos</a></li>
         <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/></li>
     </ul>
@@ -41,7 +41,7 @@
         <div class="content-left">
             <form action="Control" method="POST" onsubmit="return validarForm3();" >
                 <% String idCurso = (String)request.getAttribute("idCurso"); %>
-                <div class="item-option" ><label>Id Curso:</label><label><%=(idCurso==null)?"":idCurso %></label></div>
+                <div class="item-option" ><label>Id Curso:</label><label><%=(idCurso==null)?"": idCurso %></label></div>
                 <div class="item-option" ><label>Dia:<select class="item-selec" id="dia" name="dia">
                     <option value="0" disabled selected>Dia ...</option>
                     <option value="Lunes">Lunes</option><option value="Martes">Martes</option><option value="Miercoles">Miercoles</option>

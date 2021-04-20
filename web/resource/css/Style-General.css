@@ -26,6 +26,9 @@ body {
     --color-base: #156590;
     --color-hover: #1565C0;
     --color-border: #DDDDDD;
+    --color-description: #00A3AA;
+    --color-disable: #DE2626;
+    --color-d-hover:#F52727;
 }
 
 .content-G {
@@ -78,3 +81,30 @@ tr:nth-child(even) {
     list-style: none;
 }
 
+.item-G-A-Selec {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.content-a {
+    font-size: 1.1em;
+    color: #fff;
+    background-color: var(--color-base);
+    
+    margin: 2rem 30%;
+    padding: 1em 2.5em 1em 2.5em;
+}
+.content-a:hover{
+    background: var(--color-hover);
+}
+
+
+.description {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-description);
+    text-align: center;
+    
+    margin: 8rem;
+}

@@ -52,6 +52,9 @@
                 <input type="hidden" name="clave" value="menu">
                 <input class="data_d input-submit" type="submit" value="Consultar">
             </div>
+            <div class="content-data_row" >
+                <a class="item-G-A-Selec content-a" href="/SIAE/session/Home.jsp">Ménu principal</a>
+            </div>
         </form>
         <abbr title="Seleccione el menú desplegable para realizar una busqueda acerca de tu seguimiento académico ">
             <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right;"/>  
