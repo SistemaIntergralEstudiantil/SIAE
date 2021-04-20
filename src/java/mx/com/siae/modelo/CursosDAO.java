@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import mx.com.siae.modelo.beans.Curso;
 import mx.com.siae.modelo.beans.ReporteCurso;
+import mx.com.siae.modelo.beans.Sesion;
 
 /**
  *
@@ -70,6 +71,76 @@ public class CursosDAO {
         cn.getEstado().executeUpdate();
         
         cn.getEstado().close();
+        cn.getConexion().close();
+    }
+    /**
+     * Método cambia el estado del curso asignada.
+     * @param change Los datos del curso.
+     * 
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void changeStatusCurso(Curso change) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_estado_curso(?, ?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, change.getIdCurso());
+        cn.getEstadoProce().setString(2, change.getEstado());
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
+    /**
+     * Método obtiene un lista de las sesiones de un curso espesifico.
+     * @param curso Datos del curso para obtener las sesiones.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista de sesiones del curso.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>El curso no tiene sesiones.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<Sesion> reporteToSesiones(Curso curso) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_consulta_sesion(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, curso.getIdCurso());
+        cn.setResultado(cn.getEstadoProce().executeQuery());
+        ArrayList<Sesion> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            Sesion s = new Sesion();
+            s.setIdSesion(cn.getResultado().getInt("idSesion"));
+            s.setIdCurso( cn.getResultado().getInt("idCurso") );
+            s.setDia(cn.getResultado().getString("dia"));
+            s.setHora_inicio(cn.getResultado().getTime("hora_inicio"));
+            s.setHora_fin(cn.getResultado().getTime("hora_fin"));
+            t.add(s);
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return t;
+    }
+    /**
+     * Método cambia el estado del curso asignada.
+     * @param change Los datos del curso.
+     * 
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void newSessionCurso(Sesion change) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_nueva_sesion(?, ?, ?, ?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, change.getIdCurso());
+        cn.getEstadoProce().setString(2, change.getDia());
+        cn.getEstadoProce().setString(3, change.getHora_inicio().toString());
+        cn.getEstadoProce().setString(4, change.getHora_fin().toString());
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
         cn.getConexion().close();
     }
 }

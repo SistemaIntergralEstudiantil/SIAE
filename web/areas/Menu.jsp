@@ -19,45 +19,32 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-AreasApoyo.css"/>
     </head>
     <body style="background-image: url(/SIAE/resource/images/menuAreas.png);background-size: 80% 100%;background-position: 60% -100%">
-        <%
-
-            HttpSession sesion = request.getSession();
+        <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
             if (sec == null) {
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);
-            }
-        %>
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response); } %>
         <header>
-            <nav>
-                <ul class="content-G content">
-                    <li><h1 class="content-item-G content-item" >Areas de apoyo escolar</h1></li>                    
-                    <li>
-                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" />
-                    </li>
-                </ul>
-            </nav>
+        <nav>
+        <ul class="content-G content">
+            <li><h1 class="content-item-G content-item" >Areas de apoyo escolar</h1></li>                    
+            <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" /></li>
+        </ul>
+        </nav>
         </header>
-        
         <div style="color: #00a3aa;text-align: center;">
-            <h1>
-                Las áreas de apoyo buscan fortalecer los procesos de formación de los estudiantes vulnerables a través de la implementación de un programa.
-            </h1>
+            <h1>Las áreas de apoyo buscan fortalecer los procesos de formación de los estudiantes vulnerables a través de la implementación de un programa.</h1>
         </div>
         <form action="/SIAE/Asesorias" method="POST" >
-            <div class="content-data_row" >
-                <select name="servicio" class="data_d">
-                    <option value="" disabled selected>Áreas</option>
-                    <option value="A">Asesorias</option> 
-                    <option value="S">Servicio psicologico</option>
-                </select>
-            </div>
-            <div class="content-data_row" >
-                <input type="hidden" name="clave" value="menu">
-                <input class="data_d input-submit" type="submit" value="Consultar">
-            </div>
+        <div class="content-data_row" ><select name="servicio" class="data_d">
+            <option value="" disabled selected>Áreas</option>
+            <option value="A">Asesorias</option> 
+            <option value="S">Servicio psicologico</option></select></div>
+        <div class="content-data_row" >
+            <input type="hidden" name="clave" value="menu">
+            <input class="data_d input-submit" type="submit" value="Consultar"></div>
         </form>
     </body>
 </html>

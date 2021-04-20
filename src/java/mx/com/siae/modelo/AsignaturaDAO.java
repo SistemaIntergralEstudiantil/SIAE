@@ -88,7 +88,7 @@ public class AsignaturaDAO {
         return t;
     }
     /**
-     * Método obtiene un lista de todas las asignaturas que estan habilitasa en<br> 
+     * Método obtiene un lista de todas las asignaturas que estan habilitadas en<br> 
      * el semestre en curso.
      * @return
      * <dl>

@@ -7,6 +7,7 @@ package mx.com.siae.controlador;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +22,8 @@ import mx.com.siae.modelo.UsuariosDAO;
 import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.Curso;
 import mx.com.siae.modelo.beans.DocenteR;
-import mx.com.siae.modelo.beans.ReporteAsesoria;
 import mx.com.siae.modelo.beans.ReporteCurso;
+import mx.com.siae.modelo.beans.Sesion;
 
 /**
  *
@@ -54,19 +55,22 @@ public class Control extends HttpServlet {
                 String clave = request.getParameter("clave");
                 response.resetBuffer();
                 ArrayList<ReporteCurso> list;
-                ArrayList<ReporteAsesoria> listRA;
                 
                 // Cursos
-                if(clave.equals("add") || clave.equals("course")) {
+                if(clave.equals("add") || clave.equals("course") || clave.equals("change-c")) {
                     CursosDAO crl = new CursosDAO();
                     
                     if(clave.equals("course")) {
                         request.setAttribute("msj", "Consulta registro de cursos");
                     }
-                    if(clave.equals("change")) {
-                        
-                    }
-                    if(clave.equals("session")) {
+                    if(clave.equals("change-c")) {
+                        String idCurso = request.getParameter("idCurso");
+                        String estado = request.getParameter("estado");
+                        Curso c = new Curso();
+                        c.setIdCurso(Integer.parseInt(idCurso));
+                        c.setEstado(estado.equals("E")?"D":"E");
+                        crl.changeStatusCurso(c);
+                        request.setAttribute("msj", "Operación curso");
                     }
                     
                     if(clave.equals("add")) {
@@ -94,8 +98,38 @@ public class Control extends HttpServlet {
                     request.getRequestDispatcher("Control-G/Menu.jsp").forward(request, response);
                 }
                 
-                
-                
+                if(clave.equals("session-c") || clave.equals("session-add")) {
+                    CursosDAO crl = new CursosDAO();
+                    ReporteCurso repoC = new ReporteCurso();
+                    String idCurso = request.getParameter("idCurso");
+                    String asignatura = request.getParameter("asignatura");
+                    String responsable = request.getParameter("responsable");
+                    repoC.setIdCurso(Integer.parseInt(idCurso));
+                    repoC.setAsignatura(asignatura);
+                    repoC.setResponsable(responsable);
+                    request.setAttribute("msj", "Consulta registro de sesiones");
+                    
+                    if(clave.equals("session-add")) {
+                        String dia = request.getParameter("dia");
+                        String hora_inicio = request.getParameter("hora_inicio");
+                        String hora_fin = request.getParameter("hora_fin");
+                        Sesion change = new Sesion();
+                        change.setIdCurso(Integer.parseInt(idCurso));
+                        change.setDia(dia);
+                        change.setHora_inicio(convertStringToTime(hora_inicio));
+                        change.setHora_fin(convertStringToTime(hora_fin));
+                        crl.newSessionCurso(change);
+                        request.setAttribute("msj", "Operación sesión");
+                    }
+                    Curso curso = new Curso();
+                    curso.setIdCurso(repoC.getIdCurso());
+                    ArrayList<Sesion> lista = crl.reporteToSesiones(curso);
+                    request.setAttribute("idCurso", idCurso);
+                    request.setAttribute("asignatura", asignatura);
+                    request.setAttribute("responsable", responsable);
+                    request.setAttribute("lista-S", lista);
+                    request.getRequestDispatcher("Control-G/Sesiones.jsp").forward(request, response);
+                }
                 
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
@@ -112,6 +146,14 @@ public class Control extends HttpServlet {
             }
         }
         
+    }
+    
+    private Time convertStringToTime(String time){
+        String[] in = time.split(":");
+        int h = Integer.parseInt(in[0]);
+        int m = Integer.parseInt(in[1]);
+        Time ini = new Time( h, m, 0);
+        return ini;
     }
     
     private Curso addDataCurso(String idCurso, String idResponsable, String estado, String cupo, String tipo, String idAsignatura){

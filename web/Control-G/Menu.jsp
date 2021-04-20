@@ -89,17 +89,20 @@
                         for(ReporteCurso r : l) { %>
                 <tr><th><%=r.getIdCurso() %></th>
                     <th><%=r.getTipo() %></th>
-                    <th><form action="CambiosCA" method="POST" >
-                        <input type="hidden" name="clave" value="change">
-                        <input type="hidden" name="idCurso" value="<%=r.getIdCurso() %>">
+                    <th><form action="Control" method="POST" >
+                        <input type="hidden" name="clave" value="change-c">
+                        <input type="hidden" name="idCurso" value="<%=r.getIdCurso()%>">
+                        <input type="hidden" name="estado" value="<%=r.getEstado()%>">
                         <input type="submit" value="<%=(r.getEstado().equals("E"))?"Disable":"Enable" %>">
                         </form></th>
                     <th><%=r.getCupo() %></th>
                     <th><%=r.getAsignatura() %></th>
                     <th><%=r.getResponsable() %></th>
-                    <th><form action="CambiosCA" method="POST">
-                        <input type="hidden" name="clave" value="session">
+                    <th><form action="Control" method="POST" onsubmit="return <%=(r.getEstado().equals("E"))?true:false %>;" >
+                        <input type="hidden" name="clave" value="session-c">
                         <input type="hidden" name="idCurso" value="<%=r.getIdCurso() %>">
+                        <input type="hidden" name="responsable" value="<%=r.getResponsable() %>">
+                        <input type="hidden" name="asignatura" value="<%=r.getAsignatura() %>">
                         <input type="submit" value="Sesiones">
                         </form></th>
                 </tr><% } } %>

@@ -275,24 +275,28 @@ CALL proce_nueva_asig(301,1, 'Taller de Ética','CS',4,'E');
 CALL proce_nueva_asig(401,1, 'Matemáticas Discretas','CB',5,'E');
 CALL proce_nueva_asig(501,1, 'Taller de Administración','CE',4,'E');
 CALL proce_nueva_asig(601,1, 'Fundamentos de Investigación','CS',4,'E');
+
 CALL proce_nueva_asig(102,2, 'Cálculo Integral','CB','5','E');
 CALL proce_nueva_asig(202,2, 'Programación Orientada a Objetos','CI','5','E');
 CALL proce_nueva_asig(302,2, 'Contabilidad Financiera','CE','4','E');
 CALL proce_nueva_asig(402,2, 'Química','CB','4','E');
 CALL proce_nueva_asig(502,2, 'Álgebra Lineal','CB','5','E');
 CALL proce_nueva_asig(602,2, 'Probabilidad y Estadística','CB','5','E');
+
 CALL proce_nueva_asig(103,3, 'Cálculo Vectorial','CB',5,'E');
 CALL proce_nueva_asig(203,3, 'Estructura de Datos','CI',5,'E');
 CALL proce_nueva_asig(303,3, 'Cultura Empresarial','CE',4,'E');
 CALL proce_nueva_asig(403,3, 'Investigación de Operaciones','CB',4,'E');
 CALL proce_nueva_asig(503,3, 'Sistemas Operativos I','CI',4,'E');
 CALL proce_nueva_asig(603,3, 'Física General','CB',5,'E');
+
 CALL proce_nueva_asig(104,4, 'Ecuaciones Diferenciales','CB','5','E');
 CALL proce_nueva_asig(204,4, 'Métodos Numéricos','CB','4','E');
 CALL proce_nueva_asig(304,4, 'Tópicos Avanzados de Programación','CI',5,'E');
 CALL proce_nueva_asig(404,4, 'Fundamentos de Base de Datos','IA','5','E');
 CALL proce_nueva_asig(504,4, 'Taller de Sistemas Operativos','DI','4','E');
 CALL proce_nueva_asig(604,4, 'Principios Eléctricos y Aplicaciones Digitales','CI','5','E');
+
 CALL proce_nueva_asig(105,5, 'Desarrollo Sustentable','CC',5,'E');
 CALL proce_nueva_asig(205,5, 'Fundamentos de Telecomunicaciones','CI',4,'E');
 CALL proce_nueva_asig(305,5, 'Taller de Base de Datos','DI',4,'E');
@@ -300,6 +304,7 @@ CALL proce_nueva_asig(405,5, 'Simulación','IA',5,'E');
 CALL proce_nueva_asig(505,5, 'Fundamentos de Ingeniería de Software','IA',4,'E');
 CALL proce_nueva_asig(605,5, 'Arquitectura de Computadoras','IA',5,'E');
 CALL proce_nueva_asig(705,5, 'Programación Web','DI',5,'E');
+
 CALL proce_nueva_asig(106,6, 'Lenguajes y Autómatas I','IA','5','E');
 CALL proce_nueva_asig(206,6, 'Redes de Computadoras','DI','5','E');
 CALL proce_nueva_asig(306,6, 'Administración de Base de Datos','DI','5','E');
@@ -307,14 +312,17 @@ CALL proce_nueva_asig(406,6, 'Programación Lógica y Funcional','IA','4','E');
 CALL proce_nueva_asig(506,6, 'Ingeniería de Software','DI','5','E');
 CALL proce_nueva_asig(606,6, 'Lenguajes de Interfaz','IA','4','E');
 CALL proce_nueva_asig(706,6, 'Taller de investigación I','CS','4','E');
+
 CALL proce_nueva_asig(107,7, 'Lenguajes y Autómatas II','DI','5','E');
 CALL proce_nueva_asig(207,7, 'Conmutación y Enrutamiento en Redes de Datos','DI','5','E');
 CALL proce_nueva_asig(307,7, 'Inteligencia Artificial','DI','4','E');
 CALL proce_nueva_asig(407,7, 'Gestión de Proyectos de Software','IA','6','E');
 CALL proce_nueva_asig(507,7, 'Sistemas Programables','DI','4','E');
+
 CALL proce_nueva_asig(108,8, 'Graficación','DI','4','E');
 CALL proce_nueva_asig(208,8, 'Administración de redes','DI','4','E');
 CALL proce_nueva_asig(308,8, 'Taller de investigación II','CS','4','E');
+
 -- ('S08','8','Servicio Social','','10','E');
 -- ('109','9','Residencia','','10','E');
  
@@ -362,6 +370,7 @@ DELIMITER ;
 ;
 -- tipo in('D', 'E')
 -- CALL proce_nuevo_respo('D','100');
+
 CALL proce_nuevo_respo('D','D00001');
 CALL proce_nuevo_respo('D','D00002');
 CALL proce_nuevo_respo('D','D00003');
@@ -398,8 +407,7 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
     DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
-        INSERT INTO
-            AreasApoyo(nombre, url, dia, hora_inicio, hora_fin, codigo, idResponsable, idAsignatura, estado) 
+        INSERT INTO AreasApoyo(nombre, url, dia, hora_inicio, hora_fin, codigo, idResponsable, idAsignatura, estado) 
         VALUES(in_nombre, in_url, dia, in_hora_inicio, in_hora_fin, in_codigo, in_idResponsable, in_idAsignatura, in_estado);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
     ELSE COMMIT;
@@ -410,18 +418,18 @@ DELIMITER ;
 
 -- idAreasApoyo, nombre, url, dia, hora_inicio, hora_fin, codigo,idResponsable, idAsignatura
 CALL proce_nueva_area('Asesoria','https://us04web.zoom.us/j/79372928750?pwd=R2svczlSaGR1T2pDenhqMGtYYUoyQT09','Lunes','7:00','9:00','','D00001',101,'D');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/eqe-jtxy-uhj','Lunes','14:00','17:00','',                                    'D00007',204,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/eqe-jtxy-uhj','Martes','7:00','8:00','',                                     'D00007',706,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/eqe-jtxy-uhj','Viernes','12:00','13:00','',                                  'D00007',706,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/uwj-ptcj-iqw','Lunes','12:00','13:00','',                                    'D00009',106,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/uwj-ptcj-iqw','Lunes','13:00','14:00','',                                    'D00009',106,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/ytn-decr-pbf','Miercoles','16:00','17:00','',                                'D00009',202,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/ytn-decr-pbf','Miercoles','17:00','18:00','',                                'D00009',202,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/eqe-jtxy-uhj','Lunes','14:00','17:00','','D00007',204,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/eqe-jtxy-uhj','Martes','7:00','8:00','', 'D00007',706,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/eqe-jtxy-uhj','Viernes','12:00','13:00','', 'D00007',706,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/uwj-ptcj-iqw','Lunes','12:00','13:00','', 'D00009',106,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/uwj-ptcj-iqw','Lunes','13:00','14:00','', 'D00009',106,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/ytn-decr-pbf','Miercoles','16:00','17:00','', 'D00009',202,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/ytn-decr-pbf','Miercoles','17:00','18:00','', 'D00009',202,'E');
  -- (9,'Asesoria','https://meet.google.com/waj-empi-zjo','Lunes','15:00','16:00','',1,###);
-CALL proce_nueva_area('Asesoria','https://meet.google.com/waj-empi-zjo','Martes','13:00','14:00','',                                  'D00001',506,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/gqk-crnm-tyq','Lunes','12:00','13:00','',                                   'D00004',606,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/gqk-crnm-tyq','Martes','17:00','18:00','',                                  'D00004',606,'E');
-CALL proce_nueva_area('Asesoria','https://meet.google.com/gqk-crnm-tyq','Viernes','7:00','8:00','',                                   'D00004',null,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/waj-empi-zjo','Martes','13:00','14:00','', 'D00001',506,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/gqk-crnm-tyq','Lunes','12:00','13:00','', 'D00004',606,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/gqk-crnm-tyq','Martes','17:00','18:00','', 'D00004',606,'E');
+CALL proce_nueva_area('Asesoria','https://meet.google.com/gqk-crnm-tyq','Viernes','7:00','8:00','', 'D00004',null,'E');
 CALL proce_nueva_area('Asesoria','https://zoom.us/j/91959756386?pwd=T253UCtoaE84Mk9ZVFVZV2ZmZ3lYQT09','Martes','13:00','14:00','ID de reunión: 9195975 6386, Código de acceso: 340566','D00003',106,'E');
 CALL proce_nueva_area('Asesoria','https://zoom.us/j/91959756386?pwd=T253UCtoaE84Mk9ZVFVZV2ZmZ3lYQT09','Viernes','8:00','9:00','ID de reunión: 9195975 6386, Código de acceso: 340566','D00003',304,'E');
 CALL proce_nueva_area('Asesoria','https://zoom.us/j/91959756386?pwd=T253UCtoaE84Mk9ZVFVZV2ZmZ3lYQT09','Viernes','12:00','13:00','ID de reunión: 9195975 6386, Código de acceso: 340566','D00003',406,'E');
@@ -465,21 +473,18 @@ CALL proce_nuevo_curso(1006, 'O', 'E',15, 101, 'D00010');
 CALL proce_nuevo_curso(1007, 'O', 'E',10, 301, 'D00012');
 CALL proce_nuevo_curso(1008, 'O', 'E',30, 501, 'D00003');
 CALL proce_nuevo_curso(1010, 'O', 'E',30, 601, 'D00006');
-       
 CALL proce_nuevo_curso(1003, 'O', 'E',20, 502, 'D00002');
 CALL proce_nuevo_curso(1025, 'O', 'E',30, 602, 'D00001');
 CALL proce_nuevo_curso(1026, 'O', 'E',15, 102, 'D00004');
 CALL proce_nuevo_curso(1027, 'O', 'E',10, 302, 'D00007');
 CALL proce_nuevo_curso(1028, 'O', 'E',30, 202, 'D00008');
 CALL proce_nuevo_curso(1023, 'O', 'E',20, 402, 'D00009');
-
 CALL proce_nuevo_curso(1014, 'O', 'E',10, 303, 'D00011');
 CALL proce_nuevo_curso(1016, 'O', 'E',15, 503, 'D00014');
 CALL proce_nuevo_curso(1017, 'O', 'E',10, 603, 'D00015');
 CALL proce_nuevo_curso(1011, 'O', 'E',30, 103, 'D00005');
 CALL proce_nuevo_curso(1012, 'O', 'E',10, 203, 'D00007');
 CALL proce_nuevo_curso(1015, 'O', 'E',30, 403, 'D00003');
-       
 CALL proce_nuevo_curso(1041, 'O', 'D',30, 104, 'D00001');
 CALL proce_nuevo_curso(1045, 'O', 'E',30, 404, 'D00004');
 CALL proce_nuevo_curso(1043, 'O', 'E',20, 204, 'D00002');
@@ -938,4 +943,15 @@ BEGIN
 END $$
 DELIMITER ;
 ;
-CALL proce_estado_asignatura(1, 'D');
+
+DROP PROCEDURE IF EXISTS proce_consulta_sesion;
+DELIMITER $$
+CREATE PROCEDURE proce_consulta_sesion(in in_idCurso INT)
+    DETERMINISTIC
+BEGIN
+    SELECT idSesion, idCurso, dia, hora_inicio, hora_fin FROM Sesiones WHERE idCurso = in_idCurso;
+END $$
+DELIMITER ;
+;
+
+CALL proce_consulta_sesion(1001);

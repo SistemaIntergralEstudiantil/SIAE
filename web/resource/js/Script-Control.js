@@ -40,7 +40,7 @@ function validarForm( e ){
     // console.log(ordinario);
     let idAsignatura = validarOptions( asignatura, 'Id de asignatura no valido ' );
     let idResponsable = validarOptions( responsable, 'Id del docente no valido ' );
-    let tipo = (ordinario===true)?'O':'V';
+    //let tipo = (ordinario===true)?'O':'V';
     if( opC !== null && opS !== null && idAsignatura !== null && idResponsable !== null ) {
         estado = (estado)?'E':'D';
         //sendAJAXAdd( opC, idResponsable, estado, opS, tipo, idAsignatura );
@@ -71,7 +71,7 @@ function validarForm2( e ){
     
     let hora_inicio = d.getElementById( 'hora_inicio' ).value;
     let hora_fin = d.getElementById( 'hora_fin' ).value;
-    let codigo = d.getElementById( 'codigo' );
+    //let codigo = d.getElementById( 'codigo' );
     let asignatura = d.getElementById( 'idAsignatura' );
     let responsable = d.getElementById( 'idResponsable' );
     //console.log(url);
@@ -80,6 +80,21 @@ function validarForm2( e ){
     let idResponsable = validarOptions( responsable, 'Id del docente no valido ' );
     let time = validarTime( hora_inicio.split( ':' )[0], hora_inicio.split( ':' )[1], hora_fin.split( ':' )[0], hora_fin.split( ':' )[1] );
     if( time !== null && url !== '' && idAsignatura !== null && idResponsable !== null ) {
+        return true;
+    }
+    return false;
+}
+
+function validarForm3( e ){
+    let d = document;
+    let hora_inicio = d.getElementById( 'hora_inicio' ).value;
+    let hora_fin = d.getElementById( 'hora_fin' ).value;
+    let dia = d.getElementById( 'dia' );
+    //console.log(url);
+    //console.log(hora_inicio);
+    let diaValue = validarOptions( dia, 'El día seleccionado no valido ' );
+    let time = validarTime( hora_inicio.split( ':' )[0], hora_inicio.split( ':' )[1], hora_fin.split( ':' )[0], hora_fin.split( ':' )[1] );
+    if( time !== null && diaValue !== null ) {
         return true;
     }
     return false;

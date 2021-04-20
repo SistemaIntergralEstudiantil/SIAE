@@ -17,14 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.AsignaturaDAO;
-import mx.com.siae.modelo.CursosDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
 import mx.com.siae.modelo.beans.Asesoria;
 import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.DocenteR;
 import mx.com.siae.modelo.beans.ReporteAsesoria;
-import mx.com.siae.modelo.beans.ReporteCurso;
 
 /**
  *
@@ -89,7 +87,9 @@ public class CambiosCA extends HttpServlet {
                         // Crear el objeto del cambio
                         Asesoria change = new Asesoria();
                         change.setIdAreasApoyo(Integer.parseInt(idAsesoria));
-                        change.setEstado((estado=="E")?"D":"E");
+                        change.setEstado((estado.equals("E"))?"D":"E");
+                        crlA = null;
+                        crlA = new AreasApoyoDAO();
                         crlA.changeStatusAsesoria(change);
                         request.setAttribute("msj", "Operación asesoria");
                     }
@@ -98,9 +98,9 @@ public class CambiosCA extends HttpServlet {
                     request.setAttribute("lista-RA", listRA);
                     request.setAttribute("lista-AA", consultarA());
                     request.setAttribute("lista-DA", consultarD());
-                    request.getRequestDispatcher("Control-G/Menu_2.jsp").forward(request, response);
+                    
                 }
-                
+                request.getRequestDispatcher("Control-G/Menu_2.jsp").forward(request, response);
                 
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);

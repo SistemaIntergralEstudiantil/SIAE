@@ -1,14 +1,8 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
+import mx.com.siae.modelo.beans.Asesoria;
 import mx.com.siae.modelo.beans.Usuarios;
 
 /**
@@ -61,6 +57,9 @@ public class Login extends HttpServlet {
                     user.setPassword(request.getParameter("contra"));
                     validarData(user);
                     // Encriptar contraseña
+                    
+                        
+                    
                     //encriptar(user);
                     
                     UsuariosDAO crl = new UsuariosDAO();

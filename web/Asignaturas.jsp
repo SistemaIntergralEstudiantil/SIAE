@@ -21,53 +21,47 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Asignatura.css"/>
     </head>
     <body>
-        <%
-            
-            HttpSession sesion = request.getSession();
+        <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
             if(sec == null){
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
-            }
-        %>
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response); } %>
         <header>
-            <nav>
-                <ul class="content-G content">
-                    <li>
-                        <select class="item-G-A-Selec content-selec" id="semestre">
-                            <option value="0" disabled selected>Semestre ...</option>
-                            <option value="1">Primero</option> 
-                            <option value="2">Segundo</option>
-                            <option value="3">Tercero</option>
-                            <option value="4">Cuarto</option> 
-                            <option value="5">Quinto</option>
-                            <option value="6">Sexto</option>
-                            <option value="7">Septimo</option> 
-                            <option value="8">Octavo</option>
-                            <option value="9">Noveno</option>
-                            <option value="10">Todos</option>
-                        </select>
-                    </li>
-                    <li>
-                        <select class="item-G-A-Selec content-selec" id="area">
-                            <option value="0" disabled selected>Áreas existentes ...</option>
-                            <option value="CB">Ciencias Básicas</option> 
-                            <option value="CI">Ciencias de la Ingeniería</option>
-                            <option value="DI">Diseño en Ingeniería</option>
-                            <option value="CS">Ciencias Sociales y Humanidades</option> 
-                            <option value="CC">Cursos Complementarios</option>
-                            <option value="CE">Ciencias Económico Administrativas</option>
-                            <option value="AL">Todas</option>
-                        </select>
-                    </li>
-                    <li><h1 class="content-item-G content-item" >Oferta curricular</h1></li>                    
-                    <li>
-                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
-                    </li>
-                </ul>
-            </nav>
+        <nav>
+        <ul class="content-G content">
+            <li>
+            <select class="item-G-A-Selec content-selec" id="semestre">
+                <option value="0" disabled selected>Semestre ...</option>
+                <option value="1">Primero</option> 
+                <option value="2">Segundo</option>
+                <option value="3">Tercero</option>
+                <option value="4">Cuarto</option> 
+                <option value="5">Quinto</option>
+                <option value="6">Sexto</option>
+                <option value="7">Septimo</option> 
+                <option value="8">Octavo</option>
+                <option value="9">Noveno</option>
+                <option value="10">Todos</option>
+            </select>
+            </li>
+            <li>
+            <select class="item-G-A-Selec content-selec" id="area">
+                <option value="0" disabled selected>Áreas existentes ...</option>
+                <option value="CB">Ciencias Básicas</option> 
+                <option value="CI">Ciencias de la Ingeniería</option>
+                <option value="DI">Diseño en Ingeniería</option>
+                <option value="CS">Ciencias Sociales y Humanidades</option> 
+                <option value="CC">Cursos Complementarios</option>
+                <option value="CE">Ciencias Económico Administrativas</option>
+                <option value="AL">Todas</option>
+            </select>
+            </li>
+            <li><h1 class="content-item-G content-item" >Oferta curricular</h1></li>                    
+            <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/></li>
+        </ul>
+        </nav>
         </header>
         <abbr title="Seleccione el menú desplegable para filtrar las asignaturas por semestre ">
             <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right"/>  
@@ -86,13 +80,11 @@
                         </tr>
                     </thead>
                     <tbody id="content-body" >
-                        <%
-                            if(sec != null){
-                                ArrayList<ReporteAsig> l = (ArrayList<ReporteAsig>) request.getAttribute("lista");
+                        <% if(sec != null) {
+                                ArrayList<ReporteAsig> l = (ArrayList<ReporteAsig>) request.getAttribute("lista"); 
                                 for(ReporteAsig r : l){
                                     String[] d = r.getDia().split(",");
-                                    String[] h = r.getHorario().split(",");
-                        %>
+                                    String[] h = r.getHorario().split(","); %>
                         <tr class="<%=r.getSemestre() %> <%=r.getArea() %>" >
                             <th rowspan="<%= d.length %>" ><%=r.getIdCurso() %></th>
                             <th rowspan="<%= d.length %>" ><%=r.getCupo() %></th>
@@ -102,19 +94,11 @@
                             <th rowspan="<%= d.length %>" ><%=r.getCredito() %></th>
                             <th rowspan="<%= d.length %>" ><%=r.getDocente() %></th>
                         </tr>
-                        <%
-                                for (int i = 1; i < h.length; i++) {
-                        %>
+                        <% for (int i = 1; i < h.length; i++) { %>
                         <tr class="<%=r.getSemestre() %> <%=r.getArea() %>" >        
                             <th rowspan="1" ><%=d[i] %></th>
                             <th rowspan="1" ><%=h[i] %></th>
-                        </tr>
-                        <%   
-                                    }
-                            
-                                }
-                            }
-                        %>
+                        </tr><%  } } } %>
                     </tbody>
                 </table>
         </div>
