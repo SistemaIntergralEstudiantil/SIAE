@@ -21,8 +21,14 @@ import mx.com.siae.modelo.beans.AlumnoRepoD;
 import mx.com.siae.modelo.beans.CursoAlumno;
 
 /**
- *
+ * Esta clase controla las petisiones del control de estados de los alumnos
  * @author danielhernandezreyes
+ * @version 21/04/2021A
+ * @see AsignaturaDAO
+ * @see CursosDAO
+ * @see Session
+ * @see AlumnoRepoD
+ * @see CursoAlumno
  */
 @WebServlet(name = "Docente", urlPatterns = {"/Docente"})
 public class Docente extends HttpServlet {
@@ -50,24 +56,27 @@ public class Docente extends HttpServlet {
                 String clave = request.getParameter("clave");
                 if(clave.equals("inicio") || clave.equals("change")){
                     String idUsuario = sec.getUser().getIdUsuario();
-                    
+                    // Cambio del reporte del alumno
                     if(clave.equals("change")){
                         String matricula = request.getParameter("matricula");
                         if(matricula!=null || !matricula.equals("")){
+                            // Obtención de los datos de la interfaz
                             String idCurso = request.getParameter("idCurso");
                             String status = request.getParameter("status");
                             CursoAlumno curalum = new CursoAlumno();
                             curalum.setMatricula(matricula);
                             curalum.setIdCurso(Integer.parseInt(idCurso));
                             curalum.setEstado(status);
+                            // Registro de los cambios
                             CursosDAO crlCA = new CursosDAO();
                             crlCA.changeStatusAlumno(curalum);
                         }
                     }
-                    
+                    // Consulta de los alumnos del docente
                     AsignaturaDAO crl = new AsignaturaDAO();
                     ArrayList<AlumnoRepoD> list = crl.reporteAlumnoCursoD(idUsuario);
                     request.setAttribute("lista", list);
+                    // Redirección a la interfaz
                     request.getRequestDispatcher("/Docente/Cursos.jsp").forward(request, response);
                 }
             } catch (ClassNotFoundException ex) {

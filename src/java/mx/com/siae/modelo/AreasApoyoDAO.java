@@ -7,7 +7,7 @@ package mx.com.siae.modelo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import mx.com.siae.modelo.beans.Asesoria;
+import mx.com.siae.modelo.beans.AreaApoyo;
 import mx.com.siae.modelo.beans.ReporteAsesoria;
 
 /**
@@ -16,7 +16,7 @@ import mx.com.siae.modelo.beans.ReporteAsesoria;
  * @author danielhernandezreyes
  * @see Conexion
  * @see ReporteAsesoria
- * @see Asesoria
+ * @see AreaApoyo
  */
 public class AreasApoyoDAO {
     /**
@@ -91,7 +91,7 @@ public class AreasApoyoDAO {
      * @throws ClassNotFoundException Excepción al establecer el conector.
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
-    public void addAsesoria(Asesoria nueva) throws ClassNotFoundException, SQLException{
+    public void addAsesoria(AreaApoyo nueva) throws ClassNotFoundException, SQLException{
         String sql = "CALL proce_nueva_area('Asesoria', ?, ?, ?, ?, ?, ?, ?, 'E');";
         Conexion cn = new Conexion();
         cn.conectar();
@@ -114,7 +114,7 @@ public class AreasApoyoDAO {
      * @throws ClassNotFoundException Excepción al establecer el conector.
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
-    public void changeStatusAsesoria(Asesoria change) throws ClassNotFoundException, SQLException{
+    public void changeStatusAsesoria(AreaApoyo change) throws ClassNotFoundException, SQLException{
         String sql = "{CALL proce_estado_asignatura( ?, ?)}";
         Conexion cn = new Conexion();
         cn.conectar();

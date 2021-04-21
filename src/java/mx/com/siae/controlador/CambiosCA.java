@@ -19,19 +19,19 @@ import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.AsignaturaDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
-import mx.com.siae.modelo.beans.Asesoria;
+import mx.com.siae.modelo.beans.AreaApoyo;
 import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.DocenteR;
 import mx.com.siae.modelo.beans.ReporteAsesoria;
 
 /**
  * Esta clase representa el control de las peticiones para la administración de
- * las respuestas, para las páginas de control.
+ * las respuestas, para las páginas de control se asesorias.
  * @version 21/04/2021A
  * @author danielhernandezreyes
  * @see Session
  * @see UsuariosDAO
- * @see Asesoria
+ * @see AreaApoyo
  * @see Asignatura
  * @see DocenteR
  * @see ReporteAsesoria
@@ -79,7 +79,7 @@ public class CambiosCA extends HttpServlet {
                     String idAsignaturaA = request.getParameter("idAsignatura");
                     String idResponsableA = request.getParameter("idResponsable");
                     // Cración del objeto a registrar
-                    Asesoria nueva = new Asesoria();
+                    AreaApoyo nueva = new AreaApoyo();
                     nueva.setUrl(url);
                     nueva.setDia(dia);
                     nueva.setHora_inicio(convertStringToTime(hora_inicio));
@@ -87,17 +87,17 @@ public class CambiosCA extends HttpServlet {
                     nueva.setCodigo((codigo==null)?"":codigo);
                     nueva.setIdAsignatura(Integer.parseInt(idAsignaturaA));
                     nueva.setIdResponsable(idResponsableA);
-                    // Registrar la nueva Asesoria
+                    // Registrar la nueva AreaApoyo
                     crlA.addAsesoria(nueva);
                     // Asignación de un mensaje de visualización en la interfaz
                     request.setAttribute("msj", "Asesoria registrada");
                 }
-                // Cambiar el estado de una Asesoria
+                // Cambiar el estado de una AreaApoyo
                 if(clave.equals("change-A")) {
                     String idAsesoria = request.getParameter("idAsesoria");
                     String estado = request.getParameter("estado");
                     // Crear el objeto del cambio
-                    Asesoria change = new Asesoria();
+                    AreaApoyo change = new AreaApoyo();
                     change.setIdAreasApoyo(Integer.parseInt(idAsesoria));
                     change.setEstado((estado.equals("E"))?"D":"E");
                     // Reagistrar el cambio de estado

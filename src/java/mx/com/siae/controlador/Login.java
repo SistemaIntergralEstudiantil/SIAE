@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
-import mx.com.siae.modelo.beans.Asesoria;
+import mx.com.siae.modelo.beans.AreaApoyo;
 import mx.com.siae.modelo.beans.Usuarios;
 
 /**
