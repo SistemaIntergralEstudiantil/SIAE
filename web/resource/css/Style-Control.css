@@ -1,0 +1,184 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17/04/2021, 10:13:00 PM
+    Author     : danielhernandezreyes
+*/
+
+:root {
+    --height-item: 1.8rem;
+    --width-item: 5rem;
+    --height-footer: 5rem;
+}
+
+.content {
+    flex-flow: row wrap;
+    list-style: none;
+}
+
+.content-item {
+    text-decoration: none;
+    font-size: 1.7rem;
+    
+    margin: 0;
+}
+.content-item:hover {
+    background: var(--color-hover);
+}
+
+.content-img {
+    margin-top: .5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: var(--width-item);
+    padding-left: var(--width-item);
+}
+.content-img:hover {
+    background: none;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: var(--height-footer);
+    width: 100%;
+}
+
+.content-footer {
+    font-size: 1.1rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    
+    height: var(--height-footer);
+    background: var(--color-base);
+    list-style: none;
+    margin: 0;
+}
+
+.item-footer {
+    text-decoration: none;
+    display: block;
+    color: #fff;
+    padding: 1.8rem 3.5rem;
+    text-align: center;
+}
+.item-footer:hover {
+    background: var(--color-hover);
+}
+
+.item-mensaje {
+    text-decoration: none;
+    display: block;
+    color: #fff;
+    padding: 1.8rem 3.5rem;
+    margin-right: 2rem;
+    text-align: center;
+}
+
+.content-table-dimanyc {
+  padding: 3rem;
+  width: 50%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  min-height: 10rem;
+}
+
+.content-center { 
+  overflow:auto; 
+  width: 100%;
+  height: 29rem;
+  max-height: 29rem;
+  background: white; 
+} 
+
+.content-left, .content-right { 
+  text-align: center;
+  
+  margin-top: 1rem;
+  padding: .1rem; 
+  background: white; 
+} 
+
+.content-left {
+    font-size: 1.1rem;
+    position: fixed;
+    width: 20%;
+    float:left;
+    padding-left: 1rem;
+    margin-left: 2rem;
+}
+.content-right {
+    width: 70%;
+    float:right;
+    padding-right: 0rem;
+    margin-right: 2rem;
+} 
+
+.input-submit-table {
+    color: #fff;
+    font-size: 1.1rem;
+    
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-right: 1.7rem;
+    padding-left: 1.7rem;
+    border: 0;
+}
+
+.input-T-E {
+    background-color: var(--color-base);
+}
+.input-T-E:hover{
+    background: var(--color-hover);
+}
+
+.input-T-D {
+    background-color: var(--color-disable);
+}
+.input-T-D:hover{
+    background: var(--color-d-hover);
+}
+
+.input-submit {
+    color: #fff;
+    font-size: 1.2rem;
+    background-color: var(--color-base);
+    
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 3.3rem;
+    padding-left: 3.3rem;
+    border: 0;
+}
+.input-submit:hover{
+    background: var(--color-hover);
+}
+.input-number {
+    width: 5rem;
+    margin: 1rem 0;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
+    
+}
+.item-option {
+    text-align: center;
+    padding: .3rem .4rem;
+}
+
+.item-selec {
+    font-size: 1rem;
+    width: 9rem;
+    margin: .5rem 0;
+    padding-top: .1rem;
+    padding-bottom: .1rem;   
+}
+
+.info {
+    font-size: 1.2rem;
+    max-width: 26rem;
+}

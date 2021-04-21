@@ -19,6 +19,7 @@ public class ReporteAsig {
     private int credito;
     private String docente;
     private int semestre;
+    private String area;
     /**
      * Constructor por defecto de ReporteAsig.
      */
@@ -146,6 +147,20 @@ public class ReporteAsig {
     public void setSemestre(int semestre) {
         this.semestre = semestre;
     }
-    
+    /**
+     * Este método obtiene el área de conocimiento<br> 
+     * a la que pertenece la asignatura.
+     * @return El área de conocimiento.
+     */
+    public String getArea() {
+        return area;
+    }
+    /**
+     * Este método asigna el área de conocimiento de la asignatura.
+     * @param area Este es el área de conocimiento.
+     */
+    public void setArea(String area) {
+        this.area = area;
+    }
     
 }

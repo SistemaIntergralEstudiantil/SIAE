@@ -10,7 +10,7 @@ and open the template in the editor.
 
 :root {
     --height-item: 1.8rem;
-    --width-item: 9rem;
+    --width-item: 2rem;
 }
 
 .content {
@@ -32,20 +32,6 @@ and open the template in the editor.
     display: block;
     text-align: center;
     text-decoration: none;
-}
-
-.content-a {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    
-    font-size: 1.1em;
-    color: #fff;
-    background-color: var(--color-base);
-    padding: 1em 2.5em 1em 2.5em;
-}
-.content-a:hover{
-    background: var(--color-hover);
 }
 
 .content-selec {

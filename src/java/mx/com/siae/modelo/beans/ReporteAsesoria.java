@@ -7,16 +7,18 @@ package mx.com.siae.modelo.beans;
 
 /**
  * Esta clase define al reporte de las asesorias.
- * @version 12/04/2021A
+ * @version 12/04/2021B
  * @author danielhernandezreyes
  */
 public class ReporteAsesoria {
+    private int idAsesoria;
     private String docente;
     private String asignatura;
     private String dia;
     private String horario;
     private String url;
     private String codigo;
+    private String estado;
     /**
      * Constructor por defecto de ReporteAsesoria.
      */
@@ -114,6 +116,22 @@ public class ReporteAsesoria {
      */
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public int getIdAsesoria() {
+        return idAsesoria;
+    }
+
+    public void setIdAsesoria(int idAsesoria) {
+        this.idAsesoria = idAsesoria;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
     

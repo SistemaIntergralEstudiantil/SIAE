@@ -4,45 +4,50 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+
+<html lang="es" >
     <head>
-        <title>SIAE</title>
-        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="stylesheet" href="recursos/estilo.css"/>
-         
+        <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
+        <title>Inicio</title>
+        <link rel="shortcut icon" href="resource/images/logo_SIAE.png"/>
+        <link rel="stylesheet" href="resource/css/Style-General.css"/>
+        <link rel="stylesheet" href="resource/css/Style-Inicio.css"/>
+        <link rel="stylesheet" href="resource/css/Style-Redes.css"/>
     </head>
-    <body>
-        <div>SIAE</div>
-        <a href="Login.jsp">Login</a>
-
-        <h1 style="background-color:DodgerBlue;">Sistema Integral de Atención estudiantil 1222</h1>
-
-        </body>
-  
-        <center> <img src="http://sic.gob.mx/images/62464" width="250" height="200"></center>
-    
-   <center>
-       <img src="https://lh3.googleusercontent.com/S8jsVGA2SSnau3VkzsqOvFA9tEF38E15-pWNCmpIC7iSN_TfU852conocjX4IY0Sw4x1A_4=s87" width="150" height="100">
-        <br><br>
-            <label>USUARIO:
-                <input type="text"  name="usuario" class="cadena" maxlength="12" autofocus="autofocus" />
-            </label>
-            <br><br>
-            <label>CONTRASEÑA:
-                <input type="text"  name="contraseña" class="cadena" maxlength="12" autofocus="autofocus" />
-            </label>
-            <br><br>
-            <select name="TIPO DE USUARIO">
-   
-   <option value="1">Alumno</option> 
-   <option value="2">Administrador</option>
-   
-</select>
-          
-            <center><input type="submit" id="enviar" name="enviar" value="Enviar" class="boton" />
-             <br></center>
-</center>
+    <body style="background-image: url(/SIAE/resource/images/orgulloITSOEH.png);background-size: 100% 100%;">
+        <header>
+        <nav>
+        <ul class="content-G content list-none">
+            <li><h1 class="content-item-G content-item" >¡Bienvenid@!</h1></li>
+            <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="Logo principal"/></li>
+        </ul>
+        </nav>
+        </header> 
+        <div class="text" style="font-weight: bold;">    
+            <p>Bienvenido usuario a nuestra plataforma de 
+                consulta y seguimiento académico.
+                Aquí encontrarás información para hacer de tu estadía en la carrera más facíl
+                a través de diferentes módulos como: 
+            </p>
+            <ul>
+                <li>Módulo de seguimiento curricular</li>
+                <li>Módulo de consulta de servicios (psicológico, médico y jurídico)</li>
+                <li>Módulo de altas y bajas en materias</li>
+                <li>Módulo de consulta en áreas de conocimento</li>
+            </ul>
+            <p>¡Se parte de la comuinada ITSOEH y siguenos en nuestras redes sociales oficiales.!</p>
+            <a class="item-G-A-Selec content-a" href="/SIAE/Login.jsp">Login</a>
+        </div>
+        <div class="social">
+        <ul class="consten-list list-none" >
+            <li><a href="https://www.facebook.com/ITSOEH-P%C3%A1gina-Oficial-142983839177483/?ti=as" target="_blank" class="link fab fa-facebook"></a></li>
+            <li><a href="https://twitter.com/ITSOEHmx?s=09" target="_blank"  class="link fab fa-twitter"></a></li>
+            <li><a href="http://www.itsoeh.edu.mx/" target="_blank"   class="link fas fa-globe"></a></li>
+            <li><a href="http://conect.itsoeh.edu.mx/mix_21_alu" target="_blank" class="link fas fa-book-reader"></a></li>
+        </ul>
+        </div>
+        <script src="https://kit.fontawesome.com/1703782d49.js" crossorigin="anonymous"></script>
     </body>
 </html>
