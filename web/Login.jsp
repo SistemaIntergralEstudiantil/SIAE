@@ -48,6 +48,7 @@
     <a href="areas/ServicioPsicologico.jsp">Servicio psicologico</a>
     <a href="Docente/Cursos.jsp">Docente</a>
     <a href="Control-G/Menu.jsp">Control</a>
+    <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
     <script src="resource/js/Script-Login.js"></script>
     </body>
 </html>
