@@ -9,12 +9,16 @@ and open the template in the editor.
 */
 :root {
     --height-item: 1.8rem;
-    --width-item: 9rem;
+    --width-item: 10rem;
 }
 
 .content {
-    flex-flow: row wrap;
+    background: var(--color-base);
     list-style: none;
+    
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin: 0;
 }
 
 .content-item {
@@ -29,23 +33,6 @@ and open the template in the editor.
 
 .content-img {
     margin-top: 1rem;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: var(--width-item);
-    padding-left: var(--width-item);
+    padding: 0 var(--width-item) 0 var(--width-item);
 }
 
-.text {
-    font-size: 1.5rem;
-    margin-left: 10rem;
-    margin-right: 10rem;
-    margin-top: 5rem;
-}
-ul {
-    list-style: none;
-}
-
-li::before {
-    content: "\2611"; 
-    padding-right: 1rem;
-}

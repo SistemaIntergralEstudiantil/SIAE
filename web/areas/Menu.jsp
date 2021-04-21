@@ -41,7 +41,7 @@
         <div class="content-data_row" ><select name="servicio" class="data_d">
             <option value="" disabled selected>Áreas</option>
             <option value="A">Asesorias</option> 
-            <option value="S">Servicio psicologico</option></select></div>
+            <option value="S">Asesoría legal y psicológica</option></select></div>
         <div class="content-data_row" >
             <input type="hidden" name="clave" value="menu">
             <input class="data_d input-submit" type="submit" value="Consultar"></div>

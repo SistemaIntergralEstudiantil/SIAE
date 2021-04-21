@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `SIAE`.`Usuarios` (
   CONSTRAINT `chk_Usuarios_rol`CHECK ( rol in('A', 'R', 'G')) ENFORCED
   COMMENT 'El rol puede ser: (A) alumno, (G) jefe, (R) representante',
   contra VARCHAR(128) NOT NULL,
+  numTel VARCHAR(10) NULL DEFAULT NULL,
   foto MEDIUMBLOB NULL,
   PRIMARY KEY (idUsuario)
 );
@@ -190,7 +191,7 @@ DROP PROCEDURE IF EXISTS proce_nuevo_user;
 DELIMITER $$
 CREATE PROCEDURE proce_nuevo_user(
     in in_idUsuario VARCHAR(20), in in_nombre_1 VARCHAR(45), in in_nombre_2 VARCHAR(45), in in_nombre_3 VARCHAR(45), in in_apellido_pat VARCHAR(45),
-    in in_apellido_mat VARCHAR(45), in in_correo_inst VARCHAR(45), in in_rol CHAR(1), in in_contra VARCHAR(20))
+    in in_apellido_mat VARCHAR(45), in in_correo_inst VARCHAR(45), in in_rol CHAR(1), in in_contra VARCHAR(20), in in_num_tel VARCHAR(10))
     DETERMINISTIC
 BEGIN
     DECLARE t_error BOOLEAN;
@@ -205,7 +206,7 @@ BEGIN
         INSERT INTO Usuarios VALUES(in_idUsuario, 
             in_nombre_1, in_nombre_2, in_nombre_3, 
             in_apellido_pat, in_apellido_mat, 
-            in_correo_inst, in_rol, SHA2(in_contra, 512), null);
+            in_correo_inst, in_rol, SHA2(in_contra, 512), in_num_tel, null);
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
     ELSE COMMIT;
     END IF;
@@ -213,35 +214,35 @@ END $$
 DELIMITER ;
 ;
 
-CALL proce_nuevo_user(null,'Emeling','Dayan',null,'Ramirez','Garcia','edramirez@itsoeh.edu.mx','A','edramirez');
--- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, rol('A', 'R', 'G')
-CALL proce_nuevo_user('18011830','Emeling','Dayan',null,'Ramirez','Garcia','edramirez@itsoeh.edu.mx','A','edramirez');
-CALL proce_nuevo_user('18011225','Oswaldo','Jesus',null,'Hernandez','Gomez','ojhernandez@itsoeh.edu.mx','A','ojhernandez');
-CALL proce_nuevo_user('18011362','Nazareth','Zurisay',null,'Morales','Gino','nzmorales@itsoeh.edu.mx','A','nzmorales');
-CALL proce_nuevo_user('18011250','Sandra','Montserrat',null,'Bautista','Lopez','smbautista@itsoeh.edu.mx','A','smbautista');
-CALL proce_nuevo_user('18011530','Carlos','Gabriel',null,'Cruz','Chontal','cgcruz@itsoeh.edu.mx','A','cgcruz');
-CALL proce_nuevo_user('18011126','Daniel',null,null,'Hernandez','Reyes','dhernandezr@itsoeh.edu.mx','A','dhernandezr');
-CALL proce_nuevo_user('18011378','Joyce',null,null,'Gress','Hernandez','jgressh@itsoeh.edu.mx','A','jgressh');
-CALL proce_nuevo_user('D00001','Cristy','Elizabeth',null,'Aguilar','Ojeda','caguilar@itsoeh.edu.mx','R','caguilar');
-CALL proce_nuevo_user('D00002','Hector','Daniel',null,'Hernandez','Garcia','hdhernandez@itsoeh.edu.mx','R','hdhernandez');
-CALL proce_nuevo_user('D00006','Dulce','Jazmin',null,'Navarrete','Arias','dnaverrete@itsoeh.edu.mx','R','dnavarrete');
-CALL proce_nuevo_user('D00003','Aline',null,null,'Perez','Martinez','aperezm@itsoeh.edu.mx','R','aperezm');
-CALL proce_nuevo_user('D00004','Guadalupe',null,null,'Calvo','Torres','gcalvo@itsoeh.edu.mx','R','gcalvo');
-CALL proce_nuevo_user('D00005','German',null,null,'Rebolledo','Avalos','grevolledo@itsoeh.edu.mx','R','grevolledo');
-CALL proce_nuevo_user('D00007','Elizabeth',null,null,'Garcia','Rios','egarcia@itsoeh.edu.mx','R','egarcia');
-CALL proce_nuevo_user('D00008','Eliut',null,null,'Paredes','Reyes','eparedes@itsoeh.edu.mx','R','eparedes');
-CALL proce_nuevo_user('D00009','Mario',null,null,'Perez','Bautista','mperez@itsoeh.edu.mx','R','mperez');
-CALL proce_nuevo_user('D00010','Jorge','Armando',null,'Garcia','Bautista','jgarciab@itsoeh.edu.mx','R','jgarciab');
-CALL proce_nuevo_user('D00011','Javier',null,null,'Perez','Escamilla','japereze@itsoeh.edu.mx','R','japerezm');
-CALL proce_nuevo_user('D00012','Lucino',null,null,'Lugo','Lopez','llugol@itsoeh.edu.mx','R','llugol');
-CALL proce_nuevo_user('D00013','Lorena',null,null,'Mendoza','Guzman','lmendozag@itsoeh.edu.mx','R','lmendozag');
-CALL proce_nuevo_user('D00014','Juan','Carlos',null,'Ceron','Almaraz','jcerona@itsoeh.edu.mx','R','jcerona');
-CALL proce_nuevo_user('D00015','Guillermo',null,null,'Castañeda','Ortiz','gcastanedao@itsoeh.edu.mx','R','gcastanedao');
-CALL proce_nuevo_user('R00014','Gloria','Maria',null,'Álvarez','Herver','galvarez@itsoeh.edu.mx ','R','galvarez');
-CALL proce_nuevo_user('R00015','Antelmo','Arturo',null,'Arteaga','Valera','aarteaga@itsoeh.edu.mx','R','aarteaga');
-CALL proce_nuevo_user('R00013','Lucía',null,null,'Rivas','Apiliado','lrivas@itsoeh.edu.mx','R','lrivas');
-CALL proce_nuevo_user('R00016','Alberto',null,null,'Montoya','Buendia','amontoyab@itsoeh.edu.mx','R','amontoyab');
-CALL proce_nuevo_user('G1234A','Administrador',null,null,'root','sudo','dever@itsoeh.edu.mx','G','root');
+CALL proce_nuevo_user(null,'Emeling','Dayan',null,'Ramirez','Garcia','edramirez@itsoeh.edu.mx','A','edramirez','7732234176');
+-- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, rol('A', 'R', 'G'), 
+CALL proce_nuevo_user('18011830','Emeling','Dayan',null,'Ramirez','Garcia','edramirez@itsoeh.edu.mx','A','edramirez','7732234176');
+CALL proce_nuevo_user('18011225','Oswaldo','Jesus',null,'Hernandez','Gomez','ojhernandez@itsoeh.edu.mx','A','ojhernandez','7731314798');
+CALL proce_nuevo_user('18011362','Nazareth','Zurisay',null,'Morales','Gino','nzmorales@itsoeh.edu.mx','A','nzmorales','7731103479');
+CALL proce_nuevo_user('18011250','Sandra','Monserrat',null,'Bautista','Lopez','sbautista@itsoeh.edu.mx','A','sbautista','7721573570');
+CALL proce_nuevo_user('18011530','Carlos','Gabriel',null,'Cruz','Chontal','cgcruz@itsoeh.edu.mx','A','cgcruz','7732010026');
+CALL proce_nuevo_user('18011126','Daniel',null,null,'Hernandez','Reyes','dhernandezr@itsoeh.edu.mx','A','dhernandezr','7731171548');
+CALL proce_nuevo_user('18011378','Joyce',null,null,'Gress','Hernandez','jgressh@itsoeh.edu.mx','A','jgressh','7712412085');
+CALL proce_nuevo_user('D00001','Cristy','Elizabeth',null,'Aguilar','Ojeda','caguilar@itsoeh.edu.mx','R','caguilar','7721619498');
+CALL proce_nuevo_user('D00002','Hector','Daniel',null,'Hernandez','Garcia','hdhernandez@itsoeh.edu.mx','R','hdhernandez','7731379500');
+CALL proce_nuevo_user('D00006','Dulce','Jazmin',null,'Navarrete','Arias','dnaverrete@itsoeh.edu.mx','R','dnavarrete','2224926179');
+CALL proce_nuevo_user('D00003','Aline',null,null,'Perez','Martinez','aperezm@itsoeh.edu.mx','R','aperezm','7727364142');
+CALL proce_nuevo_user('D00004','Guadalupe',null,null,'Calvo','Torres','gcalvo@itsoeh.edu.mx','R','gcalvo','7732250534');
+CALL proce_nuevo_user('D00005','German',null,null,'Rebolledo','Avalos','grevolledo@itsoeh.edu.mx','R','grevolledo','7721599140');
+CALL proce_nuevo_user('D00007','Elizabeth',null,null,'Garcia','Rios','egarcia@itsoeh.edu.mx','R','egarcia',null);
+CALL proce_nuevo_user('D00008','Eliut',null,null,'Paredes','Reyes','eparedes@itsoeh.edu.mx','R','eparedes',null);
+CALL proce_nuevo_user('D00009','Mario',null,null,'Perez','Bautista','mperez@itsoeh.edu.mx','R','mperez','7721315041');
+CALL proce_nuevo_user('D00010','Jorge','Armando',null,'Garcia','Bautista','jgarciab@itsoeh.edu.mx','R','jgarciab','7731798374');
+CALL proce_nuevo_user('D00011','Javier',null,null,'Perez','Escamilla','japereze@itsoeh.edu.mx','R','japerezm','7731375841');
+CALL proce_nuevo_user('D00012','Lucino',null,null,'Lugo','Lopez','llugol@itsoeh.edu.mx','R','llugol',null);
+CALL proce_nuevo_user('D00013','Lorena',null,null,'Mendoza','Guzman','lmendozag@itsoeh.edu.mx','R','lmendozag',null);
+CALL proce_nuevo_user('D00014','Juan','Carlos',null,'Ceron','Almaraz','jcerona@itsoeh.edu.mx','R','jcerona',null);
+CALL proce_nuevo_user('D00015','Guillermo',null,null,'Castañeda','Ortiz','gcastanedao@itsoeh.edu.mx','R','gcastanedao',null);
+CALL proce_nuevo_user('R00014','Gloria','Maria',null,'Álvarez','Herver','galvarez@itsoeh.edu.mx ','R','galvarez', null);
+CALL proce_nuevo_user('R00015','Antelmo','Arturo',null,'Arteaga','Valera','aarteaga@itsoeh.edu.mx','R','aarteaga',null);
+CALL proce_nuevo_user('R00013','Lucía',null,null,'Rivas','Apiliado','lrivas@itsoeh.edu.mx','R','lrivas',null);
+CALL proce_nuevo_user('R00016','Alberto',null,null,'Montoya','Buendia','amontoyab@itsoeh.edu.mx','R','amontoyab',null);
+CALL proce_nuevo_user('G1234A','Administrador',null,null,'root','sudo','dever@itsoeh.edu.mx','G','root',null);
 
 
 DROP PROCEDURE IF EXISTS proce_nueva_asig;
