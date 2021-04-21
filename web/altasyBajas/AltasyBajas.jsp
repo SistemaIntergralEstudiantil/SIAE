@@ -14,13 +14,16 @@
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <title>Altas y bajas de Materias</title>
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
-        <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
+        <link rel="stylesheet" href="/SIAE/resource/css/Style-AltasYbajas.css"/>
+        
+        
+       
     </head>
-    <body>
+    <body style="background-image: url(/SIAE/resource/images/Login.png);background-size: 100% 150%;">
         <header>
         <nav>
         <ul class="content-G content" >
-            <li><h1 class="content-item-G content-item" >Altas y Bjas de Materias</h1></li>
+            <li><h1 class="content-item-G content-item" >Altas y Bajas de Materias</h1></li>
             <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="100" height="100" alt="alt"/></li>
         </ul>
         </nav>
@@ -44,7 +47,7 @@
             </select>
         </center>
         <div class="content-table" >
-            <table class="table" >
+            <table class="table" class="thead">
             <thead><tr>
                     <th>Solicitar</th>
                     <th>Clave de la Asignatura</th>
@@ -60,7 +63,7 @@
             </tbody>
             </table>
             <br><br>
-            <center><input type="submit" value="Enviar Solicitud" style="font-size:100%"></center>
+            <center><input class="item-G-A-Selec content-a" type="submit" value="Enviar Solicitud" style="font-size:100%"></center>
             <br><br>
             <table class="table" >
             <thead>
@@ -79,7 +82,8 @@
             </tbody>
             </table>
             <br>
-            <p align="right"><input type="button" value="Menú Principal" style="font-size:1.1rem"/></p>
+            <center>
+            <input class="item-G-A-Selec content-a" type="button" value="Menú principal" align="right"  style="font-size:1.1rem"/> </center>
         </div>
     </body>
 </html>
