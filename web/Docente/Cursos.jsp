@@ -79,13 +79,16 @@
             </table>
         </div>
         <div class="content-table" >
+            
             <form action="Docente" method="POST">
-                <label>Matricula: </label>
-                
-                <label id="sel_matricula" ></label>
-                <label>Nombre: </label>
-                
-                <label id="sel_nombre" ></label>
+                <dl class="two">
+                    <strong><dt>Matricula: </dt></strong>
+                <dt id="sel_matricula" ></dt>
+                </dl>
+                <dl class="two">
+                    <strong><dt>Nombre: </dt></strong>
+                <dt id="sel_nombre" ></dt>
+                </dl>
                 <select class="item-G-A-Selec content-selec" id="status" name="status">
                     <option value="P" disabled selected>Sin registro</option>
                     <option value="R">Reprobado</option>

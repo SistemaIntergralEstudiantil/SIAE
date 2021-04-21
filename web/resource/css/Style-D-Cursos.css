@@ -83,3 +83,10 @@ and open the template in the editor.
 .input-submit:hover{
     background: var(--color-hover);
 }
+
+.vertical {
+    position: relative;
+    top: 30%;
+    
+    
+}
