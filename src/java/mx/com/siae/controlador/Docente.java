@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import mx.com.siae.modelo.AsignaturaDAO;
+import mx.com.siae.modelo.CursosDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.beans.AlumnoRepoD;
+import mx.com.siae.modelo.beans.CursoAlumno;
 
 /**
  *
@@ -46,22 +48,27 @@ public class Docente extends HttpServlet {
         }else{
             try {
                 String clave = request.getParameter("clave");
-                switch(clave){
-                    case "inicio":
-                        String idUsuario = sec.getUser().getIdUsuario();
-                        AsignaturaDAO crl = new AsignaturaDAO();
-                        ArrayList<AlumnoRepoD> list = crl.reporteAlumnoCursoD(idUsuario);
-                        request.setAttribute("lista", list);
-                        request.getRequestDispatcher("/Docente/Cursos.jsp").forward(request, response);
-                    break;
-                    case "change":
+                if(clave.equals("inicio") || clave.equals("change")){
+                    String idUsuario = sec.getUser().getIdUsuario();
+                    
+                    if(clave.equals("change")){
                         String matricula = request.getParameter("matricula");
-                        String idCurso = request.getParameter("idCurso");
-                        String status = request.getParameter("status");
-                        /* Realizar el enlace a la base de datos cuando termine redireccionar a la misma pagina. 
-                        Para volver a realizar los cambios*/
-                        System.out.println(matricula +" dsa "+idCurso + "sad"+ status);
-                    break;
+                        if(matricula!=null || !matricula.equals("")){
+                            String idCurso = request.getParameter("idCurso");
+                            String status = request.getParameter("status");
+                            CursoAlumno curalum = new CursoAlumno();
+                            curalum.setMatricula(matricula);
+                            curalum.setIdCurso(Integer.parseInt(idCurso));
+                            curalum.setEstado(status);
+                            CursosDAO crlCA = new CursosDAO();
+                            crlCA.changeStatusAlumno(curalum);
+                        }
+                    }
+                    
+                    AsignaturaDAO crl = new AsignaturaDAO();
+                    ArrayList<AlumnoRepoD> list = crl.reporteAlumnoCursoD(idUsuario);
+                    request.setAttribute("lista", list);
+                    request.getRequestDispatcher("/Docente/Cursos.jsp").forward(request, response);
                 }
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);

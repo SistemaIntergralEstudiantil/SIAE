@@ -98,7 +98,7 @@ public class Control extends HttpServlet {
                     request.getRequestDispatcher("Control-G/Menu.jsp").forward(request, response);
                 }
                 
-                if(clave.equals("session-c") || clave.equals("session-add")) {
+                if(clave.equals("session-c") || clave.equals("session-add") || clave.equals("session-delete")) {
                     CursosDAO crl = new CursosDAO();
                     ReporteCurso repoC = new ReporteCurso();
                     String idCurso = request.getParameter("idCurso");
@@ -108,6 +108,14 @@ public class Control extends HttpServlet {
                     repoC.setAsignatura(asignatura);
                     repoC.setResponsable(responsable);
                     request.setAttribute("msj", "Consulta registro de sesiones");
+                    
+                    if(clave.equals("session-delete")) {
+                        String idSesion = request.getParameter("idSesion");
+                        Sesion change = new Sesion();
+                        change.setIdSesion(Integer.parseInt(idSesion));
+                        crl.deleteSessionCurso(change);
+                        request.setAttribute("msj", "Eliminación de sesión");
+                    }
                     
                     if(clave.equals("session-add")) {
                         String dia = request.getParameter("dia");
@@ -119,8 +127,9 @@ public class Control extends HttpServlet {
                         change.setHora_inicio(convertStringToTime(hora_inicio));
                         change.setHora_fin(convertStringToTime(hora_fin));
                         crl.newSessionCurso(change);
-                        request.setAttribute("msj", "Operación sesión");
+                        // request.setAttribute("msj", "Operación sesión");
                     }
+                    
                     Curso curso = new Curso();
                     curso.setIdCurso(repoC.getIdCurso());
                     ArrayList<Sesion> lista = crl.reporteToSesiones(curso);
