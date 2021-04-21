@@ -8,7 +8,8 @@ package mx.com.siae.modelo.beans;
 import java.sql.Time;
 
 /**
- *
+ * Esta clase define a las Asesorias registradas en la BD.
+ * @version 12/04/2021A
  * @author danielhernandezreyes
  */
 public class Asesoria {
@@ -22,15 +23,24 @@ public class Asesoria {
     private String estado;
     private String idResponsable;
     private int idAsignatura;
-
+    /**
+     * Este método obtiene el identificador de la Asesoria.
+     * @return El valor del identificador.
+     */
     public int getIdAreasApoyo() {
         return idAreasApoyo;
     }
-
+    /**
+     * Este método asigna el identificador de la Asesoria.
+     * @param idAreasApoyo Este es el valor del identificador.
+     */
     public void setIdAreasApoyo(int idAreasApoyo) {
         this.idAreasApoyo = idAreasApoyo;
     }
-
+    /**
+     * Este método obtiene el identificador de la Asesoria.
+     * @return El valor del identificador.
+     */
     public String getNombre() {
         return nombre;
     }
