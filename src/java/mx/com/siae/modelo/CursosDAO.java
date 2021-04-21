@@ -143,4 +143,21 @@ public class CursosDAO {
         cn.getEstadoProce().close();
         cn.getConexion().close();
     }
+    /**
+     * Método elimina una sesión de un curso en particular.
+     * @param delete Los datos de la sesión a eliminar.
+     * 
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void deleteSessionCurso(Sesion delete) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_eliminar_sesion(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, delete.getIdSesion());
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
 }

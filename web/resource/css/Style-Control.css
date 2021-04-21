@@ -179,6 +179,10 @@ and open the template in the editor.
 }
 
 .info {
-    font-size: 1.2rem;
-    max-width: 26rem;
+    font-size: 1.1rem;
+    max-width: 28rem;
+}
+
+.selec-none:hover {
+    background: none;
 }
