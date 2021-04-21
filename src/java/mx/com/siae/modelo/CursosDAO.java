@@ -8,6 +8,8 @@ package mx.com.siae.modelo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import mx.com.siae.modelo.beans.Curso;
+import mx.com.siae.modelo.beans.CursoAlumno;
+import mx.com.siae.modelo.beans.DocenteR;
 import mx.com.siae.modelo.beans.ReporteCurso;
 import mx.com.siae.modelo.beans.Sesion;
 
@@ -160,4 +162,24 @@ public class CursosDAO {
         cn.getEstadoProce().close();
         cn.getConexion().close();
     }
+    /**
+     * Método cambia el estado de un alumno respeto a una materia<br>
+     * @param alumno Datos del alumno y de la materia a cambiar
+     * 
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void changeStatusAlumno(CursoAlumno alumno) throws SQLException, ClassNotFoundException {
+        String sql = "{CALL proce_cambio_status_alumno(?, ?, ?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, alumno.getIdCurso());
+        cn.getEstadoProce().setString(2, alumno.getMatricula());
+        cn.getEstadoProce().setString(3, alumno.getEstado());
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
+    
 }
