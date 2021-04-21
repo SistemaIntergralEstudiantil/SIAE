@@ -1,0 +1,116 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7/04/2021, 08:29:13 PM
+    Author     : danielhernandezreyes
+*/
+
+@font-face{
+    font-family: Roboto;
+    src: url(../fonts/Roboto-Regular.ttf) format('ttf');
+}
+
+* {
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-base: #156590;
+    --color-hover: #1565C0;
+    --color-border: #DDDDDD;
+    --color-description: #00A3AA;
+    --color-disable: #DE2626;
+    --color-d-hover:#F52727;
+}
+
+.content-G {
+    display: flex;
+    justify-content: center;
+    
+    background: var(--color-base);
+    margin: 0;
+}
+
+.content-item-G {
+    display: block;
+    color: #fff;
+    padding-top: var(--height-item);
+    padding-bottom: var(--height-item);
+    padding-left: var(--width-item);
+    padding-right: var(--width-item);
+    
+    text-align: center;
+    font-size: 1.2rem;
+}
+.content-item-G:hover {
+    background: var(--color-hover);
+}
+
+.content-table {
+  padding: 3rem;
+  width: 90%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  min-height: 10rem;
+}
+
+table{
+	background-color: white;
+	text-align: left;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td{
+	padding: 5px;
+}
+
+thead{
+	background-color: #156590;
+	border-bottom: solid 5px #0F362D;
+	color: white;
+}
+
+tr:nth-child(even){
+	background-color: #ddd;
+}
+
+.list-none {
+    list-style: none;
+}
+
+.item-G-A-Selec {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.content-a {
+    font-size: 1.1em;
+    color: #fff;
+    background-color: var(--color-base);
+    
+    margin: 2rem 30%;
+    padding: 1em 2.5em 1em 2.5em;
+}
+.content-a:hover{
+    background: var(--color-hover);
+}
+
+
+.description {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-description);
+    text-align: center;
+    
+    margin: 8rem;
+}
