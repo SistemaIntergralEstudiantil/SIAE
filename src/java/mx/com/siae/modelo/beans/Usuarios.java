@@ -5,6 +5,7 @@
  */
 package mx.com.siae.modelo.beans;
 
+import java.io.InputStream;
 /**
  * Esta clase define a todos los usuarios que acceden al sistema.
  * @version 26/03/2021/B
@@ -20,6 +21,9 @@ public class Usuarios {
     private String correo_inst;
     private String rol;
     private String password;
+    private int semestre;
+    public InputStream gFoto;
+    public byte[] aFoto;
     /**
      * Constructor por defecto del usuario.
      */
@@ -173,6 +177,20 @@ public class Usuarios {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+    /**
+     * Este método obtiene el valor del semestra del usuario si aplica.
+     * @return El valor del semestre.
+     */
+    public int getSemestre() {
+        return semestre;
+    }
+    /**
+     * Este método signa el valor del semestre del usuario si aplica.
+     * @param semestre Este es el valor del semestre.
+     */
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
     }
     /**
      * Este método obtiene una cadena representativa del usuario.

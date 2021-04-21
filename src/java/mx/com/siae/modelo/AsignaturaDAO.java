@@ -7,6 +7,7 @@ package mx.com.siae.modelo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import mx.com.siae.modelo.beans.AlumnoRepoD;
 import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.ReporteAsig;
 
@@ -17,6 +18,7 @@ import mx.com.siae.modelo.beans.ReporteAsig;
  * @see Conexion
  * @see ReporteAsig
  * @see Asignatura
+ * @see AlumnoRepoD
  */
 public class AsignaturaDAO {
     /**
@@ -46,6 +48,7 @@ public class AsignaturaDAO {
             rep.setCredito( cn.getResultado().getInt("credito") );
             rep.setDocente( cn.getResultado().getString("docente") );
             rep.setSemestre( cn.getResultado().getInt("semestre") );
+            rep.setArea( cn.getResultado().getString("area"));
             t.add(rep);
         }
         cn.getEstado().close();
@@ -63,10 +66,11 @@ public class AsignaturaDAO {
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
     public ArrayList<Asignatura> reporteAsignatura() throws SQLException, ClassNotFoundException {
-        String sql = "CALL proce_reporte_asignatura()";
+        String sql = "CALL proce_reporte_asignatura(?)";
         Conexion cn = new Conexion();
         cn.conectar();
         cn.prepareStatement(sql);
+        cn.getEstado().setBoolean(1, true);
         cn.setResultado(cn.getEstado().executeQuery());
         ArrayList<Asignatura> t = new ArrayList<>();
         while(cn.getResultado().next()){
@@ -76,11 +80,77 @@ public class AsignaturaDAO {
             a.setNombre( cn.getResultado().getNString("nombre") );
             a.setArea( cn.getResultado().getString("area") );
             a.setCredito( cn.getResultado().getInt("credito") );
+            a.setArea( cn.getResultado().getString("area"));
             t.add(a);
         }
         cn.getEstado().close();
         cn.getConexion().close();
         return t;
     }
-    
+    /**
+     * Método obtiene un lista de todas las asignaturas que estan habilitadas en<br> 
+     * el semestre en curso.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista de las asignaturas Habilitadas.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>No hay asignaturas Habilitadas.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<Asignatura> reporteAsignaturaActivas() throws SQLException, ClassNotFoundException {
+        String sql = "CALL proce_reporte_asignatura(?)";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareStatement(sql);
+        cn.getEstado().setBoolean(1, false);
+        cn.setResultado(cn.getEstado().executeQuery());
+        ArrayList<Asignatura> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            Asignatura a = new Asignatura();
+            a.setIdAsignatura( cn.getResultado().getInt("idAsignatura") );
+            a.setNombre( cn.getResultado().getNString("nombre") );
+            t.add(a);
+        }
+        cn.getEstado().close();
+        cn.getConexion().close();
+        return t;
+    }
+    /**
+     * Método obtiene un lista de todos las alumnos de todas las materias de un<br>
+     * determinado docente, los cuales servira para reportar su status del curso
+     * inmediato de cada alumno.
+     * @param idUsuario El identificador del docente.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista contiene todas las alumnos.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>No hay alumnos registradas.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<AlumnoRepoD> reporteAlumnoCursoD( String idUsuario) throws SQLException, ClassNotFoundException {
+        String sql = "CALL proce_reporte_curso_docente(?);";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareStatement(sql);
+        cn.getEstado().setString(1, idUsuario);
+        cn.setResultado(cn.getEstado().executeQuery());
+        ArrayList<AlumnoRepoD> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            AlumnoRepoD a = new AlumnoRepoD();
+            a.setIdCurso(cn.getResultado().getInt("idC"));
+            a.setTipo(cn.getResultado().getString("tipo"));
+            a.setMatricula(cn.getResultado().getString("m"));
+            a.setAlumno(cn.getResultado().getString("alumno"));
+            a.setIdAsignatura( cn.getResultado().getInt("idA") );
+            a.setAsignatura(cn.getResultado().getString("asignatura"));
+            a.setSemestre( cn.getResultado().getInt("semestre") );
+            a.setReporte(cn.getResultado().getString("reporte"));
+            t.add(a);
+        }
+        cn.getEstado().close();
+        cn.getConexion().close();
+        return t;
+    }
 }

@@ -12,12 +12,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
-        <title>Curricula</title>
+        <title>Seguimiento Académico</title>
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Curricula.css"/>
+        
     </head>
-    <body>
+    <body style="background-image: url(/SIAE/resource/images/menuPrincipal.png);background-size: 100% 150%;background-repeat: no-repeat">
         <%
             
             HttpSession sesion = request.getSession();
@@ -32,7 +33,7 @@
         <header>
             <nav>
                 <ul class="content-G content">
-                    <li><h1 class="content-item-G content-item" >Curricula</h1></li>                    
+                    <li><h1 class="content-item-G content-item" >Seguimiento Académico</h1></li>                    
                     <li>
                         <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/>
                     </li>
@@ -51,6 +52,12 @@
                 <input type="hidden" name="clave" value="menu">
                 <input class="data_d input-submit" type="submit" value="Consultar">
             </div>
+            <div class="content-data_row" >
+                <a class="item-G-A-Selec content-a" href="/SIAE/session/Home.jsp">Ménu principal</a>
+            </div>
         </form>
+        <abbr title="Seleccione el menú desplegable para realizar una busqueda acerca de tu seguimiento académico ">
+            <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right;"/>  
+        </abbr>
     </body>
 </html>

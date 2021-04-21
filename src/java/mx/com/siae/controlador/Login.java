@@ -1,15 +1,19 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
+import java.security.Key;
 import java.sql.SQLException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
+import mx.com.siae.modelo.beans.Asesoria;
 import mx.com.siae.modelo.beans.Usuarios;
 
 /**
@@ -18,7 +22,8 @@ import mx.com.siae.modelo.beans.Usuarios;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
-
+    
+    private final Key key = new SecretKeySpec("}u#n@c]l{&v4-D3E16$<yt_>s[".getBytes(),  0, 16, "AES");
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -50,8 +55,13 @@ public class Login extends HttpServlet {
                     Usuarios user = new Usuarios();
                     user.setIdUsuario(request.getParameter("idUsuario"));
                     user.setPassword(request.getParameter("contra"));
-                    
                     validarData(user);
+                    // Encriptar contraseña
+                    
+                        
+                    
+                    //encriptar(user);
+                    
                     UsuariosDAO crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
                     if(user != null){ // Todos lo datos obtenidos.
@@ -111,5 +121,5 @@ public class Login extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }

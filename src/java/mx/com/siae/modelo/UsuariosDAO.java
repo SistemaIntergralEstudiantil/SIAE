@@ -6,6 +6,8 @@
 package mx.com.siae.modelo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import mx.com.siae.modelo.beans.DocenteR;
 import mx.com.siae.modelo.beans.Usuarios;
 
 /**
@@ -46,6 +48,8 @@ public class UsuariosDAO {
                 user.setCorreo_inst(cn.getResultado().getString("correo_inst"));
                 user.setRol(cn.getResultado().getString("rol"));
                 user.setPassword(cn.getResultado().getString("contra"));
+                user.setSemestre(cn.getResultado().getInt("sem"));
+                user.aFoto = cn.getResultado().getBytes("foto");
                 cn.getEstado().close();
                 cn.getConexion().close();
                 return user;
@@ -60,6 +64,33 @@ public class UsuariosDAO {
             return null;
         }
     }
-
+    /**
+     * Método obtiene un lista de todos las docentes que estan registrados<br>
+     * en la base de datos.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista de las docentes.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>No hay docentes registrados.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<DocenteR> reporteDocentes() throws SQLException, ClassNotFoundException {
+        String sql = "CALL proce_consulta_docente()";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareStatement(sql);
+        cn.setResultado(cn.getEstado().executeQuery());
+        ArrayList<DocenteR> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            DocenteR a = new DocenteR();
+            a.setIdUsuario(cn.getResultado().getString("idUsuario") );
+            a.setNombre( cn.getResultado().getString("nombre") );
+            t.add(a);
+        }
+        cn.getEstado().close();
+        cn.getConexion().close();
+        return t;
+    }
     
 }
