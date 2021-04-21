@@ -957,18 +957,18 @@ DELIMITER ;
 
 ###### Pendiente
 ##################################################################
-DROP PROCEDURE IF EXISTS proce_validar_sesion;
-DELIMITER $$
-CREATE PROCEDURE proce_validar_sesion( in in_idCurso INT, in in_dia VARCHAR(20), in in_hora_inicio TIME)
-    DETERMINISTIC
-BEGIN
-END $$
-DELIMITER ;
-;
-SELECT count(*) FROM Sesiones WHERE idCurso = 1001 AND ('10:00' BETWEEN hora_inicio AND hora_fin);
+-- DROP PROCEDURE IF EXISTS proce_validar_sesion;
+-- DELIMITER $$
+-- CREATE PROCEDURE proce_validar_sesion( in in_idCurso INT, in in_dia VARCHAR(20), in in_hora_inicio TIME)
+--     DETERMINISTIC
+-- BEGIN
+-- END $$
+-- DELIMITER ;
+-- ;
+
+-- SELECT count(*) FROM Sesiones WHERE idCurso = 1001 AND ('10:00' BETWEEN hora_inicio AND hora_fin);
 ##################################################################
 DROP PROCEDURE IF EXISTS proce_eliminar_sesion;
-
 DELIMITER $$
 CREATE PROCEDURE proce_eliminar_sesion( in in_idSesion INT)
     DETERMINISTIC
@@ -977,5 +977,4 @@ BEGIN
 END $$
 DELIMITER ;
 ;
-
-CALL proce_eliminar_sesion();
+-- CALL proce_eliminar_sesion();
