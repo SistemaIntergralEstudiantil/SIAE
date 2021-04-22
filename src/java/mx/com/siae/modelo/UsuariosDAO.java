@@ -92,5 +92,22 @@ public class UsuariosDAO {
         cn.getConexion().close();
         return t;
     }
-    
+    /**
+     * Método cambia los datos del usaurio<br>
+     * @param user Datos del a modificar
+     * 
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void changeDataUser(Usuarios user) throws SQLException, ClassNotFoundException {
+        String sql = "{CALL proce_update_usuario(?, ?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setString(1, user.getIdUsuario());
+        cn.getEstadoProce().setBlob(2, user.gFoto);
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
 }

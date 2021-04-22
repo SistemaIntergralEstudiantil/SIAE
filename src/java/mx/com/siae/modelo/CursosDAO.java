@@ -12,6 +12,7 @@ import mx.com.siae.modelo.beans.CursoAlumno;
 import mx.com.siae.modelo.beans.DocenteR;
 import mx.com.siae.modelo.beans.ReporteCurso;
 import mx.com.siae.modelo.beans.Sesion;
+import mx.com.siae.modelo.beans.Usuarios;
 
 /**
  *
