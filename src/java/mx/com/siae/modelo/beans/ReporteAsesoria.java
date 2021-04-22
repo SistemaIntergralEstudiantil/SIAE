@@ -117,19 +117,39 @@ public class ReporteAsesoria {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-
+    /**
+     * Este método obtiene el identificador de la asesoria.
+     * @return El valor del identificador.
+     */
     public int getIdAsesoria() {
         return idAsesoria;
     }
-
+    /**
+     * Este método asigna el identificador de la asesoria.
+     * @param idAsesoria Este es el valor del identificador.
+     */
     public void setIdAsesoria(int idAsesoria) {
         this.idAsesoria = idAsesoria;
     }
-
+    /**
+     * Este método obtiene el estado de la asesoria
+     * @return 
+     * <dl>
+     *  <dt><h3>E</h3></dt><dd>Habilitada</dd>
+     *  <dt><h3>D</h3></dt><dd>Desabilitada</dd>
+     * </dl>
+     */
     public String getEstado() {
         return estado;
     }
-
+    /**
+     * Este método asigna el estado de la asesoria
+     * @param estado El estado del área
+     * <dl>
+     *  <dt><h3>E</h3></dt><dd>Habilitada</dd>
+     *  <dt><h3>D</h3></dt><dd>Desabilitada</dd>
+     * </dl>
+     */
     public void setEstado(String estado) {
         this.estado = estado;
     }

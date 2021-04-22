@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mx.com.siae.conector.config.Url;
 import mx.com.siae.modelo.AsignaturaDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.beans.ReporteAsig;
@@ -45,7 +46,7 @@ public class ReporteAsignatura extends HttpServlet {
             sec = new Session();
             sec.setTypeSessionNull(0);
             sesion.setAttribute("user", sec);
-            request.getRequestDispatcher("error/error.jsp").forward(request, response);
+            request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
             // Redireccionamiento a la pagina de error.
         }else{
             try { // Operaciones a la BD.
@@ -58,14 +59,14 @@ public class ReporteAsignatura extends HttpServlet {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");
                 sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/session/Home.jsp");
-                response.sendRedirect("error/error.jsp");
+                sec.setErrorUrl(Url.URL_HOME);
+                response.sendRedirect(Url.URL_ERROR);
             } catch (SQLException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error en la conexión con el SGBD:");
                 sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/session/Home.jsp");
-                response.sendRedirect("error/error.jsp");
+                sec.setErrorUrl(Url.URL_HOME);
+                response.sendRedirect(Url.URL_ERROR);
             }
         }
     }

@@ -4,6 +4,7 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.beans.AlumnoRepoD"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.Session"%>
@@ -28,7 +29,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);   
             }
         %>
         <header>

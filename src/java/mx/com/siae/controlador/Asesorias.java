@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mx.com.siae.conector.config.Url;
 import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.beans.ReporteAsesoria;
@@ -45,27 +46,27 @@ public class Asesorias extends HttpServlet {
             sec = new Session();
             sec.setTypeSessionNull(0);
             sesion.setAttribute("user", sec);
-            request.getRequestDispatcher("error/error.jsp").forward(request, response);
+            request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
             // Redireccionamiento a la pagina de error.
         }else{
             try {
                 String servicio = request.getParameter("servicio");
                 if(servicio == null){ // No se espesifica la opción
-                    response.sendRedirect("areas/Menu.jsp");
+                    response.sendRedirect(Url.URL_AREAS_MENU);
                     // Redirección a la misma pagina
                 }else{
                     if(servicio.equals("A")){ // Control de las asesorias.
                         AreasApoyoDAO crl = new AreasApoyoDAO();
                         ArrayList<ReporteAsesoria> list = crl.reporteAsesorias();
                         request.setAttribute("lista", list);
-                        request.getRequestDispatcher("/areas/Asesorias.jsp").forward(request, response);
+                        request.getRequestDispatcher("areas/Asesorias.jsp").forward(request, response);
                         // Redirección a la pagina de asesorias.
                     }else{ 
                         if(servicio.equals("S")){ // Control de servicio
-                            response.sendRedirect("areas/ServicioPsicologico.jsp");
+                            response.sendRedirect(Url.URL_AREAS_SERVICIO);
                             // Redirección a la pagina del servicio.
                         }else{
-                            response.sendRedirect("areas/Menu.jsp");
+                            response.sendRedirect(Url.URL_AREAS_MENU);
                         }
                     }
                 }
@@ -73,14 +74,14 @@ public class Asesorias extends HttpServlet {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");
                 sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/session/Home.jsp");
-                response.sendRedirect("error/error.jsp");
+                sec.setErrorUrl(Url.URL_HOME);
+                response.sendRedirect(Url.URL_ERROR);
             } catch (SQLException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error en la conexión con el SGBD:");
                 sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/session/Home.jsp");
-                response.sendRedirect("error/error.jsp");
+                sec.setErrorUrl(Url.URL_HOME);
+                response.sendRedirect(Url.URL_ERROR);
             }
         }
     }
