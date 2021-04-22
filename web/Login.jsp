@@ -13,34 +13,35 @@
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <title>Login </title>
         <link rel="shortcut icon" href="resource/images/logo_SIAE.png" />
-        <link rel="stylesheet" href="resource/css/Style-General.css"/>
+        <!--<link rel="stylesheet" href="resource/css/Style-General.css"/>-->
         <link rel="stylesheet" href="resource/css/Style-Login.css"/>
     </head>
     <body style="background-image: url(/SIAE/resource/images/Login.png);background-size: 100% 150%;">
-    <table width="100%">
-    <tr>
-        <td align="center" width="33%"><img src="resource/images/Logo-TecNM.png" height="80" width="180"></td>
-        <td align="center" width="33%"><img src="resource/images/logo_tec.png" height="100" width="190"></td>
-        <td align="center" width="33%"><img src="resource/images/logo_ISIC.png" height="80" width="150"></td>
-    </tr>
-    </table>
-    <p align="center"><img src="resource/images/logo_SIAE.png" height="180" width="180"></p>
+        <table width="100%">
+            <tr>
+                <td align="center" width="33%"><img src="resource/images/Logo-TecNM.png" height="80" width="180"></td>
+                <td align="center" width="33%"><img src="resource/images/logo_tec.png" height="100" width="190"></td>
+                <td align="center" width="33%"><img src="resource/images/logo_ISIC.png" height="80" width="150"></td>
+            </tr>
+        </table>
+        <p align="center"><img src="resource/images/logo_SIAE.png" height="180" width="180"></p>
     <center>
         <form action="Login" method="POST" >
-        <div>
-            <label for="user">Usuario:</label>
-            <input id="user" type="text" name="idUsuario" placeholder="Matricula o Número de control"/>
-        </div><br>
-        <div>
-            <label for="pass">Contraseña:</label>
-            <input  id="pass" type="password" name="contra" placeholder="Introduce tu contraseña" />
-        </div><br>
-        <div>
-            <input type="hidden" name="clave" value="log"/>
-            <input type="submit" value="Ingresar">
-        </div>
+            <div>
+                <label for="user">Usuario:</label>
+                <input id="user" type="text" name="idUsuario" placeholder="Matricula o Número de control"/>
+            </div><br>
+            <div>
+                <label for="pass">Contraseña:</label>
+                <input  id="pass" type="password" name="contra" placeholder="Introduce tu contraseña" />
+            </div><br>
+            <div>
+                <input type="hidden" name="clave" value="log"/>
+                <input type="submit" value="Ingresar">
+            </div>
         </form>
     </center>
+    
     <a href="session/Home.jsp">Home</a>
     <a href="areas/Menu.jsp">Apoyo</a>
     <a href="areas/Asesorias.jsp">Asesorias</a>
@@ -50,5 +51,5 @@
     <a href="Control-G/Menu.jsp">Control</a>
     <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
     <script src="resource/js/Script-Login.js"></script>
-    </body>
+</body>
 </html>
