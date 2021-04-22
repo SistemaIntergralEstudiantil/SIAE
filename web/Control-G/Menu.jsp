@@ -4,6 +4,7 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.beans.ReporteAsesoria"%>
 <%@page import="mx.com.siae.modelo.beans.DocenteR"%>
 <%@page import="mx.com.siae.modelo.beans.Asignatura"%>
@@ -28,7 +29,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+                request.getRequestDispatcher(Url.URL_HOME).forward(request, response);   
             }
         %>
         <header>
@@ -113,7 +114,7 @@
         <footer class="footer">
         <nav>
             <ul class="content-footer">
-                <li><a class="item-footer" href="/SIAE/session/Home.jsp">Menu principal</a></li>
+                <li><a class="item-footer" href="<%=Url.URL_HOME%>">Menu principal</a></li>
                 <li><%String mensaje = (String) request.getAttribute("msj");%>
                     <label class="item-mensaje"><%=(mensaje==null)?"-":mensaje %></label>
                 </li>

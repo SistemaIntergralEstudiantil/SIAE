@@ -4,6 +4,7 @@
     Author     : sandr
 --%>
 
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.beans.Usuarios"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,20 +28,20 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("../error/error.jsp").forward(request, response);   
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);   
             } else 
                 user = sec.getUser(); %>
         <header>
         <nav>
         <ul class="content-G content">
             <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>
-            <li><a class="content-item-G content-item" href="/SIAE/areas/Menu.jsp">Áreas de apoyo</a></li>
+            <li><a class="content-item-G content-item" href="<%=Url.URL_AREAS_MENU%>">Áreas de apoyo</a></li>
             <% if(user != null && user.getRol().endsWith("A") ) { %>
             <li><a class="content-item-G content-item" href="">Curso de verano</a></li><% } %>
-            <li><a class="content-item-G content-item" href="/SIAE/curricula/Menu.jsp">Currícula</a></li>
+            <li><a class="content-item-G content-item" href="<%=Url.URL_CURRICULA_MENU%>">Currícula</a></li>
             <% if(user != null && user.getRol().endsWith("A") ) { %>
             <li><a class="content-item-G content-item" href="">Altas y bajas</a></li><% } %>
-            <li><a class="content-item-G content-item" href="/SIAE/Ajustes.jsp">Ajustes</a></li>
+            <li><a class="content-item-G content-item" href="<%=Url.URL_AJUSTES%>">Ajustes</a></li>
             <% if(user != null && user.getRol().endsWith("G") ) { %>
             <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control</a></li><% } %>
             <% if(user != null && user.getRol().endsWith("R") && user.getSemestre() == -2 ) { %>
