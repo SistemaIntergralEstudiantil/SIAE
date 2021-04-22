@@ -53,7 +53,7 @@
         <div class = "profile-pic-div">
             <% if(user != null && user.aFoto != null ) { %>
                 <img src="data:image/jpg;base64,<%=user.aFoto %>" id="foto"/>
-            <% } else { %><img src="../resource/images/profile_pic.jpg" id="foto"/><% } %>
+            <% } else { %><img src="../resource/images/ISIC-Circulo.png" id="foto"/><% } %>
         <input type="file" id="file">
         <label for ="file" id="subirFoto">Seleccionar foto de perfil</label></div>
         <dl class="content-data" >
@@ -79,7 +79,7 @@
                 <li><a href="http://conect.itsoeh.edu.mx/mix_21_alu" target="_blank"  class="link fas fa-laptop-house"></a></li>
             </ul>
 	</div>
-        <script src="../resource/js/Script-ProfilePic.js"></script>
+        
         <script src="https://kit.fontawesome.com/1703782d49.js" crossorigin="anonymous"></script>
     </body>
 </html>

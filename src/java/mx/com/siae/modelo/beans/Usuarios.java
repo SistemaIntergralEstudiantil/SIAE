@@ -21,6 +21,7 @@ public class Usuarios {
     private String correo_inst;
     private String rol;
     private String password;
+    private String numTel;
     private int semestre;
     public InputStream gFoto;
     public byte[] aFoto;
@@ -40,8 +41,9 @@ public class Usuarios {
      * @param correo_inst Este es el valor del correo del usuario.
      * @param rol Este es el valor del rol del usuario.
      * @param password Este es el valor de la contraseña del usuario.
+     * @param numTel Este es el valor de el número telefonico.
      */
-    public Usuarios(String idUsuario, String nombre1, String nombre2, String nombre3, String ApellidoPat, String ApellidoMat, String correo_inst, String rol, String password) {
+    public Usuarios(String idUsuario, String nombre1, String nombre2, String nombre3, String ApellidoPat, String ApellidoMat, String correo_inst, String rol, String password, String numTel) {    
         this.idUsuario = idUsuario;
         this.nombre1 = nombre1;
         this.nombre2 = nombre2;
@@ -51,7 +53,9 @@ public class Usuarios {
         this.correo_inst = correo_inst;
         this.rol = rol;
         this.password = password;
+        this.numTel = numTel;
     }
+
     /**
      * Este método obtiene el identificador del usuario.
      * @return El valor del identificador.
@@ -179,6 +183,22 @@ public class Usuarios {
         this.password = password;
     }
     /**
+     * Este método obtiene el valor del número telefónico del usuario.
+     * @return El valor del número telefónico.
+     */
+    public String getNumTel() {
+        return numTel;
+    }
+/**
+     * Este método signa el valor del número telefónico del usuario.
+     * @param numTel Este es el valor del número telefónico.
+     */
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
+    }
+    
+    
+    /**
      * Este método obtiene el valor del semestra del usuario si aplica.
      * @return El valor del semestre.
      */
@@ -202,7 +222,7 @@ public class Usuarios {
         return "Usuarios {idUsuario= " + idUsuario + ", " + name + ", ApellidoPat= " 
                 + ApellidoPat + ", ApellidoMat= " + ApellidoMat 
                 + ", correo_inst= " + correo_inst + ", rol= " + rol 
-                + ", password= " + password + '}';
+                + ", password= " + password + ", numTel= " + numTel+ '}';
     }
     /**
      * Este Método obtiene el nombre completo del usuario. 

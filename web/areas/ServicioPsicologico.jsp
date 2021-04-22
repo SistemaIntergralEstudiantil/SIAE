@@ -4,6 +4,8 @@
     Author     : nazar
 --%>
 
+<%@page import="mx.com.siae.modelo.beans.Usuarios"%>
+<%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es" >
@@ -16,23 +18,33 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-ServicioPsicologico.css"/>
     </head>
-    <body>
-    <header>
-    <nav>
-    <ul class="content-G content">
-        <li><h1 class="content-item-G content-item" >Servicio psicólogico estudiantil</h1></li>
-        <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/></li>
-    </ul>
-    </nav>
-    </header>   
-    <div class="text" >
-    <p>Si requieres atención legal o pscologica solicitala al correo: redapoyo@itsoeh.edu.mx<br>Enviando los siguientes datos:</p>
-    <ul>
-        <li>Nombre completo</li>
-        <li>Matricula</li>
-        <li>Programa educativo</li>
-        <li>Número telefónico</li>
-    </ul>    
-    </div>
+    <body style="background-image: url(/SIAE/resource/images/ServSpsi.png);background-size: 100% 140%;background-position: 0% -80%;background-repeat: no-repeat">
+        <%  HttpSession sesion = request.getSession();
+            Session sec = (Session) sesion.getAttribute("user");
+            Usuarios user = null;
+            if (sec == null) {
+                sec = new Session();
+                sec.setTypeSessionNull(1);
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher("../error/error.jsp").forward(request, response);
+            } else {
+                user = sec.getUser();
+            }%>
+        <header>
+            <nav>   
+                <ul class="content-G content">
+                    <li><h1 class="content-item-G content-item" >Servicio psicólogico estudiantil</h1></li>
+                    <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/></li>
+                </ul>
+            </nav>
+        </header>   
+        <a class="item-G-A-Selec content-a" 
+           href="mailto:sandrabtal@gmail.com?subject=Solicitud de servicio psicólogico
+           &body=Nombre: <%=(user == null) ? "" : user.getNombreCompleto()%>%0AMatricula: <%=(user == null) ? "" : user.getIdUsuario()%>%0APrograma educativo: Ingeniería en sistemas computacionales%0ANúmero telefónico: <%=(user == null) ? "" : user.getNumTel()%>">
+            Servicio psicólogico <br>Enviar correo</a>
+        <a class="item-G-A-Selec content-a" 
+           href="mailto:sandrabtal@gmail.com?subject=Solicitud de asesoría legal
+           &body=Nombre: <%=(user == null) ? "" : user.getNombreCompleto()%>%0AMatricula: <%=(user == null) ? "" : user.getIdUsuario()%>%0APrograma educativo: Ingeniería en sistemas computacionales%0ANúmero telefónico: <%=(user == null) ? "" : user.getNumTel()%>">
+            Asesoría legal<br>Enviar correo</a>
     </body>
 </html>
