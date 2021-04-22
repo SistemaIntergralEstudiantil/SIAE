@@ -44,7 +44,7 @@ public class Url {
      * Dirección de absulta de la página de Control cursos.
      * <h3>/SIAE/Control-G/Menu.jsp</h3>
      */
-    public static String URL_CONTROLG_MENU = "/SIAE/Control-G/Menu.jsp";
+    public static String URL_CONTROLG_MENU = "Control-G/Menu.jsp";
     /**
      * Dirección de absulta de la página de Control asesorias.
      * <h3>/SIAE/Control-G/Menu_2.jsp</h3>

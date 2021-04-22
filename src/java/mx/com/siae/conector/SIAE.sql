@@ -979,3 +979,14 @@ END $$
 DELIMITER ;
 ;
 -- CALL proce_eliminar_sesion();
+
+DROP PROCEDURE IF EXISTS proce_update_usuario;
+DELIMITER $$
+CREATE PROCEDURE proce_update_usuario( in in_id VARCHAR(20), in in_foto MEDIUMBLOB)
+    DETERMINISTIC
+BEGIN
+    UPDATE Usuarios SET foto = in_foto WHERE (idUsuario = in_id);
+END $$
+DELIMITER ;
+;
+CALL proce_update_usuario(?, ?)

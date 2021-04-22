@@ -29,11 +29,11 @@
         <form action="Login" method="POST" >
             <div>
                 <label for="user">Usuario:</label>
-                <input id="user" type="text" name="idUsuario" placeholder="Matricula o Número de control"/>
+                <input id="user" type="text" name="idUsuario" placeholder="Matricula o Número de control" required />
             </div><br>
             <div>
                 <label for="pass">Contraseña:</label>
-                <input  id="pass" type="password" name="contra" placeholder="Introduce tu contraseña" />
+                <input  id="pass" type="password" name="contra" placeholder="Introduce tu contraseña" required />
             </div><br>
             <div>
                 <input type="hidden" name="clave" value="log"/>

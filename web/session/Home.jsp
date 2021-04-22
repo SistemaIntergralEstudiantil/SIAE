@@ -4,6 +4,7 @@
     Author     : sandr
 --%>
 
+<%@page import="java.util.Base64"%>
 <%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.beans.Usuarios"%>
 <%@page import="mx.com.siae.modelo.Session"%>
@@ -51,11 +52,11 @@
         </header>
         <h1 class="title-header" >Mis datos generales</h1>
         <div class = "profile-pic-div">
-            <% if(user != null && user.aFoto != null ) { %>
-                <img src="data:image/jpg;base64,<%=user.aFoto %>" id="foto"/>
-            <% } else { %><img src="../resource/images/ISIC-Circulo.png" id="foto"/><% } %>
-        <input type="file" id="file">
-        <label for ="file" id="subirFoto">Seleccionar foto de perfil</label></div>
+            <% if(user != null) { 
+                    if(user.aFoto != null) { %>
+                <img src="data:image/png;base64,<%= Base64.getEncoder().encodeToString(user.aFoto)%>" id="foto"/>
+                <% } else { %><img src="../resource/images/ISIC-Circulo.png" id="foto"/><% } }%>
+        </div>
         <dl class="content-data" >
             <div class="content-data_row"><dt class="data_dt data_d" >Rol:</dt>
                 <dd class="data_dd data_d"><%=(user== null)?"":user.getRol().equals("A")?"Alumno":user.getRol().equals("G")?"Administrador":"Representante y/o Docente" %></dd></div>

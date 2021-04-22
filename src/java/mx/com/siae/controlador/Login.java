@@ -63,14 +63,6 @@ public class Login extends HttpServlet {
                     } else
                         throw new Exception("Las credenciales no se encontrarón.");
                     break;
-                case "change":
-                    Part foto = request.getPart("foto");
-                    Usuarios userC = sec.getUser();
-                    userC.gFoto = foto.getInputStream();
-                    UsuariosDAO crlC = new UsuariosDAO();
-                    crlC.changeDataUser(userC);
-                    response.sendRedirect(Url.URL_HOME);
-                    break;
                 case "exit":
                     cerrarSesion(request);
                     request.getRequestDispatcher("Login.jsp").forward(request, response);
