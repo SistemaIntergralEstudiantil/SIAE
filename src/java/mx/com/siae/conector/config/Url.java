@@ -37,19 +37,19 @@ public class Url {
     public static String URL_DOCENTE_CURSOS = "/SIAE/Docente/Cursos.jsp";
     /**
      * Dirección de absulta de la página de Control sesiones.
-     * <h3>/SIAE/Control-G/Sesiones.jsp</h3>
+     * <h3>Control-G/Sesiones.jsp</h3>
      */
-    public static String URL_CONTROLG_SESIONES = "/SIAE/Control-G/Sesiones.jsp";
+    public static String URL_CONTROLG_SESIONES = "Control-G/Sesiones.jsp";
     /**
      * Dirección de absulta de la página de Control cursos.
-     * <h3>/SIAE/Control-G/Menu.jsp</h3>
+     * <h3>Control-G/Menu.jsp</h3>
      */
     public static String URL_CONTROLG_MENU = "Control-G/Menu.jsp";
     /**
      * Dirección de absulta de la página de Control asesorias.
-     * <h3>/SIAE/Control-G/Menu_2.jsp</h3>
+     * <h3>Control-G/Menu_2.jsp</h3>
      */
-    public static String URL_CONTROLG_MENU_2 = "/SIAE/Control-G/Menu_2.jsp";
+    public static String URL_CONTROLG_MENU_2 = "Control-G/Menu_2.jsp";
     /**
      * Dirección de absulta de la página de Curricula ménu.
      * <h3>/SIAE/curricula/Menu.jsp</h3>

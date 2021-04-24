@@ -118,8 +118,8 @@ public class CursosDAO {
             s.setIdSesion(cn.getResultado().getInt("idSesion"));
             s.setIdCurso( cn.getResultado().getInt("idCurso") );
             s.setDia(cn.getResultado().getString("dia"));
-            s.setHora_inicio(cn.getResultado().getTime("hora_inicio"));
-            s.setHora_fin(cn.getResultado().getTime("hora_fin"));
+            s.setHora_inicio(cn.getResultado().getString("hora_inicio"));
+            s.setHora_fin(cn.getResultado().getString("hora_fin"));
             t.add(s);
         }
         cn.getEstadoProce().close();
@@ -140,8 +140,8 @@ public class CursosDAO {
         cn.prepareCallable(sql);
         cn.getEstadoProce().setInt(1, change.getIdCurso());
         cn.getEstadoProce().setString(2, change.getDia());
-        cn.getEstadoProce().setString(3, change.getHora_inicio().toString());
-        cn.getEstadoProce().setString(4, change.getHora_fin().toString());
+        cn.getEstadoProce().setString(3, change.getHora_inicio());
+        cn.getEstadoProce().setString(4, change.getHora_fin());
         cn.getEstadoProce().executeUpdate();
         cn.getEstadoProce().close();
         cn.getConexion().close();

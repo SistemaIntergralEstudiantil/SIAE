@@ -15,8 +15,8 @@ public class Sesion {
     private int idSesion;
     private int idCurso;
     private String dia;
-    private Time hora_inicio;
-    private Time hora_fin;
+    private String hora_inicio;
+    private String hora_fin;
     /**
      * Este método obtiene el identificador la sesión
      * @return El identificador de la sesión
@@ -67,28 +67,28 @@ public class Sesion {
      * Este método obtiene la hora de inicio la sesión.
      * @return La hora de inicio de la sesión.
      */
-    public Time getHora_inicio() {
+    public String getHora_inicio() {
         return hora_inicio;
     }
     /**
      * Este método asigna la hora de inicio de la sesión.
      * @param hora_inicio La hora de inicio de la sesión.
      */
-    public void setHora_inicio(Time hora_inicio) {
+    public void setHora_inicio(String hora_inicio) {
         this.hora_inicio = hora_inicio;
     }
     /**
      * Este método obtiene la hora final de la sesión.
      * @return La hora final de la sesión.
      */
-    public Time getHora_fin() {
+    public String getHora_fin() {
         return hora_fin;
     }
     /**
      * Este método asigna la hora final de la sesión.
      * @param hora_fin La hora final de la sesión.
      */
-    public void setHora_fin(Time hora_fin) {
+    public void setHora_fin(String hora_fin) {
         this.hora_fin = hora_fin;
     }
     

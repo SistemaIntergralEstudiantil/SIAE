@@ -52,82 +52,83 @@ public class CambiosCA extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null) { // Control para el acceso no autorizado.
-            sec = new Session();
-            sec.setTypeSessionNull(0);
+        try {
+            if(sec == null) { // Control para el acceso no autorizado.
+                sec = new Session();
+                sec.setTypeSessionNull(0);
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
+                // Redireccionamiento a la pagina de error.
+            } else {
+
+                String clave = request.getParameter("clave");
+                // Asesorias
+                if(clave.equals("asesor") || clave.equals("add-A") || clave.equals("change-A") ) {
+                    AreasApoyoDAO crlA = new AreasApoyoDAO(); // Solo consultar Consulta
+                    if(clave.equals("asesor")) {
+                        // Mensaje de respuesta para la vista
+                        request.setAttribute("msj", "Consulta registro de asesoria");
+                    }
+                    // Agregar una asesoria
+                    if(clave.equals("add-A")) {
+                        // Obtención de los parametros de la interfaz
+                        String url = request.getParameter("url");
+                        String dia = request.getParameter("dia");
+                        String hora_inicio = request.getParameter("hora_inicio");
+                        String hora_fin = request.getParameter("hora_fin");
+                        String codigo = request.getParameter("codigo");
+                        String idAsignaturaA = request.getParameter("idAsignatura");
+                        String idResponsableA = request.getParameter("idResponsable");
+                        // Cración del objeto a registrar
+                        AreaApoyo nueva = new AreaApoyo();
+                        nueva.setUrl(url);
+                        nueva.setDia(dia);
+                        nueva.setHora_inicio(convertStringToTime(hora_inicio));
+                        nueva.setHora_fin(convertStringToTime(hora_fin));
+                        nueva.setCodigo((codigo==null)?"":codigo);
+                        nueva.setIdAsignatura(Integer.parseInt(idAsignaturaA));
+                        nueva.setIdResponsable(idResponsableA);
+                        // Registrar la nueva AreaApoyo
+                        crlA.addAsesoria(nueva);
+                        // Asignación de un mensaje de visualización en la interfaz
+                        request.setAttribute("msj", "Asesoria registrada");
+                    }
+                    // Cambiar el estado de una AreaApoyo
+                    if(clave.equals("change-A")) {
+                        String idAsesoria = request.getParameter("idAsesoria");
+                        String estado = request.getParameter("estado");
+                        // Crear el objeto del cambio
+                        AreaApoyo change = new AreaApoyo();
+                        change.setIdAreasApoyo(Integer.parseInt(idAsesoria));
+                        change.setEstado((estado.equals("E"))?"D":"E");
+                        // Reagistrar el cambio de estado
+                        crlA.changeStatusAsesoria(change);
+                        request.setAttribute("msj", "Operación asesoria");
+                    }
+                    // Consultar el registro de las Asesorias
+                    ArrayList<ReporteAsesoria> listRA = crlA.consultaAsesoria();
+                    // Enviar los datos consultados a la interfaz
+                    request.setAttribute("lista-RA", listRA);
+                    request.setAttribute("lista-AA", consultarA());
+                    request.setAttribute("lista-DA", consultarD());
+                }
+                // Redireccionar la petición a la interfaz
+                request.getRequestDispatcher(Url.URL_CONTROLG_MENU_2).forward(request, response);
+            }
+        } catch (ClassNotFoundException ex) {
             sesion.setAttribute("user", sec);
-            request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
-            // Redireccionamiento a la pagina de error.
-        } else {
-            try {
-            String clave = request.getParameter("clave");
-            // Asesorias
-            if(clave.equals("asesor") || clave.equals("add-A") || clave.equals("change-A") ) {
-                AreasApoyoDAO crlA = new AreasApoyoDAO();
-                // Solo consultar Consulta
-                if(clave.equals("asesor")) {
-                    // Mensaje de respuesta para la vista
-                    request.setAttribute("msj", "Consulta registro de asesoria");
-                }
-                // Agregar una asesoria
-                if(clave.equals("add-A")) {
-                    // Obtención de los parametros de la interfaz
-                    String url = request.getParameter("url");
-                    String dia = request.getParameter("dia");
-                    String hora_inicio = request.getParameter("hora_inicio");
-                    String hora_fin = request.getParameter("hora_fin");
-                    String codigo = request.getParameter("codigo");
-                    String idAsignaturaA = request.getParameter("idAsignatura");
-                    String idResponsableA = request.getParameter("idResponsable");
-                    // Cración del objeto a registrar
-                    AreaApoyo nueva = new AreaApoyo();
-                    nueva.setUrl(url);
-                    nueva.setDia(dia);
-                    nueva.setHora_inicio(convertStringToTime(hora_inicio));
-                    nueva.setHora_fin(convertStringToTime(hora_fin));
-                    nueva.setCodigo((codigo==null)?"":codigo);
-                    nueva.setIdAsignatura(Integer.parseInt(idAsignaturaA));
-                    nueva.setIdResponsable(idResponsableA);
-                    // Registrar la nueva AreaApoyo
-                    crlA.addAsesoria(nueva);
-                    // Asignación de un mensaje de visualización en la interfaz
-                    request.setAttribute("msj", "Asesoria registrada");
-                }
-                // Cambiar el estado de una AreaApoyo
-                if(clave.equals("change-A")) {
-                    String idAsesoria = request.getParameter("idAsesoria");
-                    String estado = request.getParameter("estado");
-                    // Crear el objeto del cambio
-                    AreaApoyo change = new AreaApoyo();
-                    change.setIdAreasApoyo(Integer.parseInt(idAsesoria));
-                    change.setEstado((estado.equals("E"))?"D":"E");
-                    // Reagistrar el cambio de estado
-                    crlA.changeStatusAsesoria(change);
-                    request.setAttribute("msj", "Operación asesoria");
-                }
-                // Consultar el registro de las Asesorias
-                ArrayList<ReporteAsesoria> listRA = crlA.consultaAsesoria();
-                // Enviar los datos consultados a la interfaz
-                request.setAttribute("lista-RA", listRA);
-                request.setAttribute("lista-AA", consultarA());
-                request.setAttribute("lista-DA", consultarD());
-            }
-            // Redireccionar la petición a la interfaz
-            request.getRequestDispatcher(Url.URL_CONTROLG_MENU_2).forward(request, response);
-            } catch (ClassNotFoundException ex) {
-                sesion.setAttribute("user", sec);
-                sec.setErrorMsj("Error al declarar el conector a la SGBD:");
-                sec.setErrorType(ex.toString());
-                sec.setErrorUrl(Url.URL_HOME);
-                response.sendRedirect(Url.URL_ERROR);
-            } catch (SQLException ex) {
-                sesion.setAttribute("user", sec);
-                sec.setErrorMsj("Error en la conexión con el SGBD:");
-                sec.setErrorType(ex.toString());
-                sec.setErrorUrl(Url.URL_HOME);
-                response.sendRedirect(Url.URL_ERROR);
-            }
+            sec.setErrorMsj("Error al declarar el conector a la SGBD:");
+            sec.setErrorType(ex.toString());
+            sec.setErrorUrl(Url.URL_HOME);
+            response.sendRedirect(Url.URL_ERROR);
+        } catch (SQLException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj("Error en la conexión con el SGBD:");
+            sec.setErrorType(ex.toString());
+            sec.setErrorUrl(Url.URL_HOME);
+            response.sendRedirect(Url.URL_ERROR);
         }
+        
     }
     /**
      * Método convierte una cadena de texto, para horas y minutos<br>

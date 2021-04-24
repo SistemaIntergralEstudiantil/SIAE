@@ -143,8 +143,8 @@ public class Control extends HttpServlet {
                         Sesion change = new Sesion();
                         change.setIdCurso(Integer.parseInt(idCurso));
                         change.setDia(dia);
-                        change.setHora_inicio(convertStringToTime(hora_inicio));
-                        change.setHora_fin(convertStringToTime(hora_fin));
+                        change.setHora_inicio(hora_inicio);
+                        change.setHora_fin(hora_fin);
                         crl.newSessionCurso(change);
                         // Mensaje para la interfaz
                         request.setAttribute("msj", "Nueva sesión");
@@ -187,6 +187,7 @@ public class Control extends HttpServlet {
         int h = Integer.parseInt(in[0]);
         int m = Integer.parseInt(in[1]);
         Time ini = new Time( h, m, 0);
+        
         return ini;
     }
     /**
