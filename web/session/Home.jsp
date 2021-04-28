@@ -29,7 +29,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);   
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
             } else 
                 user = sec.getUser(); %>
         <header>
