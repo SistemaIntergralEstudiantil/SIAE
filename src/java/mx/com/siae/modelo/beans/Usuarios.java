@@ -21,6 +21,7 @@ public class Usuarios {
     private String correo_inst;
     private String rol;
     private String password;
+    private String passwordNew;
     private String numTel;
     private int semestre;
     public InputStream gFoto;
@@ -181,6 +182,20 @@ public class Usuarios {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+    /**
+     * Este método obtiene el valor de la nueva contraseña del usuario.
+     * @return El valor de la contraseña.
+     */
+    public String getPasswordNew() {
+        return passwordNew;
+    }
+    /**
+     * Este método signa el valor la nueva contraseña del usuario.
+     * @param passwordNew Este es el valor de la nueva contraseña.
+     */
+    public void setPasswordNew(String passwordNew) {
+        this.passwordNew = passwordNew;
     }
     /**
      * Este método obtiene el valor del número telefónico del usuario.

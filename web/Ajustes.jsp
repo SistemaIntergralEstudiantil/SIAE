@@ -46,7 +46,7 @@
                     if(user.aFoto != null) { %>
                 <img src="data:image/png;base64,<%= Base64.getEncoder().encodeToString(user.aFoto)%>" id="foto"/>
                 <% } else { %><img src="../resource/images/ISIC-Circulo.png" id="foto"/><% } }%>
-                <input name="foto" type="file" id="file" required />
+                <input name="foto" type="file" id="file" />
                 <label for ="file" id="subirFoto">Seleccionar foto de perfil</label>
             </div>
             <abbr title="Seleccione el ícono del avatar para modificar su foto de perfil">
