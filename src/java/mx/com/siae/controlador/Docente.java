@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mx.com.siae.conector.config.Url;
 import mx.com.siae.modelo.AsignaturaDAO;
 import mx.com.siae.modelo.CursosDAO;
 import mx.com.siae.modelo.Session;
@@ -21,8 +22,14 @@ import mx.com.siae.modelo.beans.AlumnoRepoD;
 import mx.com.siae.modelo.beans.CursoAlumno;
 
 /**
- *
+ * Esta clase controla las petisiones del control de estados de los alumnos
  * @author danielhernandezreyes
+ * @version 21/04/2021A
+ * @see AsignaturaDAO
+ * @see CursosDAO
+ * @see Session
+ * @see AlumnoRepoD
+ * @see CursoAlumno
  */
 @WebServlet(name = "Docente", urlPatterns = {"/Docente"})
 public class Docente extends HttpServlet {
@@ -33,56 +40,64 @@ public class Docente extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null){ // Control para el acceso no autorizado.
-            sec = new Session();
-            sec.setTypeSessionNull(0);
-            sesion.setAttribute("user", sec);
-            request.getRequestDispatcher("error/error.jsp").forward(request, response);
-            // Redireccionamiento a la pagina de error.
-        }else{
-            try {
+        try {
+            if(sec == null) { // Control para el acceso no autorizado.
+                sec = new Session();
+                sec.setTypeSessionNull(0);
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
+                // Redireccionamiento a la pagina de error.
+            } else {
                 String clave = request.getParameter("clave");
                 if(clave.equals("inicio") || clave.equals("change")){
                     String idUsuario = sec.getUser().getIdUsuario();
-                    
+                    // Cambio del reporte del alumno
                     if(clave.equals("change")){
                         String matricula = request.getParameter("matricula");
                         if(matricula!=null || !matricula.equals("")){
+                            // Obtención de los datos de la interfaz
                             String idCurso = request.getParameter("idCurso");
                             String status = request.getParameter("status");
                             CursoAlumno curalum = new CursoAlumno();
                             curalum.setMatricula(matricula);
                             curalum.setIdCurso(Integer.parseInt(idCurso));
                             curalum.setEstado(status);
+                            // Registro de los cambios
                             CursosDAO crlCA = new CursosDAO();
                             crlCA.changeStatusAlumno(curalum);
                         }
                     }
-                    
+                    // Consulta de los alumnos del docente
                     AsignaturaDAO crl = new AsignaturaDAO();
                     ArrayList<AlumnoRepoD> list = crl.reporteAlumnoCursoD(idUsuario);
                     request.setAttribute("lista", list);
-                    request.getRequestDispatcher("/Docente/Cursos.jsp").forward(request, response);
+                    // Redirección a la interfaz
+                    request.getRequestDispatcher(Url.URL_DOCENTE_CURSOS).forward(request, response);
                 }
-            } catch (ClassNotFoundException ex) {
-                sesion.setAttribute("user", sec);
-                sec.setErrorMsj("Error al declarar el conector a la SGBD:");
-                sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/session/Home.jsp");
-                response.sendRedirect("error/error.jsp");
-            } catch (SQLException ex) {
-                sesion.setAttribute("user", sec);
-                sec.setErrorMsj("Error en la conexión con el SGBD:");
-                sec.setErrorType(ex.toString());
-                sec.setErrorUrl("/SIAE/session/Home.jsp");
-                response.sendRedirect("error/error.jsp");
             }
+        } catch (ClassNotFoundException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj("Error al declarar el conector a la SGBD:");
+            sec.setErrorType(ex.toString());
+            sec.setErrorUrl(Url.URL_HOME);
+            response.sendRedirect(Url.URL_ERROR);
+        } catch (SQLException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj("Error en la conexión con el SGBD:");
+            sec.setErrorType(ex.toString());
+            sec.setErrorUrl(Url.URL_HOME);
+            response.sendRedirect(Url.URL_ERROR);
+        } catch (IOException | NumberFormatException | ServletException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj(ex.getMessage());
+            sec.setErrorType("java.lang.Exception");
+            sec.setErrorUrl(Url.URL_LOGIN);
+            response.sendRedirect(Url.URL_ERROR);
         }
         
     }

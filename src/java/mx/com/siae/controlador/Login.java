@@ -1,19 +1,18 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
-import java.security.Key;
+import java.io.InputStream;
 import java.sql.SQLException;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import mx.com.siae.modelo.AreasApoyoDAO;
+import javax.servlet.http.Part;
+import mx.com.siae.conector.config.Url;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.UsuariosDAO;
-import mx.com.siae.modelo.beans.Asesoria;
 import mx.com.siae.modelo.beans.Usuarios;
 
 /**
@@ -23,7 +22,6 @@ import mx.com.siae.modelo.beans.Usuarios;
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
     
-    private final Key key = new SecretKeySpec("}u#n@c]l{&v4-D3E16$<yt_>s[".getBytes(),  0, 16, "AES");
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -41,11 +39,10 @@ public class Login extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String clave = request.getParameter("clave");
         HttpSession sesion = request.getSession();
         Session sec = new Session();
@@ -56,18 +53,12 @@ public class Login extends HttpServlet {
                     user.setIdUsuario(request.getParameter("idUsuario"));
                     user.setPassword(request.getParameter("contra"));
                     validarData(user);
-                    // Encriptar contraseña
-                    
-                        
-                    
-                    //encriptar(user);
-                    
                     UsuariosDAO crl = new UsuariosDAO();
                     user = crl.iniciarSesion(user);
                     if(user != null){ // Todos lo datos obtenidos.
                         sec.setUser(user);
                         sesion.setAttribute("user", sec);
-                        response.sendRedirect("session/Home.jsp");
+                        response.sendRedirect(Url.URL_HOME);
                     } else
                         throw new Exception("Las credenciales no se encontrarón.");
                     break;
@@ -80,14 +71,14 @@ public class Login extends HttpServlet {
             sesion.setAttribute("user", sec);
             sec.setErrorMsj("Error en la conexión con el SGBD:");
             sec.setErrorType(ex.toString());
-            sec.setErrorUrl("/SIAE/Login.jsp");
-            response.sendRedirect("error/error.jsp");
+            sec.setErrorUrl(Url.URL_LOGIN);
+            response.sendRedirect(Url.URL_ERROR);
         } catch (Exception ex) {
             sesion.setAttribute("user", sec);
             sec.setErrorMsj(ex.getMessage());
             sec.setErrorType("java.lang.Exception");
-            sec.setErrorUrl("/SIAE/Login.jsp");
-            response.sendRedirect("error/error.jsp");
+            sec.setErrorUrl(Url.URL_LOGIN);
+            response.sendRedirect(Url.URL_ERROR);
         }
     }
     /**

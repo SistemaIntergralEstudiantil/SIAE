@@ -4,6 +4,9 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.modelo.beans.Usuarios"%>
+<%@page import="java.util.Base64"%>
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,12 +23,15 @@
     <body>
         <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
+            Usuarios user = null;
             if (sec == null) {
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response);
-            }%>
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
+            } else {
+                user = sec.getUser(); }
+            %>
         <header>
             <nav>
                 <ul class="content-G content">
@@ -34,14 +40,22 @@
                 </ul>
             </nav>
         </header>
-          <div class = "profile-pic-div">
-              <img src="resource/images/profile_pic.jpg" id="foto"/>
-        <input type="file" id="file">
-        <b><label for ="file" id="subirFoto">Seleccionar foto de perfil</b></label></div>
-        <abbr title="Seleccione el ícono del avatar para modificar su foto de perfil">
-            
-            <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right"/>  
-        </abbr>
+        <form action="CambiarDatos" method="POST" enctype="multipart/form-data" >
+            <div class = "profile-pic-div">
+                <% if(user != null) { 
+                    if(user.aFoto != null) { %>
+                <img src="data:image/png;base64,<%= Base64.getEncoder().encodeToString(user.aFoto)%>" id="foto"/>
+                <% } else { %><img src="../resource/images/ISIC-Circulo.png" id="foto"/><% } }%>
+                <input name="foto" type="file" id="file" required />
+                <label for ="file" id="subirFoto">Seleccionar foto de perfil</label>
+            </div>
+            <abbr title="Seleccione el ícono del avatar para modificar su foto de perfil">
+                <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right"/>  
+            </abbr>
+            <input type="hidden" name="clave" value="change"/>
+            <input type="password" name="contra" required />
+            <input type="submit" value="Actualizar"/>
+        </form>
          <a class="item-G-A-Selec content-a" href="session/Home.jsp">Menú principal</a>
         <script src="/SIAE/resource/js/Script-ProfilePic.js"></script>
     </body>

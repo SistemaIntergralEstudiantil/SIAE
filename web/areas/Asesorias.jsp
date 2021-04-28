@@ -4,6 +4,7 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.beans.ReporteAsesoria"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.Session"%>
@@ -27,7 +28,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response); } %>
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response); } %>
         <header>
         <nav>
         <ul class="content-G content">
@@ -44,12 +45,12 @@
             <table class="table" >
             <thead>
             <tr>
-                <th style="width: 6rem;">Docente</th>
+                <th style="width: 8rem;">Docente</th>
                 <th style="width: 14rem;">Asignatura</th>
                 <th style="width: 2rem;">Dia</th>
                 <th style="width: 10rem;">Horario</th>
-                <th style="width: 6rem;">URL</th>
-                <th style="width: 6rem;">Código</th>
+                <th style="width: 2rem;">URL</th>
+                <th style="width: 4rem;">Código</th>
             </tr>
             </thead>
             <tbody id="content-body" >
@@ -60,7 +61,7 @@
                     <th><%=(r.getAsignatura() == null) ? "No espesificado" : r.getAsignatura()%></th>
                     <th><%=r.getDia()%></th>
                     <th><%=r.getHorario()%></th>
-                    <th><%=r.getUrl()%></th>
+                    <th> <a href="<%=r.getUrl()%>" target="_blank">URL</a></th>
                     <th><%=r.getCodigo()%></th></tr><% } } %>
             </tbody>
             </table>

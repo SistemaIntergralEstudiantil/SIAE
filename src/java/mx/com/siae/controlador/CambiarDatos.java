@@ -6,29 +6,26 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import mx.com.siae.conector.config.Url;
-import mx.com.siae.modelo.AreasApoyoDAO;
 import mx.com.siae.modelo.Session;
-import mx.com.siae.modelo.beans.ReporteAsesoria;
+import mx.com.siae.modelo.UsuariosDAO;
+import mx.com.siae.modelo.beans.Usuarios;
 
 /**
- * Esta clase representa el control de las peticiones para las asesoria.
- * @version 12/04/2021A
+ *
  * @author danielhernandezreyes
- * @see AreasApoyoDAO
- * @see Session
- * @see ReporteAsesoria
  */
-@WebServlet(name = "Asesorias", urlPatterns = {"/Asesorias"})
-public class Asesorias extends HttpServlet {
+@WebServlet(name = "CambiarDatos", urlPatterns = {"/CambiarDatos"})
+public class CambiarDatos extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,32 +39,39 @@ public class Asesorias extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null){ // Control para el acceso no autorizado.
+        if(sec == null) { // Control para el acceso no autorizado.
             sec = new Session();
             sec.setTypeSessionNull(0);
             sesion.setAttribute("user", sec);
             request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
             // Redireccionamiento a la pagina de error.
-        }else{
+        } else {
             try {
-                String servicio = request.getParameter("servicio");
-                if(servicio == null){ // No se espesifica la opción
-                    response.sendRedirect(Url.URL_AREAS_MENU);
-                    // Redirección a la misma pagina
-                }else{
-                    if(servicio.equals("A")){ // Control de las asesorias.
-                        AreasApoyoDAO crl = new AreasApoyoDAO();
-                        ArrayList<ReporteAsesoria> list = crl.reporteAsesorias();
-                        request.setAttribute("lista", list);
-                        request.getRequestDispatcher("areas/Asesorias.jsp").forward(request, response);
-                        // Redirección a la pagina de asesorias.
-                    }else{ 
-                        if(servicio.equals("S")){ // Control de servicio
-                            response.sendRedirect(Url.URL_AREAS_SERVICIO);
-                            // Redirección a la pagina del servicio.
-                        }else{
-                            response.sendRedirect(Url.URL_AREAS_MENU);
-                        }
+                String clave = request.getParameter("clave");
+                if(clave == null)
+                        throw new Exception("La clave es null"); 
+                if(clave.equals("change")) {
+                    // Obtención de los parametros de la interfaz
+                    String contra = request.getParameter("contra");
+                    if(contra == null)
+                        throw new Exception("No se ingreso la contraseña"); 
+                    Part foto = request.getPart("foto");
+                    if(foto == null)
+                        throw new Exception("No se selecciona una foto"); 
+                    Usuarios userC = sec.getUser();
+                    userC.gFoto = foto.getInputStream();
+                    userC.setPassword(contra);
+                    UsuariosDAO crlC = new UsuariosDAO();
+                    
+                    crlC.changeDataUser(userC);
+                    Usuarios temp = crlC.iniciarSesion(userC);
+                    // Realziar el cambio de los datos 
+                    if(temp != null){ // Todos lo datos obtenidos.
+                        sec.setUser(temp);
+                        sesion.setAttribute("user", sec);
+                        request.getRequestDispatcher("session/Home.jsp").forward(request, response);
+                    } else {
+                        throw new Exception("Las credenciales no se encontrarón."); 
                     }
                 }
             } catch (ClassNotFoundException ex) {
@@ -81,6 +85,12 @@ public class Asesorias extends HttpServlet {
                 sec.setErrorMsj("Error en la conexión con el SGBD:");
                 sec.setErrorType(ex.toString());
                 sec.setErrorUrl(Url.URL_HOME);
+                response.sendRedirect(Url.URL_ERROR);
+            } catch (Exception ex) {
+                sesion.setAttribute("user", sec);
+                sec.setErrorMsj(ex.getMessage());
+                sec.setErrorType("java.lang.Exception");
+                sec.setErrorUrl(Url.URL_LOGIN);
                 response.sendRedirect(Url.URL_ERROR);
             }
         }

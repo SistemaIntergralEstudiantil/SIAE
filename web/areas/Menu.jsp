@@ -4,6 +4,7 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -25,7 +26,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response); } %>
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response); } %>
         <header>
         <nav>
         <ul class="content-G content">
@@ -46,7 +47,7 @@
             <input type="hidden" name="clave" value="menu">
             <input class="data_d input-submit" type="submit" value="Consultar"></div>
         <div class="content-data_row" >
-            <a class="item-G-A-Selec content-a" href="/SIAE/session/Home.jsp">Ménu principal</a></div>
+            <a class="item-G-A-Selec content-a" href="<%=Url.URL_HOME%>">Ménu principal</a></div>
         </form>
     </body>
 </html>

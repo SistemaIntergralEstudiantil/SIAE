@@ -4,6 +4,7 @@
     Author     : danielhernandezreyes
 --%>
 
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.beans.Sesion"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.Session"%>
@@ -25,7 +26,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("/error/error.jsp").forward(request, response); } %>
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response); } %>
     <header>
     <nav>
     <ul class="content-G content">
@@ -45,7 +46,7 @@
                 <div class="item-option" ><label>Dia:<select class="item-selec" id="dia" name="dia">
                     <option value="0" disabled selected>Dia ...</option>
                     <option value="Lunes">Lunes</option><option value="Martes">Martes</option><option value="Miercoles">Miercoles</option>
-                    <option value="Lunes">Jueves</option><option value="Lunes">Viernes</option>
+                    <option value="Jueves">Jueves</option><option value="Viernes">Viernes</option>
                 </select></label>
                 </div>
                 <div class="item-option" ><label>Hora inicio: <input class="input-number" type="time" name="hora_inicio" id="hora_inicio" min="07:00" max="21:00" value="08:00" ></label></div>
@@ -75,8 +76,8 @@
                         for(Sesion s : l) { %>
                 <tr><th><%=s.getIdSesion() %></th>
                     <th><%=s.getDia() %></th>
-                    <th><%=s.getHora_inicio().toString() %></th>
-                    <th><%=s.getHora_fin().toString() %></th>
+                    <th><%=s.getHora_inicio() %></th>
+                    <th><%=s.getHora_fin() %></th>
                     <th><form action="Control" method="POST" >
                         <input type="hidden" name="clave" value="session-delete">
                         <input type="hidden" name="idCurso" value="<%=(idCurso==null)?"":idCurso %>">
