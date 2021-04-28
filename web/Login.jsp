@@ -25,31 +25,33 @@
             </tr>
         </table>
         <p align="center"><img src="resource/images/logo_SIAE.png" height="180" width="180"></p>
-    <center>
-        <form action="Login" method="POST" >
-            <div>
-                <label for="user">Usuario:</label>
-                <input id="user" type="text" name="idUsuario" placeholder="Matricula o Número de control" required />
-            </div><br>
-            <div>
-                <label for="pass">Contraseña:</label>
-                <input  id="pass" type="password" name="contra" placeholder="Introduce tu contraseña" required />
-            </div><br>
-            <div>
-                <input type="hidden" name="clave" value="log"/>
-                <input type="submit" value="Ingresar">
-            </div>
-        </form>
-    </center>
-    
-    <a href="session/Home.jsp">Home</a>
-    <a href="areas/Menu.jsp">Apoyo</a>
-    <a href="areas/Asesorias.jsp">Asesorias</a>
-    <a href="curricula/Menu.jsp">Curricula</a>
-    <a href="areas/ServicioPsicologico.jsp">Servicio psicologico</a>
-    <a href="Docente/Cursos.jsp">Docente</a>
-    <a href="Control-G/Menu.jsp">Control</a>
-    <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
-    <script src="resource/js/Script-Login.js"></script>
-</body>
+        <div class="content-form">
+            <center>
+                <form action="Login" method="POST">
+                    <div>
+                        <label for="user" class="lbl-user">Matricula o Número de control</label>
+                        <input id="user" type="text" name="idUsuario"/>
+                    </div><br>
+                    <div>
+                        <label for="pass" class="lbl-pass">Introduce tu contraseña</label>
+                        <input  id="pass" type="password" name="contra" />
+                    </div><br>
+                    <div>
+                        <input type="hidden" name="clave" value="log"/>
+                        <input type="submit" value="Ingresar">
+                    </div>
+                </form>
+            </center>
+        </div>
+        <a href="session/Home.jsp">Home</a>
+        <a href="areas/Menu.jsp">Apoyo</a>
+        <a href="areas/Asesorias.jsp">Asesorias</a>
+        <a href="curricula/Menu.jsp">Curricula</a>
+        <a href="areas/ServicioPsicologico.jsp">Servicio psicologico</a>
+        <a href="Docente/Cursos.jsp">Docente</a>
+        <a href="Control-G/Menu.jsp">Control</a>
+        <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="resource/js/Script-Login.js"></script>
+    </body>
 </html>
