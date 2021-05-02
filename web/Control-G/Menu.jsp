@@ -25,11 +25,12 @@
     <body>
         <% HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
+            
             if(sec == null){
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher(Url.URL_HOME).forward(request, response);   
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);   
             }
         %>
         <header>

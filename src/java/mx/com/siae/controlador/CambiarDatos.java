@@ -50,7 +50,7 @@ public class CambiarDatos extends HttpServlet {
                 String clave = request.getParameter("clave");
                 if(clave == null)
                         throw new Exception("La clave es null"); 
-                if(clave.equals("change")) {
+                if(clave.equals("change-foto")) {
                     // Obtención de los parametros de la interfaz
                     String contra = request.getParameter("contra");
                     if(contra == null)
@@ -64,6 +64,33 @@ public class CambiarDatos extends HttpServlet {
                     UsuariosDAO crlC = new UsuariosDAO();
                     
                     crlC.changeDataUser(userC);
+                    Usuarios temp = crlC.iniciarSesion(userC);
+                    // Realziar el cambio de los datos 
+                    if(temp != null){ // Todos lo datos obtenidos.
+                        sec.setUser(temp);
+                        sesion.setAttribute("user", sec);
+                        request.getRequestDispatcher("session/Home.jsp").forward(request, response);
+                    } else {
+                        throw new Exception("Las credenciales no se encontrarón."); 
+                    }
+                }
+                if(clave.equals("change-pass")) {
+                    // Obtención de los parametros de la interfaz
+                    String contra = request.getParameter("contra");
+                    String newContra = request.getParameter("newContra");
+                    if(contra == null)
+                        throw new Exception("No se ingreso la contraseña");
+                    if(newContra == null)
+                        throw new Exception("No se ingreso la nueva contraseña"); 
+                    
+                    Usuarios userC = sec.getUser();
+                    userC.setPassword(contra);
+                    userC.setPasswordNew(newContra);
+                    UsuariosDAO crlC = new UsuariosDAO();
+                    crlC.changeDataUser(userC);
+                    userC.setPassword(userC.getPasswordNew());
+                    userC.setPasswordNew(null);
+                    // Reiniciar la sesión
                     Usuarios temp = crlC.iniciarSesion(userC);
                     // Realziar el cambio de los datos 
                     if(temp != null){ // Todos lo datos obtenidos.

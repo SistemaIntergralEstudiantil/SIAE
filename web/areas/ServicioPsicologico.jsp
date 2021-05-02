@@ -26,7 +26,7 @@
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher("../error/error.jsp").forward(request, response);
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);
             } else {
                 user = sec.getUser();
             }%>

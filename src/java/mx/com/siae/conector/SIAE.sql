@@ -508,7 +508,7 @@ BEGIN
 END $$
 DELIMITER ;
 ;
--- CALL proce_cambiar_clave('18011126', 'hernandez', 'dhernandezr');
+-- CALL proce_cambiar_clave('18011126', 'dhernandezr', 'dhernandezr');
 
 DROP PROCEDURE IF EXISTS proce_eliminar_sesion;
 DELIMITER $$

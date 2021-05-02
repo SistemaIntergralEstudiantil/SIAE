@@ -94,20 +94,30 @@ public class UsuariosDAO {
         return t;
     }
     /**
-     * Método cambia los datos del usaurio<br>
+     * Método cambia los datos del usuario: Foto y contraseña
      * @param user Datos del a modificar
      * 
      * @throws ClassNotFoundException Excepción al establecer el conector.
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
     public void changeDataUser(Usuarios user) throws SQLException, ClassNotFoundException {
-        String sql = "{CALL proce_update_usuario(?, ?)}";
         Conexion cn = new Conexion();
         cn.conectar();
-        cn.prepareCallable(sql);
-        cn.getEstadoProce().setString(1, user.getIdUsuario());
-        cn.getEstadoProce().setBlob(2, user.gFoto);
-        cn.getEstadoProce().executeUpdate();
+        if(user.getPasswordNew() == null) {
+            String sql = "{CALL proce_update_usuario(?, ?)}";
+            cn.prepareCallable(sql);
+            cn.getEstadoProce().setString(1, user.getIdUsuario());
+            cn.getEstadoProce().setBlob(2, user.gFoto);
+            cn.getEstadoProce().executeUpdate();
+            
+        } else {
+            String sql = "{CALL proce_cambiar_clave(?, ?, ?)}";
+            cn.prepareCallable(sql);
+            cn.getEstadoProce().setString(1, user.getIdUsuario());
+            cn.getEstadoProce().setString(2, user.getPassword());
+            cn.getEstadoProce().setString(3, user.getPasswordNew());
+            cn.getEstadoProce().executeUpdate();
+        }
         cn.getEstadoProce().close();
         cn.getConexion().close();
     }
