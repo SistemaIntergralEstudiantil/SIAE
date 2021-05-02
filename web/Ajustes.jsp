@@ -20,7 +20,10 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Ajustes.css"/>
     </head>
-    <body>
+   
+    <body style="background-image: url(/SIAE/resource/images/menuPrincipal.png);background-size: 100% 130%;background-repeat: no-repeat">
+
+    
         <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
             Usuarios user = null;
@@ -52,10 +55,20 @@
             <abbr title="Seleccione el ícono del avatar para modificar su foto de perfil">
                 <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right"/>  
             </abbr>
-            <input type="hidden" name="clave" value="change"/>
-            <input type="password" name="contra" required />
-            <input type="submit" value="Actualizar"/>
         </form>
+                <form>
+                <dl class="content-data" >
+                    <strong><div class="content-data_row"><dt class="data_dt data_d" >Usuario:</dt></div></strong>
+                    <strong><div class="content-data_row"><dt class="data_dt data_d" >Contraseña actual:     <input type="password" name="contra" required /></dt></div></strong>
+                    <strong><div class="content-data_row"><dt class="data_dt data_d" >Contraseña nueva:     <input type="password" name="nuevaContra"  /></dt></div></strong>
+                    <strong><div class="content-data_row"><dt class="data_dt data_d" >Confirmar contraseña:     <input type="password" name="ConfirmarContra" /></dt></div></strong>
+            
+                    <div class="content-data_row"><dt><input type="hidden" name="clave" value="change"/></dt></div>
+                    <div class="content-data_row"><dt><input type="password" name="contra" required /></dt></div>
+                    <div class="content-data_row"><dt><input type="submit" id= "btnSubmit" value="Modificar"/></dt></div>
+            
+            
+                </dl>
          <a class="item-G-A-Selec content-a" href="session/Home.jsp">Menú principal</a>
         <script src="/SIAE/resource/js/Script-ProfilePic.js"></script>
     </body>
