@@ -182,5 +182,106 @@ public class CursosDAO {
         cn.getEstadoProce().close();
         cn.getConexion().close();
     }
-    
+    /**
+     * Método obtiene un lista de todos los cursos dispinibles para altas.
+     * @param matricula El identificador del alumno
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista contiene información de los cursos disponibles.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>La lista contiene 0 elementos: no hay cursos disponibles.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<ReporteCurso> reporteCursosAltas(String matricula) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_reporte_cursos_o(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setString(1, matricula);
+        cn.setResultado(cn.getEstadoProce().executeQuery());
+        ArrayList<ReporteCurso> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            ReporteCurso rep = new ReporteCurso();
+            rep.setIdCurso( cn.getResultado().getInt("idC") );
+            rep.setIdAsignatura(cn.getResultado().getInt("idA"));
+            rep.setSemestre(cn.getResultado().getInt("semestre"));
+            rep.setAsignatura(cn.getResultado().getString("nombre"));
+            rep.setCupo( cn.getResultado().getInt("cupo") );
+            rep.setCredito(cn.getResultado().getInt("credito") );
+            t.add(rep);
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return t;
+    }
+    /**
+     * Método obtiene un lista de todos los cursos, en los que el alumno fue aceptado.
+     * @param matricula El identificador del alumno
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista contiene información de los cursos disponibles.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>La lista contiene 0 elementos: no hay cursos disponibles.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<ReporteCurso> reporteCursosBajas(String matricula) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_reporte_registro_cursos(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setString(1, matricula);
+        cn.setResultado(cn.getEstadoProce().executeQuery());
+        ArrayList<ReporteCurso> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            ReporteCurso rep = new ReporteCurso();
+            rep.setIdCurso( cn.getResultado().getInt("idC") );
+            rep.setIdAsignatura(cn.getResultado().getInt("idA"));
+            rep.setSemestre(cn.getResultado().getInt("semestre"));
+            rep.setAsignatura(cn.getResultado().getString("nombre"));
+            rep.setCupo( cn.getResultado().getInt("cupo") );
+            rep.setCredito(cn.getResultado().getInt("credito") );
+            t.add(rep);
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return t;
+    }
+    /**
+     * Método registra la solicitud de inscripción un alumno a un curso.
+     * @param idCurso El identificador del curso.
+     * @param matricula El identificador del alumno.
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void registrarAltaAlumnoCurso(int idCurso, String matricula) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_solicitar_alta(?,?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, idCurso);
+        cn.getEstadoProce().setString(2, matricula);
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
+    /**
+     * Método registra la solicitud de baja, de un alumno de un curso.
+     * @param idCurso El identificador del curso.
+     * @param matricula El identificador del alumno.
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void registrarBajaAlumnoCurso(int idCurso, String matricula) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_solicitar_baja(?,?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, idCurso);
+        cn.getEstadoProce().setString(2, matricula);
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
 }

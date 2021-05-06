@@ -75,4 +75,9 @@ public class Url {
      * <h3>/SIAE/areas/Menu.jsp</h3>
      */
     public static String URL_AREAS_MENU = "/SIAE/areas/Menu.jsp";
+    /**
+     * Dirección de absulta de la página de altas y bajas.
+     * <h3>altasyBajas/AltasyBajas.jsp</h3>
+     */
+    public static String URL_ALTAS_Y_BAJAS = "altasyBajas/AltasyBajas.jsp";
 }

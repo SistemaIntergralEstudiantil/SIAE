@@ -4,6 +4,9 @@
     Author     : emeli
 --%>
 
+<%@page import="mx.com.siae.modelo.beans.ReporteCurso"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="mx.com.siae.conector.config.Url"%>
 <%@page import="mx.com.siae.modelo.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,76 +17,102 @@
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <title>Altas y bajas de Materias</title>
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
+        <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-AltasYbajas.css"/>
-        
-        
-       
     </head>
     <body style="background-image: url(/SIAE/resource/images/Login.png);background-size: 100% 150%;">
+        <%  HttpSession sesion = request.getSession();
+            Session sec = (Session) sesion.getAttribute("user");
+            if(sec == null){
+                sec = new Session();
+                sec.setTypeSessionNull(1);
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher("/error/error.jsp").forward(request, response);   
+            } %>
         <header>
         <nav>
-        <ul class="content-G content" >
+        <ul class="content-G content">
             <li><h1 class="content-item-G content-item" >Altas y Bajas de Materias</h1></li>
-            <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="100" height="100" alt="alt"/></li>
+            <li>
+                <img class="content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
+            </li>
         </ul>
         </nav>
         </header>
-        <center>
-            <img src="/SIAE/resource/images/logo_ISIC.png"  width="100" height="100" align="left">
-            <h2 style="font-size:2rem;" > Aquí tendrás la oportunidad de solicitar tus Altas y bajas de Materias</h2>
-        </center>
-        <center>
-            <select style="font-size:1.3rem" >
-                <option value="0" disabled selected>Semestre</option>
-                <option value="1">Primero</option> 
-                <option value="2">Segundo</option>
-                <option value="3">Tercero</option>
-                <option value="4">Cuarto</option> 
-                <option value="5">Quinto</option>
-                <option value="6">Sexto</option>
-                <option value="7">Séptimo</option> 
-                <option value="8">Octavo</option>
-                <option value="9">Noveno</option>
-            </select>
-        </center>
+        <div class="description-p"><p>Aquí tendrás la oportunidad de solicitar tus altas y bajas de Materias</p></div>
         <div class="content-table" >
-            <table class="table" class="thead">
-            <thead><tr>
-                    <th>Solicitar</th>
-                    <th>Clave de la Asignatura</th>
-                    <th>Nombre</th>
-                    <th>Créditos</th></tr>
-            </thead>
-            <tbody><tr>
-                <th><input type="checkbox" ></th>
-                <th>Asignatura</th>
-                <th>Nombre</th>
-                <th>Créditos</th>
-                </tr>
-            </tbody>
-            </table>
-            <br><br>
-            <center><input class="item-G-A-Selec content-a" type="submit" value="Enviar Solicitud" style="font-size:100%"></center>
-            <br><br>
-            <table class="table" >
+        <form method="POST" action="ControlCargaAcademica">
+            <table class="table">
+            <caption class="description-p" >Lista de asignaturas disponibles para cargar</caption>
             <thead>
                 <tr>
-                    <th>Clave de la asignatura</th>
-                    <th>Nombre</th>
-                    <th>Créditos</th>
+                <th style="width: 1.5rem;">Solicitar</th>
+                <th style="width: 4rem;">Id del curso</th>
+                <th style="width: 4rem;">Clave asignatura</th>
+                <th style="width: 1.5rem;">Semestre</th>
+                <th style="width: 10rem;">Asignatura</th>
+                <th style="width: 1.5rem;">Créditos</th>
+                <th style="width: 2.5rem;">Cupo</th>
                 </tr>
             </thead>
             <tbody>
+                <% if(sec!=null) { 
+                    ArrayList<ReporteCurso> l = (ArrayList<ReporteCurso>) request.getAttribute("lista-rca");
+                    int i = 0;
+                    for(ReporteCurso rc : l) {
+                %>
                 <tr>
-                    <th>Clave de la asignatura</th>
-                    <th>Nombre</th>
-                    <th>Créditos</th>
-                </tr>
+                <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()%>" ></th>
+                <th><%=rc.getIdCurso()%></th>
+                <th><%=rc.getIdAsignatura()%></th>
+                <th><%=rc.getSemestre()%></th>
+                <th><%=rc.getAsignatura()%></th>
+                <th><%=rc.getCredito()%></th>
+                <th><%=rc.getCupo()%></th>
+                </tr> <% i++; } } %>
             </tbody>
             </table>
-            <br>
-            <center>
-            <input class="item-G-A-Selec content-a" type="button" value="Menú principal" align="right"  style="font-size:1.1rem"/> </center>
+            <input type="hidden" name="clave" value="alta">
+            <input class="input-submit" type="submit" value="Enviar solicitud de alta">
+        </form>
         </div>
+        <div class="content-table" >
+        <form method="POST" action="ControlCargaAcademica">
+        <table class="table" >
+        <caption class="description-p" >Lista de las asignaturas que han sido cargadas</caption>
+        <thead>
+            <tr>
+            <th style="width: 1.5rem;">Baja</th>
+            <th style="width: 4rem;">Id del curso</th>
+            <th style="width: 4rem;">Clave asignatura</th>
+            <th style="width: 1.5rem;">Semestre</th>
+            <th style="width: 10rem;">Asignatura</th>
+            <th style="width: 1.5rem;">Créditos</th>
+            <th style="width: 2.5rem;">Cupo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(sec!=null) { 
+                    ArrayList<ReporteCurso> l = (ArrayList<ReporteCurso>) request.getAttribute("lista-rcb");
+                    int i = 0;
+                    for(ReporteCurso rc : l) {
+                %>
+                <tr>
+                <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()%>" ></th>
+                <th><%=rc.getIdCurso()%></th>
+                <th><%=rc.getIdAsignatura()%></th>
+                <th><%=rc.getSemestre()%></th>
+                <th><%=rc.getAsignatura()%></th>
+                <th><%=rc.getCredito()%></th>
+                <th><%=rc.getCupo()%></th>
+                </tr> <% i++; } } %>
+        </tbody>
+        </table>
+        <input type="hidden" name="clave" value="baja">
+        <input class="input-submit" type="submit" value="Enviar solicitud de baja">
+        </form>
+        </div>
+        <div class="content-data_row" >
+            <a class="item-G-A-Selec content-a" href="<%=Url.URL_HOME%>">Ménu principal</a></div>
     </body>
 </html>

@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS Asignaturas (
   area CHAR(2) NOT NULL CONSTRAINT `chk_Asignaturas_area`CHECK ( area IN('CB', 'CI', 'IA', 'DI', 'CS', 'CE','CC') ) ENFORCED COMMENT 'El area puede ser (CB), (CI), (IA), (DI), (CS), (CC)',
   credito INT NOT NULL CONSTRAINT `chk_Asignaturas_credito`CHECK ( credito BETWEEN 0 AND 10 ) ENFORCED COMMENT 'El credito puede ser entre 0 y 10',
   estado CHAR(1) NOT NULL CONSTRAINT `chk_Asignaturas_estado`CHECK ( estado in('E', 'D')) ENFORCED COMMENT 'El estado puede ser: (E) enable o (D) disable',
+  solicitar INT DEFAULT 0 COMMENT 'La camtidad de alumnos que solicitan la materia para verano',
   PRIMARY KEY (idAsignatura)
 );
 -- Table `SIAE`.`AreasApoyo`
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Alumnos (
 -- Table `SIAE`.`Cursos_Alumnos`
 CREATE TABLE IF NOT EXISTS Cursos_Alumnos (
   idCurso INT NOT NULL,
-  estado CHAR(1) NOT NULL CONSTRAINT `chk_Cursos_Alumnos_estado`CHECK ( estado in('S', 'A', 'R')) ENFORCED COMMENT 'El estado puede ser: (S) solicitado, (A) aceptado o (R) revocado',
+  estado CHAR(1) NOT NULL CONSTRAINT `chk_Cursos_Alumnos_estado`CHECK ( estado in('SA','SB', 'A', 'R')) ENFORCED COMMENT 'El estado puede ser: (SA) solicitar alta, (SB) solicitar baja, (A) aceptado o (R) revocado',
   reporte CHAR(1) NOT NULL DEFAULT 'P' CONSTRAINT `chk_Cursos_Alumnos_reporte`CHECK ( reporte in('P','A', 'R')) ENFORCED COMMENT 'El estado puede ser: (P) sin registro, (A) aprovado o (R) reprovado',
   matricula VARCHAR(20) NOT NULL,
   PRIMARY KEY (idCurso, matricula),
@@ -118,7 +119,7 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
     DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
-        INSERT INTO Asignaturas VALUES(in_idAsignatura, in_semestre, in_nombre, in_area, in_credito, in_estado);
+        INSERT INTO Asignaturas VALUES(in_idAsignatura, in_semestre, in_nombre, in_area, in_credito, in_estado, 0);
     IF t_error THEN ROLLBACK; SELECT concat(t_msg,' A ',in_idAsignatura) AS t_msg FROM dual; ELSE COMMIT;
     END IF;
 END $$
@@ -180,8 +181,10 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
     DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
     START TRANSACTION;
-        INSERT INTO Cursos(idCurso, tipo, estado, cupo, idAsignatura, idResponsable) 
+        INSERT INTO Cursos(idCurso, tipo, estado, cupo, idAsignatura, idResponsable)
             VALUES(in_idCurso, in_tipo, in_estado, in_cupo, in_idAsignatura, in_idResponsable);
+        IF in_tipo = 'V' THEN INSERT INTO Asignaturas(solicitar) VALUES(0);
+        END IF;
     IF t_error THEN ROLLBACK; SELECT concat(t_msg,' C ',in_idCurso) AS t_msg FROM dual; ELSE COMMIT;
     END IF;
 END $$
@@ -518,7 +521,98 @@ BEGIN
 END $$
 DELIMITER ;
 ;
--- Error Code: 1318. Incorrect number of arguments for PROCEDURE SIAE.proce_nuevo_user; expected 10, got 11
+
+DROP PROCEDURE IF EXISTS proce_reporte_cursos_o;
+DELIMITER $$
+CREATE PROCEDURE proce_reporte_cursos_o( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene todos los cursos de las materias disponibles, eliminando las materias aprobadas' DETERMINISTIC
+BEGIN
+    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito FROM
+    (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
+    JOIN 
+    (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos WHERE tipo = 'O' AND (estado = 'E' AND cupo > 0)) c
+    ON(a.idA=c.idA) 
+    WHERE a.idA 
+    NOT IN(
+        SELECT a.idA FROM
+            (SELECT cu.idC,cu.idA, cupo FROM
+            (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos) cu
+            JOIN
+            (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE ((estado = 'A' AND reporte = 'A') OR (estado = 'SA' OR estado = 'SB')) AND matricula = in_matricula) al
+            ON(cu.idC=al.idC)
+            ) c
+        JOIN
+            (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
+        ON(c.idA=a.idA)
+    );
+END $$
+DELIMITER ;
+;
+-- CALL proce_reporte_cursos_o('18011126');
+-- CALL proce_reporte_cursos_o('18011830');
+# Todos los cursos disponibles
+#SELECT a.idA, semestre, nombre, credito FROM
+#(SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
+#JOIN 
+#(SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos WHERE tipo = 'O' AND (estado = 'E' AND cupo > 0)) c
+#ON(a.idA=c.idA);
+
+DROP PROCEDURE IF EXISTS proce_registrar_alumno_curso;
+DELIMITER $$
+CREATE PROCEDURE proce_registrar_alumno_curso( in in_idCurso INT, in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento realiza la solicitud de un curso ordinal por un alumno' DETERMINISTIC
+BEGIN
+    DECLARE obj_idA INT DEFAULT -1;
+    DECLARE obj_Apr INT DEFAULT 0;
+    DECLARE t_error BOOLEAN; DECLARE t_msg VARCHAR(100) DEFAULT 'OK';
+    DECLARE t_msg_error CONDITION FOR 1062; DECLARE t_msg_error_chk CONDITION FOR 3819; DECLARE t_msg_error_fk CONDITION FOR 1452; DECLARE t_msg_error_null CONDITION FOR 1048;
+    DECLARE CONTINUE HANDLER FOR t_msg_error BEGIN SET t_msg ='1062 Clave duplicada'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
+    DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
+    SELECT idAh INTO obj_idA FROM 
+        (SELECT idAsignatura AS idA FROM Cursos where idCurso = in_idCurso) c
+    JOIN
+        (SELECT idAsignatura_h AS idAh, idAsignatura_p AS idAp FROM Dependencias) d
+    ON(c.idA=d.idAp);
+    IF obj_idA != -1 THEN
+        SELECT count(*) INTO obj_Apr FROM
+            (SELECT idCurso AS idC FROM Cursos WHERE idAsignatura = obj_idA) c
+        JOIN
+            (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE reporte = 'A' AND estado = 'A' AND matricula = in_matricula) ca
+        ON(c.idC=ca.idC);
+        IF obj_Apr = 0 THEN SET t_error = true; SET t_msg = 'Seriada'; END IF;
+    END IF;
+    START TRANSACTION;
+        UPDATE Cursos SET cupo = cupo - 1  WHERE (idCurso = in_idCurso);
+        INSERT INTO Cursos_Alumnos VALUES(in_idCurso, 'SA', 'P', in_matricula);
+    IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
+    ELSE COMMIT;
+    END IF;
+END $$
+DELIMITER ;
+;
+-- CALL proce_registrar_alumno_curso(1006,'18011126');
+
+
+DROP PROCEDURE IF EXISTS proce_reporte_registro_cursos;
+DELIMITER $$
+CREATE PROCEDURE proce_reporte_registro_cursos( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene los cursos de las materias que son aceptadas' DETERMINISTIC
+BEGIN
+    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito FROM
+        (SELECT cu.idC,cu.idA, cupo FROM
+        (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos WHERE estado = 'E') cu
+        JOIN
+        (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE estado = 'A' AND matricula = in_matricula) al
+        ON(cu.idC=al.idC)
+        ) c
+    JOIN
+        (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
+    ON(c.idA=a.idA);
+END $$
+DELIMITER ;
+;
+-- CALL proce_reporte_registro_cursos('18011126');
+
+
 -- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, in_rol, in_contra, in_num_tel
 CALL proce_nuevo_user('18011830','Emeling','Dayan',null,'Ramirez','Garcia','edramirez@itsoeh.edu.mx','A','edramirez','7732234176');
 CALL proce_nuevo_user('18011225','Oswaldo','Jesus',null,'Hernandez','Gomez','ojhernandez@itsoeh.edu.mx','A','ojhernandez','7731314798');
@@ -770,17 +864,17 @@ INSERT INTO Cursos_Alumnos VALUES(1014,'A','A','18011362');
 INSERT INTO Cursos_Alumnos VALUES(1015,'A','A','18011362');
 INSERT INTO Cursos_Alumnos VALUES(1016,'A','A','18011362');
 INSERT INTO Cursos_Alumnos VALUES(1017,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1018,'S','P','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1022,'S','P','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1023,'S','P','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1022,'S','P','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1023,'S','P','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011126');
+#INSERT INTO Cursos_Alumnos VALUES(1018,'S','P','18011250');
+#INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011250');
+#INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011250');
+#INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011250');
+#INSERT INTO Cursos_Alumnos VALUES(1022,'S','P','18011250');
+#INSERT INTO Cursos_Alumnos VALUES(1023,'S','P','18011250');
+#INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011378');
+#INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011378');
+#INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011378');
+#INSERT INTO Cursos_Alumnos VALUES(1022,'S','P','18011378');
+#INSERT INTO Cursos_Alumnos VALUES(1023,'S','P','18011378');
+#INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011126');
+#INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011126');
+#INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011126');

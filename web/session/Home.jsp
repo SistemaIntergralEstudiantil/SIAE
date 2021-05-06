@@ -41,7 +41,7 @@
             <li><a class="content-item-G content-item" href="">Curso de verano</a></li><% } %>
             <li><a class="content-item-G content-item" href="<%=Url.URL_CURRICULA_MENU%>">Currícula</a></li>
             <% if(user != null && user.getRol().endsWith("A") ) { %>
-            <li><a class="content-item-G content-item" href="">Altas y bajas</a></li><% } %>
+            <li><a class="content-item-G content-item" href="/SIAE/ControlCargaAcademica?clave=consulta">Altas y bajas</a></li><% } %>
             <li><a class="content-item-G content-item" href="<%=Url.URL_AJUSTES%>">Ajustes</a></li>
             <% if(user != null && user.getRol().endsWith("G") ) { %>
             <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control</a></li><% } %>
