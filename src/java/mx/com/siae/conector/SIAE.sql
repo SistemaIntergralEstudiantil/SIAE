@@ -59,13 +59,14 @@ CREATE TABLE IF NOT EXISTS Cursos (
 -- Table `SIAE`.`Alumnos`
 CREATE TABLE IF NOT EXISTS Alumnos (
   matricula VARCHAR(20) NOT NULL, fecha_ingreso DATE NOT NULL,
+  verano BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (matricula),
   CONSTRAINT `fk_Alumnos_Usuarios` FOREIGN KEY (matricula) REFERENCES Usuarios (idUsuario)
 );
 -- Table `SIAE`.`Cursos_Alumnos`
 CREATE TABLE IF NOT EXISTS Cursos_Alumnos (
   idCurso INT NOT NULL,
-  estado CHAR(1) NOT NULL CONSTRAINT `chk_Cursos_Alumnos_estado`CHECK ( estado in('SA','SB', 'A', 'R')) ENFORCED COMMENT 'El estado puede ser: (SA) solicitar alta, (SB) solicitar baja, (A) aceptado o (R) revocado',
+  estado CHAR(2) NOT NULL CONSTRAINT `chk_Cursos_Alumnos_estado`CHECK ( estado in('SA','SB', 'A', 'R')) ENFORCED COMMENT 'El estado puede ser: (SA) solicitar alta, (SB) solicitar baja, (A) aceptado o (R) revocado',
   reporte CHAR(1) NOT NULL DEFAULT 'P' CONSTRAINT `chk_Cursos_Alumnos_reporte`CHECK ( reporte in('P','A', 'R')) ENFORCED COMMENT 'El estado puede ser: (P) sin registro, (A) aprovado o (R) reprovado',
   matricula VARCHAR(20) NOT NULL,
   PRIMARY KEY (idCurso, matricula),
@@ -522,14 +523,14 @@ END $$
 DELIMITER ;
 ;
 
-DROP PROCEDURE IF EXISTS proce_reporte_cursos_o;
+DROP PROCEDURE IF EXISTS proce_reporte_cursos_ov;
 DELIMITER $$
-CREATE PROCEDURE proce_reporte_cursos_o( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene todos los cursos de las materias disponibles, eliminando las materias aprobadas' DETERMINISTIC
+CREATE PROCEDURE proce_reporte_cursos_ov( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene todos los cursos de las materias disponibles, eliminando las materias aprobadas' DETERMINISTIC
 BEGIN
-    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito FROM
+    SELECT c.idC, c.tipo, a.idA, semestre, nombre, c.cupo, credito FROM
     (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
     JOIN 
-    (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos WHERE tipo = 'O' AND (estado = 'E' AND cupo > 0)) c
+    (SELECT idCurso AS idC, idAsignatura AS idA, cupo, tipo FROM Cursos WHERE estado = 'E' AND cupo > 0) c
     ON(a.idA=c.idA) 
     WHERE a.idA 
     NOT IN(
@@ -537,7 +538,7 @@ BEGIN
             (SELECT cu.idC,cu.idA, cupo FROM
             (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos) cu
             JOIN
-            (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE ((estado = 'A' AND reporte = 'A') OR (estado = 'SA' OR estado = 'SB')) AND matricula = in_matricula) al
+            (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE (estado in('A','SA','SB')) AND matricula = in_matricula) al
             ON(cu.idC=al.idC)
             ) c
         JOIN
@@ -547,20 +548,14 @@ BEGIN
 END $$
 DELIMITER ;
 ;
--- CALL proce_reporte_cursos_o('18011126');
--- CALL proce_reporte_cursos_o('18011830');
-# Todos los cursos disponibles
-#SELECT a.idA, semestre, nombre, credito FROM
-#(SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
-#JOIN 
-#(SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos WHERE tipo = 'O' AND (estado = 'E' AND cupo > 0)) c
-#ON(a.idA=c.idA);
+-- CALL proce_reporte_cursos_ov('18011126');
 
-DROP PROCEDURE IF EXISTS proce_registrar_alumno_curso;
+DROP PROCEDURE IF EXISTS proce_solicitar_alta;
 DELIMITER $$
-CREATE PROCEDURE proce_registrar_alumno_curso( in in_idCurso INT, in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento realiza la solicitud de un curso ordinal por un alumno' DETERMINISTIC
+CREATE PROCEDURE proce_solicitar_alta( in in_idCurso INT, in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento realiza la solicitud de alta, de un curso ordinal por un alumno' DETERMINISTIC
 BEGIN
     DECLARE obj_idA INT DEFAULT -1;
+    DECLARE obj_rep BOOLEAN DEFAULT true;
     DECLARE obj_Apr INT DEFAULT 0;
     DECLARE t_error BOOLEAN; DECLARE t_msg VARCHAR(100) DEFAULT 'OK';
     DECLARE t_msg_error CONDITION FOR 1062; DECLARE t_msg_error_chk CONDITION FOR 3819; DECLARE t_msg_error_fk CONDITION FOR 1452; DECLARE t_msg_error_null CONDITION FOR 1048;
@@ -581,25 +576,76 @@ BEGIN
         ON(c.idC=ca.idC);
         IF obj_Apr = 0 THEN SET t_error = true; SET t_msg = 'Seriada'; END IF;
     END IF;
+    SELECT false INTO obj_rep FROM Cursos_Alumnos WHERE idCurso = in_idCurso AND matricula = in_matricula;
     START TRANSACTION;
         UPDATE Cursos SET cupo = cupo - 1  WHERE (idCurso = in_idCurso);
-        INSERT INTO Cursos_Alumnos VALUES(in_idCurso, 'SA', 'P', in_matricula);
+        IF obj_rep THEN
+            INSERT INTO Cursos_Alumnos VALUES(in_idCurso, 'SA', 'P', in_matricula);
+        ELSE
+            UPDATE Cursos_Alumnos SET estado = 'SA' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+        END IF;
     IF t_error THEN ROLLBACK; SELECT t_msg FROM dual;
     ELSE COMMIT;
     END IF;
 END $$
 DELIMITER ;
 ;
--- CALL proce_registrar_alumno_curso(1006,'18011126');
+-- CALL proce_solicitar_alta(1006,'18011126');
 
+DROP PROCEDURE IF EXISTS proce_consulta_alumnos;
+DELIMITER $$
+CREATE PROCEDURE proce_consulta_alumnos() COMMENT 'Este procedimiento obtiene los datos de los alumnos que han solicitado alta o baja' DETERMINISTIC
+BEGIN
+    SELECT ca.idC, ca.idA, matricula, nombre, alumno, estado, tipo, credito FROM
+    (SELECT idCurso AS idC, matricula, funci_nombre_user(matricula) AS alumno, estado FROM Cursos_Alumnos WHERE estado in('SA','SB')) a
+    JOIN
+    (
+        SELECT c.idC, a.idA, nombre, tipo, credito FROM
+        (SELECT idCurso AS idC, tipo, idAsignatura AS idA FROM Cursos) c
+        JOIN
+        (SELECT idAsignatura AS idA, nombre, credito FROM Asignaturas) a
+        ON(c.idA=a.idA)
+    ) ca
+    ON(a.idC=ca.idC) ORDER BY estado, matricula LIMIT 60;
+END $$
+DELIMITER ;
+;
+-- CALL proce_consulta_alumnos();
+
+DROP PROCEDURE IF EXISTS proce_registrar_baja_alta;
+DELIMITER $$
+CREATE PROCEDURE proce_registrar_baja_alta( in in_idCurso INT, in in_matricula VARCHAR(20),in in_oper CHAR(1), in in_estado CHAR(1) ) COMMENT 'Este procedimiento registra la alta o baja, de un curso para un alumno' DETERMINISTIC
+BEGIN
+    IF in_oper = 'A' THEN
+        IF in_estado = 'A' THEN
+            UPDATE Cursos_Alumnos SET estado = 'A' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+            UPDATE Cursos SET cupo = cupo - 1  WHERE (idCurso = in_idCurso);
+        END IF;
+        IF in_estado = 'R' THEN
+            UPDATE Cursos_Alumnos SET estado = 'R' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+        END IF;
+    END IF;
+    IF in_oper = 'B' THEN
+        IF in_estado = 'A' THEN
+        UPDATE Cursos_Alumnos SET estado = 'R' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+        UPDATE Cursos SET cupo = cupo + 1  WHERE (idCurso = in_idCurso);
+        END IF;
+        IF in_estado = 'R' THEN
+        UPDATE Cursos_Alumnos SET estado = 'A' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+        END IF;
+    END IF;
+END $$
+DELIMITER ;
+;
+-- CALL proce_registrar_baja_alta(idCurso,matricula,alta/baja,estado);
 
 DROP PROCEDURE IF EXISTS proce_reporte_registro_cursos;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_registro_cursos( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene los cursos de las materias que son aceptadas' DETERMINISTIC
 BEGIN
-    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito FROM
-        (SELECT cu.idC,cu.idA, cupo FROM
-        (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos WHERE estado = 'E') cu
+    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito, tipo FROM
+        (SELECT cu.idC,cu.idA, cupo, cu.tipo FROM
+        (SELECT idCurso AS idC, idAsignatura AS idA, cupo, tipo FROM Cursos WHERE estado = 'E') cu
         JOIN
         (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE estado = 'A' AND matricula = in_matricula) al
         ON(cu.idC=al.idC)
@@ -611,6 +657,76 @@ END $$
 DELIMITER ;
 ;
 -- CALL proce_reporte_registro_cursos('18011126');
+
+DROP PROCEDURE IF EXISTS proce_solicitar_baja;
+DELIMITER $$
+CREATE PROCEDURE proce_solicitar_baja( in in_idCurso INT, in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento realiza la solicitud de baja, de un curso ordinal por un alumno' DETERMINISTIC
+BEGIN
+    UPDATE Cursos_Alumnos SET estado = 'SB' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
+END $$
+DELIMITER ;
+;
+-- CALL proce_solicitar_baja();
+
+DROP PROCEDURE IF EXISTS proce_solicitar_verano;
+DELIMITER $$
+CREATE PROCEDURE proce_solicitar_verano( in in_idAsignatura INT, in in_matricula VARCHAR(20), in in_final CHAR(1)) COMMENT 'Este procedimiento realiza el registro para las materias de verano' DETERMINISTIC
+BEGIN
+    DECLARE validar BOOLEAN DEFAULT FALSE;
+    IF in_final = 'T' THEN
+        UPDATE Alumnos SET verano = FALSE WHERE (matricula = in_matricula);
+    ELSE
+        SELECT verano INTO validar FROM Alumnos WHERE matricula = in_matricula;
+        IF validar THEN
+            UPDATE Asignaturas SET solicitar = solicitar + 1 WHERE (idAsignatura = in_idAsignatura);
+        END IF;
+    END IF;
+END $$
+DELIMITER ;
+;
+-- CALL proce_solicitar_verano( in in_idAsignatura INT, in in_matricula VARCHAR(20), in in_final BOOLEAN);
+
+DROP PROCEDURE IF EXISTS proce_activo_verano;
+DELIMITER $$
+CREATE PROCEDURE proce_activo_verano( in_matricula VARCHAR(20)) COMMENT 'Este procedimiento identifica si esta activo la solicitud de verano las materias de verano' DETERMINISTIC
+BEGIN
+    SELECT verano FROM Alumnos WHERE matricula = in_matricula;
+END $$
+DELIMITER ;
+;
+-- CALL proce_activo_verano('18011126');
+
+
+DROP PROCEDURE IF EXISTS proce_estado_solicitud_verano;
+DELIMITER $$
+CREATE PROCEDURE proce_estado_solicitud_verano( in in_verano BOOLEAN) COMMENT 'Este procedimiento habilita las solicitud para verano' DETERMINISTIC
+BEGIN
+    UPDATE Asignaturas SET solicitar = 0;
+    UPDATE Alumnos SET verano = in_verano;
+END $$
+DELIMITER ;
+;
+-- CALL proce_activo_solicitud_verano(?);
+
+DROP PROCEDURE IF EXISTS proce_estado_verano;
+DELIMITER $$
+CREATE PROCEDURE proce_estado_verano() COMMENT 'Este procedimiento obtiene el estado las solicitud para verano' DETERMINISTIC
+BEGIN
+    SELECT verano FROM Alumnos LIMIT 1;
+END $$
+DELIMITER ;
+;
+-- CALL proce_estado_verano();
+
+DROP PROCEDURE IF EXISTS proce_reporte_verano;
+DELIMITER $$
+CREATE PROCEDURE proce_reporte_verano() COMMENT 'Este procedimiento obtiene el reporte de las solicitud de las asignaturas para verano' DETERMINISTIC
+BEGIN
+    SELECT idAsignatura AS idA, semestre, nombre, credito, solicitar FROM Asignaturas WHERE solicitar > 0;
+END $$
+DELIMITER ;
+;
+CALL proce_reporte_verano();
 
 
 -- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, in_rol, in_contra, in_num_tel

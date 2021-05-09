@@ -48,6 +48,7 @@
                 <tr>
                 <th style="width: 1.5rem;">Solicitar</th>
                 <th style="width: 4rem;">Id del curso</th>
+                <th style="width: 4rem;">Tipo</th>
                 <th style="width: 4rem;">Clave asignatura</th>
                 <th style="width: 1.5rem;">Semestre</th>
                 <th style="width: 10rem;">Asignatura</th>
@@ -56,14 +57,15 @@
                 </tr>
             </thead>
             <tbody>
-                <% if(sec!=null) { 
+                <%  int i = 0;
+                    if(sec!=null) {
                     ArrayList<ReporteCurso> l = (ArrayList<ReporteCurso>) request.getAttribute("lista-rca");
-                    int i = 0;
                     for(ReporteCurso rc : l) {
                 %>
                 <tr>
                 <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()%>" ></th>
                 <th><%=rc.getIdCurso()%></th>
+                <th><%=rc.getTipo().equals("O")?"Ordinario":"Verano"%></th>
                 <th><%=rc.getIdAsignatura()%></th>
                 <th><%=rc.getSemestre()%></th>
                 <th><%=rc.getAsignatura()%></th>
@@ -73,6 +75,7 @@
             </tbody>
             </table>
             <input type="hidden" name="clave" value="alta">
+            <input type="hidden" name="size" value="<%=String.valueOf(i)%>">
             <input class="input-submit" type="submit" value="Enviar solicitud de alta">
         </form>
         </div>
@@ -84,6 +87,7 @@
             <tr>
             <th style="width: 1.5rem;">Baja</th>
             <th style="width: 4rem;">Id del curso</th>
+            <th style="width: 4rem;">Tipo</th>
             <th style="width: 4rem;">Clave asignatura</th>
             <th style="width: 1.5rem;">Semestre</th>
             <th style="width: 10rem;">Asignatura</th>
@@ -94,12 +98,13 @@
         <tbody>
             <% if(sec!=null) { 
                     ArrayList<ReporteCurso> l = (ArrayList<ReporteCurso>) request.getAttribute("lista-rcb");
-                    int i = 0;
+                    i = 0;
                     for(ReporteCurso rc : l) {
                 %>
                 <tr>
                 <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()%>" ></th>
                 <th><%=rc.getIdCurso()%></th>
+                <th><%=rc.getTipo().equals("O")?"Ordinario":"Verano"%></th>
                 <th><%=rc.getIdAsignatura()%></th>
                 <th><%=rc.getSemestre()%></th>
                 <th><%=rc.getAsignatura()%></th>
@@ -109,6 +114,7 @@
         </tbody>
         </table>
         <input type="hidden" name="clave" value="baja">
+        <input type="hidden" name="size" value="<%=String.valueOf(i)%>">
         <input class="input-submit" type="submit" value="Enviar solicitud de baja">
         </form>
         </div>

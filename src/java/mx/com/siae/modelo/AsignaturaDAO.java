@@ -153,4 +153,79 @@ public class AsignaturaDAO {
         cn.getConexion().close();
         return t;
     }
+    /**
+     * Método registra la solicitud de asignaturas para el curso de verano.
+     * @param idAsignatura El identificador de la asignatura
+     * @param matricula El identificador del alumno
+     * @param fin <h3>T</h3>: La solicitud terminada.
+     * 
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void solicitarVerano(int idAsignatura, String matricula, String fin) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_solicitar_verano( ?, ?, ?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, idAsignatura);
+        cn.getEstadoProce().setString(2, matricula);
+        cn.getEstadoProce().setString(3, fin);
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
+    /**
+     * Método valida las solicitudes para verano.
+     * @param matricula El identificador del alumno
+     * @return <h3>True</h3>: Las solicitudes estan activas.
+     * <h3>False</h3>: Las solicitudes estan bloqueadas.
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public boolean solicitarVerano(String matricula) throws ClassNotFoundException, SQLException {
+        String sql = "{CALL proce_activo_verano(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setString(1, matricula);
+        cn.setResultado( cn.getEstadoProce().executeQuery());
+        boolean estado = false;
+        while(cn.getResultado().next()) {
+            estado = cn.getResultado().getBoolean("verano");
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return estado;
+    }
+    /**
+     * Método obtiene un lista de las asignaturas que son solicitadas<br> 
+     * para el curso de verano
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista de las asignaturas solicitadas.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>No hay asignaturas solicitadas.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<Asignatura> reporteAsignaturaVerano() throws SQLException, ClassNotFoundException {
+        String sql = "CALL proce_reporte_verano()";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.setResultado(cn.getEstadoProce().executeQuery());
+        ArrayList<Asignatura> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            Asignatura a = new Asignatura();
+            a.setIdAsignatura( cn.getResultado().getInt("idA") );
+            a.setSemestre(cn.getResultado().getInt("semestre"));
+            a.setNombre( cn.getResultado().getNString("nombre") );
+            a.setCredito( cn.getResultado().getInt("credito"));
+            a.setSolicitar( cn.getResultado().getInt("solicitar"));
+            t.add(a);
+        }
+        cn.getEstado().close();
+        cn.getConexion().close();
+        return t;
+    }
 }

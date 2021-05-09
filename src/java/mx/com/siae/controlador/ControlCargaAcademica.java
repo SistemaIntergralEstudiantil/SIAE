@@ -6,8 +6,10 @@
 package mx.com.siae.controlador;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import mx.com.siae.conector.config.Url;
+import mx.com.siae.modelo.Correo;
 import mx.com.siae.modelo.CursosDAO;
 import mx.com.siae.modelo.Session;
 import mx.com.siae.modelo.beans.ReporteCurso;
@@ -37,7 +40,7 @@ public class ControlCargaAcademica extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
         if(sec == null){ // Control para el acceso no autorizado.
@@ -51,28 +54,38 @@ public class ControlCargaAcademica extends HttpServlet {
                 Usuarios alu = sec.getUser();
                 CursosDAO crl = new CursosDAO();
                 String clave = request.getParameter("clave");
-                if(clave.equals("alta")) {
-                    String Asig_x = request.getParameter("Asig_0");
-                    int index = 1;
-                    while(Asig_x!=null) {
-                        String IdCurso = Asig_x.split(",")[0];
-                        String Asignatura = Asig_x.split(",")[1];
-                        int curso = Integer.parseInt(IdCurso);
-                        crl.registrarAltaAlumnoCurso(curso, alu.getIdUsuario());
-                        Asig_x = request.getParameter("Asig_"+index);
-                        index++;
+                if(clave.equals("alta") ||clave.equals("baja")) {
+                    String s = request.getParameter("size");
+                    int size = Integer.parseInt(s);
+                    if(clave.equals("alta")) {
+                        String txt = "";
+                        for (int i = 0; i < size; i++) {
+                            String Asig_x = request.getParameter("Asig_"+i);
+                            if(Asig_x!=null) {
+                                String IdCurso = Asig_x.split(",")[0];
+                                int curso = Integer.parseInt(IdCurso);
+                                crl.registrarAltaAlumnoCurso(curso, alu.getIdUsuario());
+                                txt +=Asig_x+":";
+                            }
+                        }
+                        if(!txt.equals("")) {
+                            Correo email = new Correo();
+                            email.generar(alu,txt);
+                            email.closePDF();
+                            email.enviar();
+                        }
                     }
-                }
-                if(clave.equals("baja")) {
-                    String Asig_x = request.getParameter("Asig_0");
-                    int index = 1;
-                    while(Asig_x!=null) {
-                        String IdCurso = Asig_x.split(",")[0];
-                        String Asignatura = Asig_x.split(",")[1];
-                        int curso = Integer.parseInt(IdCurso);
-                        crl.registrarBajaAlumnoCurso(curso, alu.getIdUsuario());
-                        Asig_x = request.getParameter("Asig_"+index);
-                        index++;
+                    if(clave.equals("baja")) {
+                        //String txt = "";
+                        for (int i = 0; i < size; i++) {
+                            String Asig_x = request.getParameter("Asig_"+i);
+                            if(Asig_x!=null) {
+                                String IdCurso = Asig_x.split(",")[0];
+                                int curso = Integer.parseInt(IdCurso);
+                                crl.registrarBajaAlumnoCurso(curso, alu.getIdUsuario());
+                                //txt +=Asig_x+":";
+                            }
+                        }
                     }
                 }
                 ArrayList<ReporteCurso> list_rca = crl.reporteCursosAltas(alu.getIdUsuario());
@@ -90,6 +103,12 @@ public class ControlCargaAcademica extends HttpServlet {
             } catch (SQLException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error en la conexión con el SGBD:");
+                sec.setErrorType(ex.toString());
+                sec.setErrorUrl(Url.URL_HOME);
+                response.sendRedirect(Url.URL_ERROR);
+            } catch (MessagingException | UnsupportedEncodingException ex) {
+                sesion.setAttribute("user", sec);
+                sec.setErrorMsj("Error al generar y/o enviar el correo");
                 sec.setErrorType(ex.toString());
                 sec.setErrorUrl(Url.URL_HOME);
                 response.sendRedirect(Url.URL_ERROR);
@@ -136,4 +155,6 @@ public class ControlCargaAcademica extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    
 }

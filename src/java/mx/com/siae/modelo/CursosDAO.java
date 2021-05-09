@@ -9,10 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import mx.com.siae.modelo.beans.Curso;
 import mx.com.siae.modelo.beans.CursoAlumno;
-import mx.com.siae.modelo.beans.DocenteR;
+import mx.com.siae.modelo.beans.ReporteAlumno;
 import mx.com.siae.modelo.beans.ReporteCurso;
 import mx.com.siae.modelo.beans.Sesion;
-import mx.com.siae.modelo.beans.Usuarios;
 
 /**
  *
@@ -183,7 +182,7 @@ public class CursosDAO {
         cn.getConexion().close();
     }
     /**
-     * Método obtiene un lista de todos los cursos dispinibles para altas.
+     * Método obtiene un lista de todos los cursos disponibles para altas.
      * @param matricula El identificador del alumno
      * @return
      * <dl>
@@ -194,7 +193,7 @@ public class CursosDAO {
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
     public ArrayList<ReporteCurso> reporteCursosAltas(String matricula) throws ClassNotFoundException, SQLException{
-        String sql = "{CALL proce_reporte_cursos_o(?)}";
+        String sql = "{CALL proce_reporte_cursos_ov(?)}";
         Conexion cn = new Conexion();
         cn.conectar();
         cn.prepareCallable(sql);
@@ -209,6 +208,7 @@ public class CursosDAO {
             rep.setAsignatura(cn.getResultado().getString("nombre"));
             rep.setCupo( cn.getResultado().getInt("cupo") );
             rep.setCredito(cn.getResultado().getInt("credito") );
+            rep.setTipo(cn.getResultado().getString("tipo"));
             t.add(rep);
         }
         cn.getEstadoProce().close();
@@ -241,6 +241,40 @@ public class CursosDAO {
             rep.setSemestre(cn.getResultado().getInt("semestre"));
             rep.setAsignatura(cn.getResultado().getString("nombre"));
             rep.setCupo( cn.getResultado().getInt("cupo") );
+            rep.setCredito(cn.getResultado().getInt("credito") );
+            rep.setTipo(cn.getResultado().getString("tipo"));
+            t.add(rep);
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return t;
+    }
+    /**
+     * Método obtiene un lista de todos los cursos, en los que el alumno fue aceptado.
+     * @return
+     * <dl>
+     *  <dt><h3>ArrayList(x)</h3></dt><dd>La lista contiene información de los alumnos.</dd>
+     *  <dt><h3>ArrayList(0)</h3></dt><dd>La lista contiene 0 elementos: información.</dd>
+     * </dl>
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<ReporteAlumno> reporteAlumnos() throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_consulta_alumnos()}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.setResultado(cn.getEstadoProce().executeQuery());
+        ArrayList<ReporteAlumno> t = new ArrayList<>();
+        while(cn.getResultado().next()){
+            ReporteAlumno rep = new ReporteAlumno();
+            rep.setIdCurso( cn.getResultado().getInt("idC") );
+            rep.setIdAsignatura(cn.getResultado().getInt("idA"));
+            rep.setMatricula(cn.getResultado().getString("matricula"));
+            rep.setAsignatura(cn.getResultado().getString("nombre"));
+            rep.setAlumno(cn.getResultado().getString("alumno") );
+            rep.setEstado(cn.getResultado().getString("estado") );
+            rep.setTipo(cn.getResultado().getString("tipo") );
             rep.setCredito(cn.getResultado().getInt("credito") );
             t.add(rep);
         }
@@ -283,5 +317,64 @@ public class CursosDAO {
         cn.getEstadoProce().executeUpdate();
         cn.getEstadoProce().close();
         cn.getConexion().close();
+    }
+    /**
+     * Método acepta o rechaza las solicitudes de alta o baja.
+     * @param idCurso El identificador del curso.
+     * @param matricula El identificador del alumno.
+     * @param operacion La operación analizada alta(A) o baja(B).
+     * @param estado El el resultado del analisis Aceptada(A) o Rechazada(R).
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void registrarComprobacionBajaAlta(int idCurso, String matricula, String operacion, String estado) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_registrar_baja_alta(?,?,?,?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setInt(1, idCurso);
+        cn.getEstadoProce().setString(2, matricula);
+        cn.getEstadoProce().setString(3, operacion);
+        cn.getEstadoProce().setString(4, estado);
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
+    /**
+     * Método cambia el estado de las solicitudes para cursos de verano.
+     * @param estado El estado de de cambio de las solicitudes
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public void activarVerano(boolean estado) throws ClassNotFoundException, SQLException {
+        String sql = "{CALL proce_estado_solicitud_verano(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setBoolean(1, estado);
+        cn.getEstadoProce().executeUpdate();
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+    }
+    /**
+     * Método valida las solicitudes para verano.
+     * @return <h3>True</h3>: Las solicitudes estan activas.
+     * <h3>False</h3>: Las solicitudes estan bloqueadas.
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public boolean estadoVerano() throws ClassNotFoundException, SQLException {
+        String sql = "{CALL proce_estado_verano()}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.setResultado( cn.getEstadoProce().executeQuery());
+        boolean estado = false;
+        while(cn.getResultado().next()) {
+            estado = cn.getResultado().getBoolean("verano");
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return estado;
     }
 }

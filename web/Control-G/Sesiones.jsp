@@ -8,12 +8,12 @@
 <%@page import="mx.com.siae.modelo.beans.Sesion"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="mx.com.siae.modelo.Session"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="SIAE permite a los instructores y estudiantes consultar informaciÃ³n sobre los diferentes servicios del instituto"/>
+        <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <title>Menu de control sesiones</title>
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
@@ -30,9 +30,9 @@
     <header>
     <nav>
     <ul class="content-G content">
-        <% String asignatura = (String)request.getAttribute("asignatura"); %>
-        <% String responsable = (String)request.getAttribute("responsable"); %>
-        <li><a class="content-item-G content-item selec-none info" href="#dia">Clases de: <%=(responsable==null)?"":responsable %> de<br>la materia <%=(asignatura==null)?"":asignatura %></a></li>
+        <% String as = (String)request.getAttribute("asignatura"); String asignatura = new String(as.getBytes("ISO-8859-1")); %>
+        <% String res = (String)request.getAttribute("responsable"); String responsable = new String(res.getBytes("ISO-8859-1")); %>
+        <li><a class="content-item-G content-item selec-none info" href="#dia">Clases de: <%=(responsable==null)?"":responsable %> <br>correspondientes a la materia <%=(asignatura==null)?"":asignatura %></a></li>
         <li><a class="content-item-G content-item selec-none" href="#dia">Control Sesiones</a></li>
         <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/></li>
     </ul>
@@ -56,14 +56,14 @@
                     <input type="hidden" name="responsable" value="<%=(responsable==null)?"":responsable %>">
                     <input type="hidden" name="asignatura" value="<%=(asignatura==null)?"":asignatura %>">
                     <input type="hidden" name="clave" value="session-add">
-                    <input class="input-submit" id="add" type="submit" value="Agregar SesiÃ³n" ></div>
+                    <input class="input-submit" id="add" type="submit" value="Agregar Sesión" ></div>
             </form>
         </div>
         <div class="content-right content-table-dimanyc" >
             <table class="table" >
             <thead>
                 <tr>
-                    <th style="width: 1rem;">Id SesiÃ³n</th>
+                    <th style="width: 1rem;">Id Sesión</th>
                     <th style="width: 1rem;">Dia</th>
                     <th style="width: 1rem;">Hora Inicio</th>
                     <th style="width: 2rem;">Hora Fin</th>

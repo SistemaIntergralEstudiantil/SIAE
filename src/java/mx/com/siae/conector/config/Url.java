@@ -51,6 +51,11 @@ public class Url {
      */
     public static String URL_CONTROLG_MENU_2 = "Control-G/Menu_2.jsp";
     /**
+     * Dirección de absulta de la página de control de altas y bajas.
+     * <h3>altasyBajas/AltasyBajas.jsp</h3>
+     */
+    public static String URL_CONTROLG_MENU_3 = "Control-G/Menu_3.jsp";
+    /**
      * Dirección de absulta de la página de Curricula ménu.
      * <h3>/SIAE/curricula/Menu.jsp</h3>
      */
@@ -80,4 +85,9 @@ public class Url {
      * <h3>altasyBajas/AltasyBajas.jsp</h3>
      */
     public static String URL_ALTAS_Y_BAJAS = "altasyBajas/AltasyBajas.jsp";
+    /**
+     * Dirección de absulta de la página de altas y bajas.
+     * <h3>verano/Verano.jsp</h3>
+     */
+    public static String URL_VERANO = "verano/verano.jsp";
 }

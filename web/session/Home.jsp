@@ -38,13 +38,14 @@
             <li><a class="content-item-G content-item" href="/SIAE/ReporteAsignatura">Asignaturas</a></li>
             <li><a class="content-item-G content-item" href="<%=Url.URL_AREAS_MENU%>">Áreas de apoyo</a></li>
             <% if(user != null && user.getRol().endsWith("A") ) { %>
-            <li><a class="content-item-G content-item" href="">Curso de verano</a></li><% } %>
+            <li><a class="content-item-G content-item" href="/SIAE/Verano?clave=consulta">Curso de verano</a></li><% } %>
             <li><a class="content-item-G content-item" href="<%=Url.URL_CURRICULA_MENU%>">Currícula</a></li>
             <% if(user != null && user.getRol().endsWith("A") ) { %>
             <li><a class="content-item-G content-item" href="/SIAE/ControlCargaAcademica?clave=consulta">Altas y bajas</a></li><% } %>
             <li><a class="content-item-G content-item" href="<%=Url.URL_AJUSTES%>">Ajustes</a></li>
             <% if(user != null && user.getRol().endsWith("G") ) { %>
-            <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control</a></li><% } %>
+            <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control</a></li>
+            <li><a class="content-item-G content-item" href="/SIAE/ControlAltaBaja?clave=consulta">Academia</a></li><% } %>
             <% if(user != null && user.getRol().endsWith("R") && user.getSemestre() == -2 ) { %>
             <li><a class="content-item-G content-item" href="/SIAE/Docente?clave=inicio">Estatus de alumnos</a></li><% } %>
         </ul>

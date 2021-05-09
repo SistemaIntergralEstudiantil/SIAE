@@ -51,6 +51,8 @@
         <a href="Docente/Cursos.jsp">Docente</a>
         <a href="Control-G/Menu.jsp">Control</a>
         <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
+        <a href="Control-G/Menu_3.jsp">Control Alta</a>
+        <a href="verano/verano.jsp">Verano</a>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="resource/js/Script-Login.js"></script>
     </body>
