@@ -11,7 +11,6 @@ and open the template in the editor.
 :root {
     --height-item: 1.8rem;
     --width-item: 5rem;
-    --height-footer: 5rem;
 }
 
 .content {
@@ -67,11 +66,11 @@ and open the template in the editor.
 }
 
 .input-submit-ft {
-    margin-left: 45%;
+    margin-left: 41.5%;
 }
 
 .input-submit-f {
-    margin-left: 41.3%;
+    margin-left: 37%;
 }
 
 .info {

@@ -130,13 +130,17 @@
         <input type="hidden" name="clave" value="consultar">
         <input class="input-submit input-submit-ft" type="submit" value="Actualizar datos">
     </form>
+    </div>
     <form method="POST" action="ControlAltaBaja">
         <input type="hidden" name="clave" value="verano">
         <%String l = (String) request.getAttribute("status-v");%>
         <input type="hidden" name="status-v" value="<%=l.equals("A")?"D":"A"%>">
         <input class="input-submit input-submit-f" type="submit" value="<%=l.equals("A")?"Desabilitar":"Habilitar"%> solicitudes de verano">
     </form>
-    </div>
+    <form method="POST" action="ReporteAsignatura">
+        <input type="hidden" name="clave" value="verano">
+        <input class="input-submit input-submit-f" type="submit" value="Reporte de solicitudes de verano">
+    </form>
     <div class="content-data_row" >
             <a class="item-G-A-Selec content-a" href="<%=Url.URL_HOME%>">Ménu principal</a></div>
     </body>

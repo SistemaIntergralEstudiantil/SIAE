@@ -13,7 +13,7 @@ import mx.com.siae.modelo.beans.ReporteAsig;
 
 /**
  * Esta clase representa las operaciones de las asignaturas a la base de datos.
- * @version 12/04/2021A
+ * @version 12/04/2021C
  * @author danielhernandezreyes
  * @see Conexion
  * @see ReporteAsig
@@ -224,7 +224,7 @@ public class AsignaturaDAO {
             a.setSolicitar( cn.getResultado().getInt("solicitar"));
             t.add(a);
         }
-        cn.getEstado().close();
+        cn.getEstadoProce().close();
         cn.getConexion().close();
         return t;
     }

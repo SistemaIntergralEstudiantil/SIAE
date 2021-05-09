@@ -27,19 +27,19 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDMetadata;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
- *
+ * Esta clase representa el control del envio del correo.
+ * @version 09/05/2021A
  * @author danielhernandezreyes
+ * @see Usuarios
  */
 public class Correo {
     
-    private final String remitente = "dhernandezr@itsoeh.edu.mx";
-    private final String password = "danielhernandez";
+    private final String remitente;
+    private String password;
     private Properties properties;
     private MimeMessage mimeMessage;
     private Session session;
@@ -47,8 +47,16 @@ public class Correo {
     private PDDocument document;
     private PDPageContentStream contentStream;
     /**
+     * Constructor por defecto, agrega el correo remitente y su respectiva contraseña.
+     */
+    public Correo() {
+        remitente = "dhernandezr@itsoeh.edu.mx";
+        generarPassword();
+    }
+    /**
      * Método genera un correo al alumno con la información de su carga academica.
-     * @param destino
+     * @param destino El correo del destinatario
+     * @param txt La cadena con la información de las materias solicitadas para alta
      * @throws MessagingException En la espesificación del destinatario
      * @throws UnsupportedEncodingException En la espesificación del contenido del correo
      */
@@ -153,12 +161,18 @@ public class Correo {
         }
         contentStream.endText();
     }
-    
+    /**
+     * Método Cierra el documento PDF y lo guarda
+     * @throws IOException Al guardar el documento
+     */
     public void closePDF() throws IOException {
         contentStream.close();
         document.save("document.pdf");
     }
-    
+    /**
+     * Método genera las propiedades del encabezado del documento.
+     * @return El objeto con las propiedades del documento.
+     */
     private PDDocumentInformation generarEncabezadoPDF() {
         PDDocumentInformation info = new PDDocumentInformation();
         info.setAuthor("Sistema Integral de Atención Estudiantil");
@@ -167,6 +181,15 @@ public class Correo {
         info.setCreator("SIAE");
         return info;
     }
-    
-    
+    /**
+     * Método agrega la contraseña del remitente
+     */
+    private void generarPassword() {
+        int p[] = new int[]{100,97,110,105,101,108,104,101,114,110,97,110,100,101,122};
+        password = "";
+        for (int i = 0; i < p.length; i++) {
+            char x = (char)p[i];
+            password+=x;
+        }
+    }
 }

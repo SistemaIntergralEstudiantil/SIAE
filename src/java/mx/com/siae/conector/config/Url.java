@@ -52,9 +52,15 @@ public class Url {
     public static String URL_CONTROLG_MENU_2 = "Control-G/Menu_2.jsp";
     /**
      * Dirección de absulta de la página de control de altas y bajas.
-     * <h3>altasyBajas/AltasyBajas.jsp</h3>
+     * <h3>Control-G/Menu_3.jsp</h3>
      */
     public static String URL_CONTROLG_MENU_3 = "Control-G/Menu_3.jsp";
+    /**
+     * Dirección de absulta de la página de reporte de las solicitudes<br>
+     * para los cursos de verano.
+     * <h3>Control-G/Menu_4.jsp</h3>
+     */
+    public static String URL_CONTROLG_MENU_4 = "Control-G/Menu_4.jsp";
     /**
      * Dirección de absulta de la página de Curricula ménu.
      * <h3>/SIAE/curricula/Menu.jsp</h3>
