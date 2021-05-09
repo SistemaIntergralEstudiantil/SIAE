@@ -726,7 +726,34 @@ BEGIN
 END $$
 DELIMITER ;
 ;
-CALL proce_reporte_verano();
+-- CALL proce_reporte_verano();
+
+DROP PROCEDURE IF EXISTS proce_segimiento_academico;
+DELIMITER $$
+CREATE PROCEDURE proce_segimiento_academico(in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene la información de las materias Aceptadas, solicitadas y no cursadas por el alumno' DETERMINISTIC
+BEGIN
+    CREATE TEMPORARY TABLE segimiento( idA int default 0 primary key, semestre int default 0, estado char(1) default 'N', nombre varchar(70) );
+    INSERT INTO segimiento(idA, nombre, semestre) ( SELECT idAsignatura, nombre, semestre FROM Asignaturas );
+    UPDATE segimiento AS s 
+    JOIN 
+        (SELECT c.idA, reporte AS estado FROM
+        (SELECT idCurso AS idC, idAsignatura AS idA FROM Cursos) c
+        JOIN
+        (SELECT idCurso AS idC, reporte FROM Cursos_Alumnos WHERE matricula = in_matricula AND (estado in('SA','SB') OR (estado='A' AND reporte in('A','R')))) ca
+        ON(c.idC=ca.idC)
+        ) c
+    ON(s.idA=c.idA)
+    SET s.estado = c.estado;
+    SELECT idA, estado, nombre, semestre FROM segimiento ORDER BY semestre;
+    DROP TABLE segimiento;
+END $$
+DELIMITER ;
+;
+
+-- CALL proce_segimiento_academico('18011126');
+
+
+
 
 
 -- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, in_rol, in_contra, in_num_tel

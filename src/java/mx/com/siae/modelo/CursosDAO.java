@@ -7,6 +7,7 @@ package mx.com.siae.modelo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.Curso;
 import mx.com.siae.modelo.beans.CursoAlumno;
 import mx.com.siae.modelo.beans.ReporteAlumno;
@@ -376,5 +377,32 @@ public class CursosDAO {
         cn.getEstadoProce().close();
         cn.getConexion().close();
         return estado;
+    }
+    /**
+     * Método obtiene el reporte academico de las asignaturas aprobadas, reprobadas y no cursadas.
+     * @param matricula El identificador del alumno.
+     * @return La lista contiene información de los alumnos.
+     * @throws ClassNotFoundException Excepción al establecer el conector.
+     * @throws SQLException Excepción al realizar la conexión con la BD.
+     */
+    public ArrayList<Asignatura> reporteAcademico(String matricula) throws ClassNotFoundException, SQLException {
+        String sql = "{CALL proce_segimiento_academico(?)}";
+        Conexion cn = new Conexion();
+        cn.conectar();
+        cn.prepareCallable(sql);
+        cn.getEstadoProce().setString(1, matricula);
+        cn.setResultado( cn.getEstadoProce().executeQuery());
+        ArrayList<Asignatura> lista = new ArrayList<>();
+        while(cn.getResultado().next()) {
+            Asignatura a = new Asignatura();
+            a.setIdAsignatura(cn.getResultado().getInt("idA"));
+            a.setNombre( cn.getResultado().getString("nombre"));
+            a.setEstado( cn.getResultado().getString("estado"));
+            a.setSemestre( cn.getResultado().getInt("semestre"));
+            lista.add(a);
+        }
+        cn.getEstadoProce().close();
+        cn.getConexion().close();
+        return lista;
     }
 }

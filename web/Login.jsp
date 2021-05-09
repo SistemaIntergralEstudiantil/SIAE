@@ -13,7 +13,7 @@
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
         <title>Login </title>
         <link rel="shortcut icon" href="resource/images/logo_SIAE.png" />
-        <!--<link rel="stylesheet" href="resource/css/Style-General.css"/>-->
+        <link rel="stylesheet" href="resource/css/Style-General.css"/>
         <link rel="stylesheet" href="resource/css/Style-Login.css"/>
     </head>
     <body style="background-image: url(/SIAE/resource/images/Login.png);background-size: 100% 150%;">
@@ -53,6 +53,7 @@
         <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
         <a href="Control-G/Menu_3.jsp">Control Alta</a>
         <a href="verano/verano.jsp">Verano</a>
+        <a href="altasyBajas/academia.jsp">Academia</a>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="resource/js/Script-Login.js"></script>
     </body>

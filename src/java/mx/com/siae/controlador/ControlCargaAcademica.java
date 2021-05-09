@@ -20,6 +20,7 @@ import mx.com.siae.conector.config.Url;
 import mx.com.siae.modelo.Correo;
 import mx.com.siae.modelo.CursosDAO;
 import mx.com.siae.modelo.Session;
+import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.ReporteCurso;
 import mx.com.siae.modelo.beans.Usuarios;
 
@@ -88,12 +89,47 @@ public class ControlCargaAcademica extends HttpServlet {
                         }
                     }
                 }
-                ArrayList<ReporteCurso> list_rca = crl.reporteCursosAltas(alu.getIdUsuario());
-                ArrayList<ReporteCurso> list_rcb = crl.reporteCursosBajas(alu.getIdUsuario());
-                request.setAttribute("lista-rca", list_rca);
-                request.setAttribute("lista-rcb", list_rcb);
-                request.getRequestDispatcher(Url.URL_ALTAS_Y_BAJAS).forward(request, response);
-                // Redirección a la pagina de asignaturas.
+                if(clave.equals("seg-ac")) {
+                    Usuarios user = sec.getUser();
+                    ArrayList<Asignatura> lista_1 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_2 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_3 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_4 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_5 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_6 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_7 = new ArrayList<>();
+                    ArrayList<Asignatura> lista_8 = new ArrayList<>();
+                    ArrayList<Asignatura> lista = crl.reporteAcademico(user.getIdUsuario());
+                    for (Asignatura a : lista) {
+                        int x = a.getSemestre();
+                        switch(x) {
+                            case 1: lista_1.add(a); break;
+                            case 2: lista_2.add(a); break;
+                            case 3: lista_3.add(a); break;
+                            case 4: lista_4.add(a); break;
+                            case 5: lista_5.add(a); break;
+                            case 6: lista_6.add(a); break;
+                            case 7: lista_7.add(a); break;
+                            case 8: lista_8.add(a); break;
+                        }
+                    }
+                    request.setAttribute("lista-1", lista_1);
+                    request.setAttribute("lista-2", lista_2);
+                    request.setAttribute("lista-3", lista_3);
+                    request.setAttribute("lista-4", lista_4);
+                    request.setAttribute("lista-5", lista_5);
+                    request.setAttribute("lista-6", lista_6);
+                    request.setAttribute("lista-7", lista_7);
+                    request.setAttribute("lista-8", lista_8);
+                    request.getRequestDispatcher(Url.URL_ACADEMIA).forward(request, response);
+                } else {
+                    ArrayList<ReporteCurso> list_rca = crl.reporteCursosAltas(alu.getIdUsuario());
+                    ArrayList<ReporteCurso> list_rcb = crl.reporteCursosBajas(alu.getIdUsuario());
+                    request.setAttribute("lista-rca", list_rca);
+                    request.setAttribute("lista-rcb", list_rcb);
+                    request.getRequestDispatcher(Url.URL_ALTAS_Y_BAJAS).forward(request, response);
+                    // Redirección a la pagina de asignaturas.
+                }
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");

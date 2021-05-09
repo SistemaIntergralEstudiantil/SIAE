@@ -119,6 +119,8 @@
         </form>
         </div>
         <div class="content-data_row" >
+            <a class="item-G-A-Selec content-a" href="ControlCargaAcademica?clave=seg-ac">Avance de curricula</a></div>
+        <div class="content-data_row" >
             <a class="item-G-A-Selec content-a" href="<%=Url.URL_HOME%>">Ménu principal</a></div>
     </body>
 </html>

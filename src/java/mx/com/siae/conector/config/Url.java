@@ -6,7 +6,8 @@
 package mx.com.siae.conector.config;
 
 /**
- *
+ * Esta clase representa las direcciones de los JSP.
+ * @version 09/05/2021C
  * @author danielhernandezreyes
  */
 public class Url {
@@ -92,8 +93,13 @@ public class Url {
      */
     public static String URL_ALTAS_Y_BAJAS = "altasyBajas/AltasyBajas.jsp";
     /**
-     * Dirección de absulta de la página de altas y bajas.
+     * Dirección de absulta de la página de verano.
      * <h3>verano/Verano.jsp</h3>
      */
     public static String URL_VERANO = "verano/verano.jsp";
+    /**
+     * Dirección de absulta de la página del seguimiento academico.
+     * <h3>altasyBajas/academia.jsp</h3>
+     */
+    public static String URL_ACADEMIA = "altasyBajas/academia.jsp";
 }

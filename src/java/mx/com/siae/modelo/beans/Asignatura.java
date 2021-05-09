@@ -16,7 +16,7 @@ public class Asignatura {
     private String nombre;
     private String area;
     private int credito;
-    private char estado;
+    private String estado;
     private int solicitar;
     /**
      * Constructor por defecto de Asignatura.
@@ -99,7 +99,7 @@ public class Asignatura {
      * en relación al semestre en curso.
      * @return El estado de la asignatura.
      */
-    public char getEstado() {
+    public String getEstado() {
         return estado;
     }
     /**
@@ -111,7 +111,7 @@ public class Asignatura {
      * </dl>
      * @param estado Este es el estado de la materia.
      */
-    public void setEstado(char estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
     /**
