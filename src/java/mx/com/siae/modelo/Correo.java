@@ -140,6 +140,7 @@ public class Correo {
         contentStream.newLine();
         contentStream.setFont(PDType1Font.TIMES_BOLD, 14);
         contentStream.showText("Datos del alumno:");
+        contentStream.newLine();
         contentStream.showText("Nombre: "+user.getNombreCompleto());
         contentStream.newLine();
         contentStream.showText("Matricula: "+user.getIdUsuario());
