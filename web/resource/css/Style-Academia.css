@@ -11,9 +11,9 @@ and open the template in the editor.
 :root {
     --height-item: 1.8rem;
     --width-item: 6rem;
-    --color-apro: #11fa33;
-    --color-repr: #ff443f;
-    --color-nocur: #fff342;
+    --color-apro: #6FFF74;
+    --color-repr: #FF6F6F;
+    --color-nocur: #FFED6F;
 }
 
 
@@ -76,18 +76,20 @@ and open the template in the editor.
     flex-direction: column;    
     flex-grow: 1;
     flex-basis: 0;
-    
     padding: .5rem;
     margin-top: 2rem;
+    font-weight: bold;
 }
 .item-body-item {
     text-align: center;
     flex-grow: 1;
     padding: 1rem;
+    color: #4D4D90;
 }
 
 .item-body-item-t {
-    background-color: var(--color-base);
+    background-color: #6F9AFF;
+    color: #695B5B;
 }
 .item-apro {
     background-color: var(--color-apro);

@@ -32,7 +32,7 @@
     <header>
     <nav>
     <ul class="content-G content">
-        <li><h1 class="content-item-G content-item" >Seguimiento academico</h1></li>
+        <li><h1 class="content-item-G content-item" >Seguimiento académico</h1></li>
         <li><img class="content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/></li>
     </ul>
     </nav>

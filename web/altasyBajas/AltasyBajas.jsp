@@ -15,7 +15,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="SIAE permite a los instructores y estudiantes consultar información sobre los diferentes servicios del instituto"/>
-        <title>Altas y bajas de Materias</title>
+        <title>Altas y bajas de materias</title>
         <link rel="shortcut icon" href="/SIAE/resource/images/logo_SIAE.png" />
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-AltasYbajas.css"/>
@@ -32,14 +32,14 @@
         <header>
         <nav>
         <ul class="content-G content">
-            <li><h1 class="content-item-G content-item" >Altas y Bajas de Materias</h1></li>
+            <li><h1 class="content-item-G content-item" >Altas y bajas de materias</h1></li>
             <li>
                 <img class="content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
             </li>
         </ul>
         </nav>
         </header>
-        <div class="description-p"><p>Aquí tendrás la oportunidad de solicitar tus altas y bajas de Materias</p></div>
+        <div class="description-p"><p>Aquí tendrás la oportunidad de solicitar tus altas y bajas de materias</p></div>
         <div class="content-table" >
         <form method="POST" action="ControlCargaAcademica">
             <table class="table">
