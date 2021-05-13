@@ -71,7 +71,7 @@ public class Url {
      * Dirección de absulta de la página de Curricula áreas de conocimiento.
      * <h3>/SIAE/curricula/AreasConocimiento.jsp</h3>
      */
-    public static String URL_CURRICULA_AREAS = "/SIAE/curricula/AreasConocimiento.jsp";
+    public static String URL_CURRICULA_AREAS = "curricula/AreasConocimiento.jsp";
     /**
      * Dirección de absulta de la página de áreas asesoria.
      * <h3>/SIAE/areas/Asesorias.jsp</h3>
