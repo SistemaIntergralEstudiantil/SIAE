@@ -35,7 +35,7 @@ public class Url {
      * Dirección de absulta de la página de Cursos.
      * <h3>/SIAE/Docente/Cursos.jsp</h3>
      */
-    public static String URL_DOCENTE_CURSOS = "/SIAE/Docente/Cursos.jsp";
+    public static String URL_DOCENTE_CURSOS = "Docente/Cursos.jsp";
     /**
      * Dirección de absulta de la página de Control sesiones.
      * <h3>Control-G/Sesiones.jsp</h3>
