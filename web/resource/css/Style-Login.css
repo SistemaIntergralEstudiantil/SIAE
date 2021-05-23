@@ -86,3 +86,13 @@ and open the template in the editor.
     font-weight: bold;
 }
 
+span {
+    display: inline-block;
+    position: absolute;
+    margin-left: 11rem;
+    margin-top: -2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.3rem .6rem;
+    background-color: #e2e2e2;
+}

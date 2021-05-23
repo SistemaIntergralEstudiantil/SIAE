@@ -26,35 +26,26 @@
         </table>
         <p align="center"><img src="resource/images/logo_SIAE.png" height="180" width="180"></p>
         <div class="content-form">
-            <center>
-                <form action="Login" method="POST">
-                    <div>
-                        <label for="user" class="lbl-user">Matricula o Número de control</label>
-                        <input id="user" type="text" name="idUsuario"/>
-                    </div><br>
-                    <div>
-                        <label for="pass" class="lbl-pass">Introduce tu contraseña</label>
-                        <input  id="pass" type="password" name="contra" />
-                    </div><br>
-                    <div>
-                        <input type="hidden" name="clave" value="log"/>
-                        <input type="submit" value="Ingresar">
-                    </div>
-                </form>
-            </center>
+        <center>
+            <form action="Login" method="POST">
+                <div>
+                    <label for="user" class="lbl-user">Matricula o Número de control</label>
+                    <input id="user" type="text" name="idUsuario"/>
+                </div><br>
+                <div id="content-pass">
+                    <label for="pass" class="lbl-pass">Introduce tu contraseña</label>
+                    <input  id="pass" type="password" name="contra" />
+                    <span id="mostrar" >mostrar</span>
+                </div><br>
+                <div>
+                    <input type="hidden" name="clave" value="log"/>
+                    <input type="submit" value="Ingresar">
+                </div>
+            </form>
+        </center>
         </div>
-       <a href="session/Home.jsp">Home</a>
-        <a href="areas/Menu.jsp">Apoyo</a>
-        <a href="areas/Asesorias.jsp">Asesorias</a>
-        <a href="curricula/Menu.jsp">Curricula</a>
-        <a href="areas/ServicioPsicologico.jsp">Servicio psicologico</a>
-        <a href="Docente/Cursos.jsp">Docente</a>
-        <a href="Control-G/Menu.jsp">Control</a>
-        <a href="altasyBajas/AltasyBajas.jsp">Altas y Bajas de Materias</a>
-        <a href="Control-G/Menu_3.jsp">Control Alta</a>
-        <a href="verano/verano.jsp">Verano</a>
-        <a href="altasyBajas/academia.jsp">Academia</a>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="resource/js/Script-Login.js"></script>
+        <script src="resource/js/Script-pass.js"></script>
     </body>
 </html>

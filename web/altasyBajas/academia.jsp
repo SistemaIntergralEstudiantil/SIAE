@@ -44,8 +44,9 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-1");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Complementaria</div>
     </div>
     <div class="item-body" >
         <div class="item-body-item item-body-item-t" >Segundo semestre</div>
@@ -53,8 +54,9 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-2");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Complementaria</div>
     </div>
     <div class="item-body" >
         <div class="item-body-item item-body-item-t" >Tercer semestre</div>
@@ -62,8 +64,9 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-3");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Complementaria</div>
     </div>
     <div class="item-body" >
         <div class="item-body-item item-body-item-t" >Cuarto semestre</div>
@@ -71,8 +74,9 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-4");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Complementaria</div>
     </div>
     <div class="item-body" >
         <div class="item-body-item item-body-item-t" >Quinto semestre</div>
@@ -80,8 +84,9 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-5");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Complementaria</div>
     </div>
     <div class="item-body" >
         <div class="item-body-item item-body-item-t" >Sexto semestre</div>
@@ -89,8 +94,9 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-6");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Complementaria</div>
     </div>
     <div class="item-body" >
         <div class="item-body-item item-body-item-t" >Septimo semestre</div>
@@ -98,7 +104,8 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-7");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
         <% } } %>
     </div>
     <div class="item-body" >
@@ -107,8 +114,13 @@
                 ArrayList<Asignatura> l = (ArrayList<Asignatura>) request.getAttribute("lista-8");
             for(Asignatura a : l) {
         %>
-        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" ><%=a.getNombre() %></div>
-        <% } } %>
+        <div class="item-body-item <%=a.getEstado().equals("A")?"item-apro":a.getEstado().equals("R")?"item-repro":"item-nocur" %>" 
+             ><%=a.getNombre() %><br><%=a.getIdAsignatura() %> | <%=a.getCredito() %></div>
+        <% } } %><div class="item-body-item item-repro" >Servicio social</div>
+    </div>
+    <div class="item-body" >
+        <div class="item-body-item item-body-item-t" >Noveno semestre</div>
+        <div class="item-body-item item-repro" >Residencia profecional</div>
     </div>
     </div>
     <div class="content-data_row" >

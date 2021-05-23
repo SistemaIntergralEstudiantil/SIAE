@@ -21,8 +21,6 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-Ajustes.css"/>
     </head>
     <body style="background-image: url(/SIAE/resource/images/menuPrincipal.png);background-size: 100% 130%;background-repeat: no-repeat">
-
-    
         <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
             Usuarios user = null;
@@ -31,8 +29,7 @@
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
                 request.getRequestDispatcher("/error/error.jsp").forward(request, response);
-            } else {
-                user = sec.getUser(); }
+            } else { user = sec.getUser(); }
             %>
         <header>
         <nav>
@@ -55,30 +52,48 @@
             <dl class="content-data">
             <div class="content-data_row" >
                 <dt class="data_dt data_d" >Confirmar contraseña:</dt>
-                <dd class="data_dd data_d" ><input type="password" name="contra" required /></dd><dt class="data_dt data_d" ></dt>
-                <dd class="data_dd data_d" ><input type="submit" class="btnSubmit" value="Modificar Foto"/></dd>
+                <dd class="data_dd data_d" >
+                    <input id="pass-uno" type="password" name="contra" required />
+                    <span id="mostrar-uno" class="mostrar" >mostrar</span>
+                </dd>
+                <dt class="data_dt data_d" ></dt>
+                <dd class="data_dd data_d" ><input type="submit" class="btnSubmit btnFoto" value="Modificar Foto"/></dd>
             </div>
             </dl>
             <input type="hidden" name="clave" value="change-foto"/>
         </form>
+        
         <form action="CambiarDatos" method="POST" onsubmit="return validarForm();" >
-            <dl class="content-data" >
+        <dl class="content-data" >
             <div class="content-data_row">
                 <dt class="data_dt data_d" >Contraseña actual:</dt>
-                <dd class="data_dd data_d" ><input type="password" name="contra" required /></dd></div>
+                <dd class="data_dd data_d" >
+                    <input id="pass-dos" type="password" name="contra" required />
+                    <span id="mostrar-dos" class="mostrar" >mostrar</span>
+                </dd>
+            </div>
             <div class="content-data_row">
                 <dt class="data_dt data_d" >Contraseña nueva:</dt>
-                <dd class="data_dd data_d" ><input type="password" name="newContra" id="newContra" required /></dd></div>
+                <dd class="data_dd data_d" >
+                    <input id="pass-tres" type="password" name="newContra" id="newContra" required />
+                    <span id="mostrar-tres" class="mostrar" >mostrar</span>
+                </dd>
+            </div>
             <div class="content-data_row">
                 <dt class="data_dt data_d" >Confirmar contraseña:</dt>
-                <dd class="data_dd data_d" ><input type="password" name="valideContra" id="valideContra" required /></dd></div>
+                <dd class="data_dd data_d" >
+                    <input id="valideContra" type="password" name="valideContra" required />
+                    <span id="mostrar-cuatro" class="mostrar" >mostrar</span>
+                </dd>
+            </div>
             <div class="content-data_row"><dt><input type="submit" class="btnSubmit" value="Modificar contraseña"/></dt></div>
-            </dl>
-            <input type="hidden" name="clave" value="change-pass"/>
+        </dl>
+        <input type="hidden" name="clave" value="change-pass"/>
         </form>
-         <a class="item-G-A-Selec content-a" href="session/Home.jsp">Menú principal</a>
+        <a class="item-G-A-Selec content-a" href="session/Home.jsp">Menú principal</a>
         <script src="/SIAE/resource/js/Script-ProfilePic.js"></script>
         <script src="/SIAE/resource/js/Script-Ajustes.js"></script>
+        <script src="/SIAE/resource/js/Script-pass.js"></script>
     </body>
 </html>
 

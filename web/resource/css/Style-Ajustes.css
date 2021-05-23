@@ -126,3 +126,33 @@ and open the template in the editor.
 .btnSubmit:hover{
     background: var(--color-hover);
 }
+
+.btnFoto {
+    margin-left: 8rem;
+}
+
+.mostrar {
+    display: inline-block;
+    position: absolute;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.3rem .6rem;
+    background-color: #e2e2e2;
+}
+
+#mostrar-uno {
+    margin-left: 2rem;
+    margin-top: 0rem;
+}
+#mostrar-dos {
+    margin-left: 2rem;
+    margin-top: 0rem;
+}
+#mostrar-tres {
+    margin-left: 2rem;
+    margin-top: 0rem;
+}
+#mostrar-cuatro {
+    margin-left: 2rem;
+    margin-top: 0rem;
+}
