@@ -37,12 +37,19 @@ and open the template in the editor.
 }
 
 .description-p {
-    font-size: 1.8rem;
+    font-size: var(--size-description);
+    font-weight: bold;
+    color: var(--color-description);
+    text-align: center;
+    margin: 1rem;
+}
+
+.description-tile {
+    font-size: var(--size-description);
     font-weight: bold;
     color: #0A1172;
     text-align: center;
-    
-    margin: 1.5rem;
+    margin: 1rem;
 }
 
 .input-submit {

@@ -14,6 +14,7 @@ public class ReporteAlumno {
     private String tipo;
     private int credito;
     private String estado;
+    private String oportunidad;
     private int idAsignatura;
     private String asignatura;
     private String matricula;
@@ -147,4 +148,13 @@ public class ReporteAlumno {
     public void setCredito(int credito) {
         this.credito = credito;
     }
+
+    public String getOportunidad() {
+        return oportunidad;
+    }
+
+    public void setOportunidad(String oportunidad) {
+        this.oportunidad = oportunidad;
+    }
+    
 }

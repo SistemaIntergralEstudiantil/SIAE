@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS Cursos_Alumnos (
   idCurso INT NOT NULL,
   estado CHAR(2) NOT NULL CONSTRAINT `chk_Cursos_Alumnos_estado`CHECK ( estado in('SA','SB', 'A', 'R')) ENFORCED COMMENT 'El estado puede ser: (SA) solicitar alta, (SB) solicitar baja, (A) aceptado o (R) revocado',
   reporte CHAR(1) NOT NULL DEFAULT 'P' CONSTRAINT `chk_Cursos_Alumnos_reporte`CHECK ( reporte in('P','A', 'R')) ENFORCED COMMENT 'El estado puede ser: (P) sin registro, (A) aprovado o (R) reprovado',
+  oport INT CHECK ( oport > -1 AND oport < 4) ENFORCED COMMENT 'Las veces que el alumno a tomado la materia',
   matricula VARCHAR(20) NOT NULL,
   PRIMARY KEY (idCurso, matricula),
   CONSTRAINT `fk_Cursos_Alumnos_Alumnos` FOREIGN KEY (matricula) REFERENCES Alumnos (matricula),
@@ -527,32 +528,44 @@ DROP PROCEDURE IF EXISTS proce_reporte_cursos_ov;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_cursos_ov( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene todos los cursos de las materias disponibles, eliminando las materias aprobadas' DETERMINISTIC
 BEGIN
-    SELECT c.idC, c.tipo, a.idA, semestre, nombre, c.cupo, credito FROM
-    (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
-    JOIN 
-    (SELECT idCurso AS idC, idAsignatura AS idA, cupo, tipo FROM Cursos WHERE estado = 'E' AND cupo > 0) c
-    ON(a.idA=c.idA) 
-    WHERE a.idA 
-    NOT IN(
-        SELECT a.idA FROM
-            (SELECT cu.idC,cu.idA, cupo FROM
-            (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos) cu
-            JOIN
-            (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE (estado in('A','SA','SB')) AND matricula = in_matricula) al
-            ON(cu.idC=al.idC)
-            ) c
-        JOIN
+    SELECT idC, tipo, re.idA, semestre, nombre, cupo, credito, IF( op is null, 0, op) AS oportunidad  FROM
+        (SELECT c.idC, c.tipo, a.idA, semestre, nombre, c.cupo, credito FROM
             (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
-        ON(c.idA=a.idA)
-    );
+            JOIN 
+            (SELECT idCurso AS idC, idAsignatura AS idA, cupo, tipo FROM Cursos WHERE estado = 'E' AND cupo > 0) c
+            ON(a.idA=c.idA) 
+            WHERE a.idA 
+                NOT IN(
+                    SELECT a.idA FROM
+                        (SELECT cu.idC,cu.idA, cupo FROM
+                        (SELECT idCurso AS idC, idAsignatura AS idA, cupo FROM Cursos) cu
+                        JOIN
+                        (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE (estado in('SA','SB') OR (estado = 'A' AND reporte = 'A' ) ) AND matricula = in_matricula) al
+                        ON(cu.idC=al.idC)
+                        ) c
+                    JOIN
+                        (SELECT idAsignatura AS idA, semestre, nombre, credito FROM Asignaturas) a
+                    ON(c.idA=a.idA)
+                )
+        ) re
+    LEFT JOIN
+        (
+            SELECT c.idA, count(ca.idC) AS op FROM
+            (SELECT idCurso AS idC, idAsignatura AS idA FROM Cursos) c
+            JOIN
+            (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE matricula = in_matricula AND estado not in('SA','SB','R')) ca
+            ON(c.idC=ca.idC) group by (c.idA)
+        ) f
+    ON(re.idA=f.idA);
 END $$
 DELIMITER ;
 ;
 -- CALL proce_reporte_cursos_ov('18011126');
+-- select * from Cursos_Alumnos where matricula = '18011126';
 
 DROP PROCEDURE IF EXISTS proce_solicitar_alta;
 DELIMITER $$
-CREATE PROCEDURE proce_solicitar_alta( in in_idCurso INT, in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento realiza la solicitud de alta, de un curso ordinal por un alumno' DETERMINISTIC
+CREATE PROCEDURE proce_solicitar_alta( in in_idCurso INT, in in_matricula VARCHAR(20), in in_estado INT) COMMENT 'Este procedimiento realiza la solicitud de alta, de un curso ordinal por un alumno' DETERMINISTIC
 BEGIN
     DECLARE obj_idA INT DEFAULT -1;
     DECLARE obj_rep BOOLEAN DEFAULT true;
@@ -580,7 +593,7 @@ BEGIN
     START TRANSACTION;
         UPDATE Cursos SET cupo = cupo - 1  WHERE (idCurso = in_idCurso);
         IF obj_rep THEN
-            INSERT INTO Cursos_Alumnos VALUES(in_idCurso, 'SA', 'P', in_matricula);
+            INSERT INTO Cursos_Alumnos VALUES(in_idCurso, 'SA', 'P', in_estado, in_matricula);
         ELSE
             UPDATE Cursos_Alumnos SET estado = 'SA' WHERE (idCurso = in_idCurso) and (matricula = in_matricula);
         END IF;
@@ -596,8 +609,8 @@ DROP PROCEDURE IF EXISTS proce_consulta_alumnos;
 DELIMITER $$
 CREATE PROCEDURE proce_consulta_alumnos() COMMENT 'Este procedimiento obtiene los datos de los alumnos que han solicitado alta o baja' DETERMINISTIC
 BEGIN
-    SELECT ca.idC, ca.idA, matricula, nombre, alumno, estado, tipo, credito FROM
-    (SELECT idCurso AS idC, matricula, funci_nombre_user(matricula) AS alumno, estado FROM Cursos_Alumnos WHERE estado in('SA','SB')) a
+    SELECT ca.idC, ca.idA, matricula, nombre, alumno, estado, tipo, credito, oport FROM
+    (SELECT idCurso AS idC, matricula, funci_nombre_user(matricula) AS alumno, estado, oport FROM Cursos_Alumnos WHERE estado in('SA','SB')) a
     JOIN
     (
         SELECT c.idC, a.idA, nombre, tipo, credito FROM
@@ -643,11 +656,11 @@ DROP PROCEDURE IF EXISTS proce_reporte_registro_cursos;
 DELIMITER $$
 CREATE PROCEDURE proce_reporte_registro_cursos( in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene los cursos de las materias que son aceptadas' DETERMINISTIC
 BEGIN
-    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito, tipo FROM
-        (SELECT cu.idC,cu.idA, cupo, cu.tipo FROM
+    SELECT c.idC, a.idA, semestre, nombre, c.cupo, credito, tipo, oportunidad FROM
+        (SELECT cu.idC,cu.idA, cupo, cu.tipo, oportunidad FROM
         (SELECT idCurso AS idC, idAsignatura AS idA, cupo, tipo FROM Cursos WHERE estado = 'E') cu
         JOIN
-        (SELECT idCurso AS idC FROM Cursos_Alumnos WHERE estado = 'A' AND matricula = in_matricula) al
+        (SELECT idCurso AS idC, oport AS oportunidad FROM Cursos_Alumnos WHERE estado = 'A' AND matricula = in_matricula) al
         ON(cu.idC=al.idC)
         ) c
     JOIN
@@ -732,8 +745,8 @@ DROP PROCEDURE IF EXISTS proce_segimiento_academico;
 DELIMITER $$
 CREATE PROCEDURE proce_segimiento_academico(in in_matricula VARCHAR(20)) COMMENT 'Este procedimiento obtiene la información de las materias Aceptadas, solicitadas y no cursadas por el alumno' DETERMINISTIC
 BEGIN
-    CREATE TEMPORARY TABLE segimiento( idA int default 0 primary key, semestre int default 0, estado char(1) default 'N', nombre varchar(70) );
-    INSERT INTO segimiento(idA, nombre, semestre) ( SELECT idAsignatura, nombre, semestre FROM Asignaturas );
+    CREATE TEMPORARY TABLE segimiento( idA int default 0 primary key, semestre int default 0, estado char(1) default 'N', nombre varchar(70), credito int );
+    INSERT INTO segimiento(idA, nombre, semestre, credito) ( SELECT idAsignatura, nombre, semestre, credito FROM Asignaturas );
     UPDATE segimiento AS s 
     JOIN 
         (SELECT c.idA, reporte AS estado FROM
@@ -744,16 +757,13 @@ BEGIN
         ) c
     ON(s.idA=c.idA)
     SET s.estado = c.estado;
-    SELECT idA, estado, nombre, semestre FROM segimiento ORDER BY semestre;
+    SELECT idA, estado, nombre, semestre, credito FROM segimiento ORDER BY semestre;
     DROP TABLE segimiento;
 END $$
 DELIMITER ;
 ;
 
--- CALL proce_segimiento_academico('18011126');
-
-
-
+ CALL proce_segimiento_academico('18011126');
 
 
 -- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, in_rol, in_contra, in_num_tel
@@ -900,6 +910,7 @@ CALL proce_nuevo_curso(1020,'O','E',3,303,'D00004');
 CALL proce_nuevo_curso(1021,'O','E',15,403,'D00005');
 CALL proce_nuevo_curso(1022,'O','E',10,503,'D00006');
 CALL proce_nuevo_curso(1023,'O','E',12,603,'D00007');
+CALL proce_nuevo_curso(1024,'O','D',12,603,'D00007');
 
 CALL proce_nueva_sesion(1000,'Lunes','8:00','9:59');
 CALL proce_nueva_sesion(1000,'Viernes','15:00','17:59');
@@ -947,66 +958,71 @@ CALL proce_nueva_sesion(1020,'Lunes','12:00','14:50');
 CALL proce_nueva_sesion(1021,'Jueves','12:00','14:59');
 CALL proce_nueva_sesion(1022,'Viernes','14:00','16:59');
 CALL proce_nueva_sesion(1023,'Martes','10:00','12:59');
+CALL proce_nueva_sesion(1024,'Martes','10:00','12:59');
 
-INSERT INTO Cursos_Alumnos VALUES(1000,'A','R','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1001,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1002,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1003,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1004,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1005,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1000,'A','R','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1001,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1002,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1003,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1004,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1005,'A','R','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1000,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1001,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1002,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1003,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1004,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1005,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1000,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1001,'A','R','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1002,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1003,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1004,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1005,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1000,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1001,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1002,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1003,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1004,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1005,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1012,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1013,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1014,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1015,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1016,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1017,'A','A','18011250');
-INSERT INTO Cursos_Alumnos VALUES(1012,'R','P','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1013,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1014,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1015,'A','R','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1016,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1017,'A','A','18011126');
-INSERT INTO Cursos_Alumnos VALUES(1012,'R','P','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1013,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1014,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1015,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1016,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1017,'A','A','18011378');
-INSERT INTO Cursos_Alumnos VALUES(1012,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1013,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1014,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1015,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1016,'A','A','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1017,'R','P','18011225');
-INSERT INTO Cursos_Alumnos VALUES(1012,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1014,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1015,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1016,'A','A','18011362');
-INSERT INTO Cursos_Alumnos VALUES(1017,'A','A','18011362');
+
+
+INSERT INTO Cursos_Alumnos VALUES(1000,'A','R',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1001,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1002,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1003,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1004,'A','A',0,'18011126');
+
+INSERT INTO Cursos_Alumnos VALUES(1005,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1000,'A','R',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1001,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1002,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1003,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1004,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1005,'A','R',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1000,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1001,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1002,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1003,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1004,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1005,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1000,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1001,'A','R',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1002,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1003,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1004,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1005,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1000,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1001,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1002,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1003,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1004,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1005,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1012,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1013,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1014,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1015,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1016,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1017,'A','A',0,'18011250');
+INSERT INTO Cursos_Alumnos VALUES(1012,'R','P',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1013,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1014,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1015,'A','R',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1016,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1017,'A','A',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1024,'A','R',0,'18011126');
+INSERT INTO Cursos_Alumnos VALUES(1012,'R','P',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1013,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1014,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1015,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1016,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1017,'A','A',0,'18011378');
+INSERT INTO Cursos_Alumnos VALUES(1012,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1013,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1014,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1015,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1016,'A','A',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1017,'R','P',0,'18011225');
+INSERT INTO Cursos_Alumnos VALUES(1012,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1014,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1015,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1016,'A','A',0,'18011362');
+INSERT INTO Cursos_Alumnos VALUES(1017,'A','A',0,'18011362');
 #INSERT INTO Cursos_Alumnos VALUES(1018,'S','P','18011250');
 #INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011250');
 #INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011250');

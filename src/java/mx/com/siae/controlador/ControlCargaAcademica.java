@@ -64,8 +64,10 @@ public class ControlCargaAcademica extends HttpServlet {
                             String Asig_x = request.getParameter("Asig_"+i);
                             if(Asig_x!=null) {
                                 String IdCurso = Asig_x.split(",")[0];
+                                String idEstado = Asig_x.split(",")[3];
                                 int curso = Integer.parseInt(IdCurso);
-                                crl.registrarAltaAlumnoCurso(curso, alu.getIdUsuario());
+                                int estado = Integer.parseInt(idEstado);
+                                crl.registrarAltaAlumnoCurso(curso, alu.getIdUsuario(), estado);
                                 txt +=Asig_x+":";
                             }
                         }

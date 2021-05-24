@@ -210,6 +210,7 @@ public class CursosDAO {
             rep.setCupo( cn.getResultado().getInt("cupo") );
             rep.setCredito(cn.getResultado().getInt("credito") );
             rep.setTipo(cn.getResultado().getString("tipo"));
+            rep.setEstado(cn.getResultado().getString("oportunidad"));
             t.add(rep);
         }
         cn.getEstadoProce().close();
@@ -244,6 +245,7 @@ public class CursosDAO {
             rep.setCupo( cn.getResultado().getInt("cupo") );
             rep.setCredito(cn.getResultado().getInt("credito") );
             rep.setTipo(cn.getResultado().getString("tipo"));
+            rep.setEstado(cn.getResultado().getString("oportunidad"));
             t.add(rep);
         }
         cn.getEstadoProce().close();
@@ -277,6 +279,7 @@ public class CursosDAO {
             rep.setEstado(cn.getResultado().getString("estado") );
             rep.setTipo(cn.getResultado().getString("tipo") );
             rep.setCredito(cn.getResultado().getInt("credito") );
+            rep.setOportunidad(cn.getResultado().getString("oport"));
             t.add(rep);
         }
         cn.getEstadoProce().close();
@@ -287,16 +290,18 @@ public class CursosDAO {
      * Método registra la solicitud de inscripción un alumno a un curso.
      * @param idCurso El identificador del curso.
      * @param matricula El identificador del alumno.
+     * @param estado La relación del alumno con las repeticiones de la materia
      * @throws ClassNotFoundException Excepción al establecer el conector.
      * @throws SQLException Excepción al realizar la conexión con la BD.
      */
-    public void registrarAltaAlumnoCurso(int idCurso, String matricula) throws ClassNotFoundException, SQLException{
-        String sql = "{CALL proce_solicitar_alta(?,?)}";
+    public void registrarAltaAlumnoCurso(int idCurso, String matricula, int estado) throws ClassNotFoundException, SQLException{
+        String sql = "{CALL proce_solicitar_alta(?,?,?)}";
         Conexion cn = new Conexion();
         cn.conectar();
         cn.prepareCallable(sql);
         cn.getEstadoProce().setInt(1, idCurso);
         cn.getEstadoProce().setString(2, matricula);
+        cn.getEstadoProce().setInt(3, estado);
         cn.getEstadoProce().executeUpdate();
         cn.getEstadoProce().close();
         cn.getConexion().close();
@@ -399,6 +404,7 @@ public class CursosDAO {
             a.setNombre( cn.getResultado().getString("nombre"));
             a.setEstado( cn.getResultado().getString("estado"));
             a.setSemestre( cn.getResultado().getInt("semestre"));
+            a.setCredito( cn.getResultado().getInt("credito"));
             lista.add(a);
         }
         cn.getEstadoProce().close();

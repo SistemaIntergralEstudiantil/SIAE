@@ -29,6 +29,7 @@ body {
     --color-description: #00A3AA;
     --color-disable: #DE2626;
     --color-d-hover:#F52727;
+    --size-description: 1.5rem;
 }
 
 .content-G {
@@ -105,6 +106,5 @@ tr:nth-child(even) {
     font-weight: bold;
     color: var(--color-description);
     text-align: center;
-    
     margin: 8rem;
 }

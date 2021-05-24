@@ -20,6 +20,8 @@ and open the template in the editor.
 .content {
     flex-flow: row wrap;
     list-style: none;
+    margin-left: 0rem;
+    margin-right: -7.5rem;
 }
 
 .content-item {
@@ -46,7 +48,7 @@ and open the template in the editor.
     color: var(--color-description);
     text-align: center;
     
-    margin: 1.5rem;
+    margin: var(--size-description);
 }
 
 .input-submit {
@@ -77,7 +79,7 @@ and open the template in the editor.
     flex-grow: 1;
     flex-basis: 0;
     padding: .5rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-weight: bold;
 }
 .item-body-item {

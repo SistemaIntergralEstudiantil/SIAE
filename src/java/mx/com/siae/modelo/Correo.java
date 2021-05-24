@@ -157,7 +157,20 @@ public class Correo {
             String d[] = data[i].split(",");
             String idCurso = new String(d[0].getBytes(Charset.forName("ISO-8859-1")));
             String asignatura = new String(d[1].getBytes(Charset.forName("ISO-8859-1")));
-            contentStream.showText(" IdCurso: "+idCurso +" < > Asignatura:"+ asignatura);
+            String estado = new String(d[2].getBytes(Charset.forName("ISO-8859-1")));
+            String idA = new String(d[4].getBytes(Charset.forName("ISO-8859-1")));
+            String cr = new String(d[5].getBytes(Charset.forName("ISO-8859-1")));
+            contentStream.showText(" IdCurso: ");
+            contentStream.showText(idCurso);
+            contentStream.showText(" <");
+            contentStream.showText(estado);
+            contentStream.showText("> Asignatura: ");
+            contentStream.showText(asignatura);
+            contentStream.showText(" | ");
+            contentStream.showText(idA);
+            contentStream.showText(" | ");
+            contentStream.showText(cr);
+            //contentStream.showText(" IdCurso: "+idCurso +" <"+estado+"> Asignatura:"+ asignatura);
             contentStream.newLine();
         }
         contentStream.endText();

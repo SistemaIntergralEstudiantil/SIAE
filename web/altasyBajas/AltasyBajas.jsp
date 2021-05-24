@@ -33,9 +33,7 @@
         <nav>
         <ul class="content-G content">
             <li><h1 class="content-item-G content-item" >Altas y bajas de materias</h1></li>
-            <li>
-                <img class="content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/>
-            </li>
+            <li><img class="content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80" alt="alt"/></li>
         </ul>
         </nav>
         </header>
@@ -43,7 +41,7 @@
         <div class="content-table" >
         <form method="POST" action="ControlCargaAcademica">
             <table class="table">
-            <caption class="description-p" >Lista de asignaturas disponibles para cargar</caption>
+            <caption class="description-tile" >Lista de asignaturas disponibles para cargar</caption>
             <thead>
                 <tr>
                 <th style="width: 1.5rem;">Solicitar</th>
@@ -54,6 +52,7 @@
                 <th style="width: 10rem;">Asignatura</th>
                 <th style="width: 1.5rem;">Créditos</th>
                 <th style="width: 2.5rem;">Cupo</th>
+                <th style="width: 1rem;"></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,14 +62,23 @@
                     for(ReporteCurso rc : l) {
                 %>
                 <tr>
-                <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()%>" ></th>
+                    <%String tipo = rc.getEstado();
+                    String a = rc.getIdAsignatura()+"";
+                    String cr = rc.getCredito()+"";
+                    String estado = tipo.equals("0")?"1° Op":tipo.equals("1")?"Repetición":"Especial";
+                    int op = Integer.parseInt(tipo);
+                    if(estado.equals(op>4))
+                        continue;
+                    %>
+                <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()+","+estado+","+tipo+","+a+","+cr%>" ></th>
                 <th><%=rc.getIdCurso()%></th>
-                <th><%=rc.getTipo().equals("O")?"Ordinario":"Verano"%></th>
+                <th><%=estado%></th>
                 <th><%=rc.getIdAsignatura()%></th>
                 <th><%=rc.getSemestre()%></th>
-                <th><%=rc.getAsignatura()%></th>
-                <th><%=rc.getCredito()%></th>
+                <th><%=a%></th>
+                <th><%=cr%></th>
                 <th><%=rc.getCupo()%></th>
+                <th><%=rc.getTipo()%></th>
                 </tr> <% i++; } } %>
             </tbody>
             </table>
@@ -82,7 +90,7 @@
         <div class="content-table" >
         <form method="POST" action="ControlCargaAcademica">
         <table class="table" >
-        <caption class="description-p" >Lista de las asignaturas que han sido cargadas</caption>
+        <caption class="description-tile" >Lista de las asignaturas que han sido cargadas</caption>
         <thead>
             <tr>
             <th style="width: 1.5rem;">Baja</th>
@@ -93,6 +101,7 @@
             <th style="width: 10rem;">Asignatura</th>
             <th style="width: 1.5rem;">Créditos</th>
             <th style="width: 2.5rem;">Cupo</th>
+            <th style="width: 1rem;"></th>
             </tr>
         </thead>
         <tbody>
@@ -102,14 +111,18 @@
                     for(ReporteCurso rc : l) {
                 %>
                 <tr>
-                <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()%>" ></th>
-                <th><%=rc.getIdCurso()%></th>
-                <th><%=rc.getTipo().equals("O")?"Ordinario":"Verano"%></th>
+                    <%String tipo = rc.getEstado();
+                    String estado = tipo.equals("0")?"1° Op":tipo.equals("1")?"Repetición":"Especial";
+                    %>
+                <th><input type="checkbox" name="Asig_<%=i%>" value="<%=rc.getIdCurso()+","+rc.getAsignatura()+","+tipo%>" ></th>
+                <th><%=rc.getIdCurso() %>
+                <th><%=tipo.equals("0")?"1° Op":tipo.equals("1")?"Repetición":"Especial"%></th>
                 <th><%=rc.getIdAsignatura()%></th>
                 <th><%=rc.getSemestre()%></th>
                 <th><%=rc.getAsignatura()%></th>
                 <th><%=rc.getCredito()%></th>
                 <th><%=rc.getCupo()%></th>
+                <th><%=rc.getTipo()%></th>
                 </tr> <% i++; } } %>
         </tbody>
         </table>

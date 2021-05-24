@@ -51,6 +51,7 @@
         <th style="width: 10rem;">Alumno</th>
         <th style="width: 2.5rem;">Aceptar</th>
         <th style="width: 2.5rem;">Rechazar</th>
+        <th style="width: 1rem;"></th>
         </tr>
     </thead>
     <tbody>
@@ -58,7 +59,8 @@
                 ArrayList<ReporteAlumno> l = (ArrayList<ReporteAlumno>) request.getAttribute("lista-a");
                 for(ReporteAlumno s : l) { %>
         <tr><th><%=s.getIdCurso() %></th>
-            <th><%=s.getTipo().equals("O")?"Ordinario":"Verano" %></th>
+            <%String tipo = s.getOportunidad(); %>
+            <th><%=tipo.equals("0")?"1° Op":tipo.equals("1")?"Repetición":"Especial"%></th>
             <th><%=s.getIdAsignatura() %></th>
             <th><%=s.getAsignatura()%></th>
             <th><%=s.getCredito() %></th>
@@ -78,6 +80,7 @@
                 <input type="hidden" name="estado" value="R">
                 <input class="input-submit-table input-T-D" type="submit" value="Rechazar">
                 </form></th>
+                <th><%=s.getTipo().equals("O")?"Ordinario":"Verano" %></th>
         </tr><% } } %>
     </tbody>
     </table>
@@ -96,6 +99,7 @@
         <th style="width: 10rem;">Alumno</th>
         <th style="width: 2.5rem;">Aceptar</th>
         <th style="width: 2.5rem;">Rechazar</th>
+        <th style="width: 1rem;"></th>
         </tr>
     </thead>
     <tbody>
@@ -103,7 +107,8 @@
                 ArrayList<ReporteAlumno> l = (ArrayList<ReporteAlumno>) request.getAttribute("lista-b");
                 for(ReporteAlumno s : l) { %>
         <tr><th><%=s.getIdCurso() %></th>
-            <th><%=s.getTipo().equals("O")?"Ordinario":"Verano" %></th>
+            <%String tipo = s.getOportunidad(); %>
+            <th><%=tipo.equals("0")?"1° Op":tipo.equals("1")?"Repetición":"Especial"%></th>
             <th><%=s.getIdAsignatura() %></th>
             <th><%=s.getAsignatura()%></th>
             <th><%=s.getCredito() %></th>
@@ -123,6 +128,7 @@
                 <input type="hidden" name="estado" value="R">
                 <input class="input-submit-table input-T-D" type="submit" value="Rechazar">
                 </form></th>
+            <th><%=s.getTipo().equals("O")?"Ordinario":"Verano" %></th>
         </tr><% } } %>
     </tbody>
     </table>

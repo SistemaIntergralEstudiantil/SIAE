@@ -71,6 +71,7 @@
         <abbr title="Seleccione el menú desplegable para filtrar las asignaturas por área de conocimiento ">
             <img src="/SIAE/resource/images/help.png" width="40" height="40" style="float: right"/>  
         </abbr>
+        <div class="description-p"><p>Aquí tendrás la oportunidad ...</p></div>
         <div class="content-table" >
             <table class="table" >
                     <thead>
