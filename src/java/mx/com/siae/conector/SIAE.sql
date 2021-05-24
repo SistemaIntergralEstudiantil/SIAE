@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
 CREATE TABLE IF NOT EXISTS Responsables (
   tipo CHAR(1) NULL CONSTRAINT `chk_Responsables_tipo`CHECK ( tipo in('D', 'E')) ENFORCED COMMENT 'El tipo de responsable puede ser: (D) docente o (E) encargado',
   idUsuario VARCHAR(20) NOT NULL,
+  grado VARCHAR(10) NOT NULL,
   PRIMARY KEY (idUsuario),
   CONSTRAINT `fk_Responsables_Usuarios` FOREIGN KEY (idUsuario) REFERENCES Usuarios (idUsuario)
 );
@@ -130,7 +131,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS proce_nuevo_respo;
 DELIMITER $$
-CREATE PROCEDURE proce_nuevo_respo(in in_tipo CHAR(1), in in_idUsuario VARCHAR(20)) COMMENT 'Este procedimiento creara un nuevo usuario, espesificamente del tipo responsable' DETERMINISTIC
+CREATE PROCEDURE proce_nuevo_respo(in in_tipo CHAR(1), in in_idUsuario VARCHAR(20), in in_grado VARCHAR(10)) COMMENT 'Este procedimiento creara un nuevo usuario, espesificamente del tipo responsable' DETERMINISTIC
 BEGIN
     DECLARE t_error BOOLEAN; DECLARE t_msg VARCHAR(100) DEFAULT 'OK';
     DECLARE t_msg_error CONDITION FOR 1062; DECLARE t_msg_error_chk CONDITION FOR 3819; DECLARE t_msg_error_fk CONDITION FOR 1452; DECLARE t_msg_error_null CONDITION FOR 1048;
@@ -138,8 +139,8 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR t_msg_error_chk BEGIN SET t_msg = '3819 Check constraint'; SET t_error = true; END;
     DECLARE CONTINUE HANDLER FOR t_msg_error_fk BEGIN SET t_msg = '1452 foreign key constraint'; SET t_error = true; END;
     DECLARE CONTINUE HANDLER FOR t_msg_error_null BEGIN SET t_msg = '1048 Can not NULL'; SET t_error = true; END;
-    START TRANSACTION;                                                                                                                         
-        INSERT INTO Responsables VALUES(in_tipo, in_idUsuario);
+    START TRANSACTION;
+        INSERT INTO Responsables VALUES(in_tipo, in_idUsuario, in_grado);
     IF t_error THEN ROLLBACK; SELECT concat(t_msg,' R ',in_idUsuario) AS t_msg FROM dual; ELSE COMMIT;
     END IF;
 END $$
@@ -246,12 +247,18 @@ DELIMITER $$
 CREATE FUNCTION funci_nombre_user ( in_idUsuario VARCHAR(20) ) RETURNS VARCHAR(225) COMMENT 'Esta fución obtendra el nombre completo del usuario' DETERMINISTIC
 BEGIN
     DECLARE nombre VARCHAR(225) DEFAULT '';
+    DECLARE docente BOOLEAN DEFAULT false;
     SELECT concat(nombre_1 , ' ', COALESCE(nombre_2, ''), ' ', COALESCE(nombre_3, ''), apellido_pat, ' ', COALESCE(apellido_mat, '')) INTO nombre
     FROM Usuarios WHERE idUsuario = in_idUsuario;
+    SELECT true INTO docente FROM Responsables WHERE idUsuario = in_idUsuario AND tipo = 'D';
+    IF docente THEN
+        SELECT concat(grado, ' ', nombre) INTO nombre FROM Responsables WHERE idUsuario = in_idUsuario;
+    END IF;
     RETURN nombre;
 END $$
 DELIMITER ;
 ;
+-- SELECT funci_nombre_user('D00002') from dual;
 
 DROP PROCEDURE IF EXISTS proce_iniciar_sesion;
 DELIMITER $$
@@ -763,7 +770,7 @@ END $$
 DELIMITER ;
 ;
 
- CALL proce_segimiento_academico('18011126');
+-- CALL proce_segimiento_academico('18011126');
 
 
 -- idUsuario, nombre_1, nombre_2, nombre_3, apellido_pat, apellido_mat, correo_inst, in_rol, in_contra, in_num_tel
@@ -792,21 +799,21 @@ CALL proce_nuevo_user('D00014','Juan','Carlos',null,'Ceron','Almaraz','jcerona@i
 CALL proce_nuevo_user('D00015','Guillermo',null,null,'Castañeda','Ortiz','gcastanedao@itsoeh.edu.mx','R','gcastanedao','');
 -- CALL proce_nuevo_user('D00016','Alberto',null,null,'Montoya','Buendia','amontoyab@itsoeh.edu.mx','R','amontoyab','');
 
-CALL proce_nuevo_respo('D','D00001');
-CALL proce_nuevo_respo('D','D00002');
-CALL proce_nuevo_respo('D','D00003');
-CALL proce_nuevo_respo('D','D00004');
-CALL proce_nuevo_respo('D','D00005');
-CALL proce_nuevo_respo('D','D00006');
-CALL proce_nuevo_respo('D','D00007');
-CALL proce_nuevo_respo('D','D00008');
-CALL proce_nuevo_respo('D','D00009');
-CALL proce_nuevo_respo('D','D00010');
-CALL proce_nuevo_respo('D','D00011');
-CALL proce_nuevo_respo('D','D00012');
-CALL proce_nuevo_respo('D','D00013');
-CALL proce_nuevo_respo('D','D00014');
-CALL proce_nuevo_respo('D','D00015');
+CALL proce_nuevo_respo('D','D00001','MC');
+CALL proce_nuevo_respo('D','D00002','MC');
+CALL proce_nuevo_respo('D','D00003','CC');
+CALL proce_nuevo_respo('D','D00004','MC');
+CALL proce_nuevo_respo('D','D00005','MC.');
+CALL proce_nuevo_respo('D','D00006','MC');
+CALL proce_nuevo_respo('D','D00007','');
+CALL proce_nuevo_respo('D','D00008','');
+CALL proce_nuevo_respo('D','D00009','');
+CALL proce_nuevo_respo('D','D00010','');
+CALL proce_nuevo_respo('D','D00011','');
+CALL proce_nuevo_respo('D','D00012','');
+CALL proce_nuevo_respo('D','D00013','');
+CALL proce_nuevo_respo('D','D00014','');
+CALL proce_nuevo_respo('D','D00015','');
 -- CALL proce_nuevo_respo('R','D00016');
 
 CALL proce_nuevo_alumno('18011830','2020-08-06');
@@ -1037,3 +1044,4 @@ INSERT INTO Cursos_Alumnos VALUES(1017,'A','A',0,'18011362');
 #INSERT INTO Cursos_Alumnos VALUES(1019,'S','P','18011126');
 #INSERT INTO Cursos_Alumnos VALUES(1020,'S','P','18011126');
 #INSERT INTO Cursos_Alumnos VALUES(1021,'S','P','18011126');
+
