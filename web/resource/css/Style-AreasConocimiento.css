@@ -10,7 +10,7 @@ and open the template in the editor.
 
 :root {
     --height-item: 1.8rem;
-    --width-item: 2rem;
+    --width-item: 1rem;
 }
 
 .content {
@@ -60,8 +60,8 @@ and open the template in the editor.
 }
 
 .content-table {
-  padding: 3rem;
-  width: 90%;
+  padding: 1rem;
+  width: 95%;
   margin-top: 1rem;
   margin-left: 1rem;
   min-height: 10rem;
@@ -80,4 +80,12 @@ th {
 
 tr:nth-child(even) {
   background-color: var(--color-border);
+}
+
+.description-p {
+    font-size: var(--size-description);
+    font-weight: bold;
+    color: var(--color-description);
+    text-align: center;
+    margin: 1rem;
 }

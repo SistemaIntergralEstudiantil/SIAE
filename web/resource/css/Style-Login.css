@@ -7,6 +7,7 @@ and open the template in the editor.
     Created on : 25/03/2021, 10:49:38 PM
     Author     : danielhernandezreyes
 */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100');
 
 .input-val:focus {
     border-color: #00f;
@@ -16,4 +17,82 @@ and open the template in the editor.
 .input-err:focus {
     border-color: #f00;
     outline: 0 none;
+}
+
+
+.content-form{
+    width: 90%;
+    margin: auto;
+}
+
+.content-form form{
+    width: 300px;
+    margin: auto;
+}
+
+/*Estilos del usuario*/
+
+.content-form .lbl-user{
+    position: absolute;
+    margin-top: 10px;
+    font-size: 20px;
+    color: #2c3e4c;
+}
+
+.content-form #user{
+    background-color: transparent;
+    width: 100%;
+    padding: 10px;
+    border-style: none;
+    outline: 0px;
+    border-bottom: 1px solid #e2e2e2;
+    font-size: 20px;
+    
+}
+
+.content-form #user:focus{
+    border-bottom: 2px solid #0061ea;
+    -webkit-trasition: all 300ms;
+    transition: all 300ms;
+    font-weight: bold;
+}
+
+/*Estilos de la clave*/
+
+.content-form .lbl-pass{
+    display: block;
+    position: absolute;
+    margin-top: 30px;
+    font-size: 20px;
+    color: #2c3e4c;
+}
+
+.content-form #pass{
+    background-color: transparent;
+    width: 100%;
+    padding: 10px;
+    border-style: none;
+    outline: 0px;
+    border-bottom: 1px solid #e2e2e2;
+    margin-top: 20px;
+    font-size: 20px;
+    
+}
+
+.content-form #pass:focus{
+    border-bottom: 2px solid #0061ea;
+    -webkit-trasition: all 300ms;
+    transition: all 300ms;
+    font-weight: bold;
+}
+
+span {
+    display: inline-block;
+    position: absolute;
+    margin-left: 11rem;
+    margin-top: -2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.3rem .6rem;
+    background-color: #e2e2e2;
 }

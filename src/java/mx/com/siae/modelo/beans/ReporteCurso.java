@@ -14,6 +14,8 @@ public class ReporteCurso {
     private int idCurso;
     private String tipo;
     private int cupo;
+    private int credito;
+    private int semestre;
     private String estado;
     private int idAsignatura;
     private String asignatura;
@@ -147,5 +149,33 @@ public class ReporteCurso {
     public void setResponsable(String responsable) {
         this.responsable = responsable;
     }
-    
+    /**
+     * Este método obtiene el semestre al que pertenece la asignatura.
+     * @return El semestre de la asignatura.
+     */
+    public int getSemestre() {
+        return semestre;
+    }
+    /**
+     * Este método asigna el semestre al que pertenece la asignatura.
+     * @param semestre Este es del semestre.
+     */
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+    /**
+     * Este método obtiene los creditos la asignatura.
+     * @return El credito.
+     */
+    public int getCredito() {
+        return credito;
+    }
+    /**
+     * Este método asigna el credito a la asignatura.<br>
+     * Un valor entre 0 y 10 como maximo.
+     * @param credito Este es el área de conocimiento.
+     */
+    public void setCredito(int credito) {
+        this.credito = credito;
+    }
 }

@@ -8,6 +8,18 @@ and open the template in the editor.
     Author     : danielhernandezreyes
 */
 
+:root {
+    --color-base: #156590;
+    --color-hover: #1565C0;
+    --color-border: #DDDDDD;
+    --color-description: #00A3AA;
+    --color-title-table: #0A1172;
+    --color-disable: #DE2626;
+    --color-d-hover:#F52727;
+    --size-description: 1.5rem;
+    --size-content-table: 1rem;
+}
+
 @font-face{
     font-family: Roboto;
     src: url(../fonts/Roboto-Regular.ttf) format('ttf');
@@ -22,15 +34,15 @@ body {
     padding: 0;
 }
 
-:root {
-    --color-base: #156590;
-    --color-hover: #1565C0;
-    --color-border: #DDDDDD;
-    --color-description: #00A3AA;
-    --color-disable: #DE2626;
-    --color-d-hover:#F52727;
+.marca-areas {
+    background-image: url(/SIAE/resource/images/menuAreas.png);
+    background-size: 100% 100%;
 }
-
+.marca-servicio {
+    background-image: url(/SIAE/resource/images/ServSpsi.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
 .content-G {
     display: flex;
     justify-content: center;
@@ -55,8 +67,8 @@ body {
 }
 
 .content-table {
-  padding: 3rem;
-  width: 90%;
+  padding: var(--size-content-table);
+  width: calc(100% - calc( var(--size-content-table) * 5 ));
   margin-top: 1rem;
   margin-left: 1rem;
   min-height: 10rem;
@@ -100,11 +112,18 @@ tr:nth-child(even) {
 }
 
 
-.description {
-    font-size: 1.8rem;
+.description-p {
+    font-size: var(--size-description);
     font-weight: bold;
     color: var(--color-description);
     text-align: center;
-    
-    margin: 8rem;
+    margin: 1rem;
+}
+
+.description-tile {
+    font-size: var(--size-description);
+    font-weight: bold;
+    color: var(--color-title-table);
+    text-align: center;
+    margin: 1rem;
 }

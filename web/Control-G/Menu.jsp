@@ -25,11 +25,12 @@
     <body>
         <% HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
+            
             if(sec == null){
                 sec = new Session();
                 sec.setTypeSessionNull(1);
                 sesion.setAttribute("user", sec);
-                request.getRequestDispatcher(Url.URL_HOME).forward(request, response);   
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);   
             }
         %>
         <header>
@@ -37,9 +38,7 @@
                 <ul class="content-G content">
                     <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control Cursos</a></li>
                     <li><a class="content-item-G content-item" href="/SIAE/CambiosCA?clave=asesor">Control Asesorias</a></li>
-                    <li>
-                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/>
-                    </li>
+                    <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/></li>
                 </ul>
             </nav>
         </header>

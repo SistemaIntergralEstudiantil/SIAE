@@ -16,7 +16,8 @@ public class Asignatura {
     private String nombre;
     private String area;
     private int credito;
-    private char estado;
+    private String estado;
+    private int solicitar;
     /**
      * Constructor por defecto de Asignatura.
      */
@@ -98,7 +99,7 @@ public class Asignatura {
      * en relación al semestre en curso.
      * @return El estado de la asignatura.
      */
-    public char getEstado() {
+    public String getEstado() {
         return estado;
     }
     /**
@@ -110,8 +111,23 @@ public class Asignatura {
      * </dl>
      * @param estado Este es el estado de la materia.
      */
-    public void setEstado(char estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
+    }
+    /**
+     * Este método obtiene la cantidad de veces que fue solicitada,<br>
+     * para el curso de verano.
+     * @return El número de veces solicitado.
+     */
+    public int getSolicitar() {
+        return solicitar;
+    }
+    /**
+     * Este método asigna el número de veces solicitada para verano.<br>
+     * @param solicitar Este es el número de veces solicitada.
+     */
+    public void setSolicitar(int solicitar) {
+        this.solicitar = solicitar;
     }
     
     

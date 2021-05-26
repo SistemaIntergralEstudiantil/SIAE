@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-AreasApoyo.css"/>
     </head>
-    <body style="background-image: url(/SIAE/resource/images/menuAreas.png);background-size: 80% 100%;background-position: 60% -100%">
+    <body class="marca-areas">
         <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
             if (sec == null) {
@@ -35,19 +35,24 @@
         </ul>
         </nav>
         </header>
-        <div class="content-data_row description">
+        <div class="description-p" style="margin-top: 4rem">
             <p>Las áreas de apoyo buscan fortalecer los procesos de formación de los estudiantes vulnerables a través de la implementación de un programa.</p>
         </div>
         <form action="/SIAE/Asesorias" method="POST" >
-        <div class="content-data_row" ><select name="servicio" class="data_d">
-            <option value="" disabled selected>Áreas</option>
-            <option value="A">Asesorias</option> 
-            <option value="S">Asesoría legal y psicológica</option></select></div>
         <div class="content-data_row" >
-            <input type="hidden" name="clave" value="menu">
-            <input class="data_d input-submit" type="submit" value="Consultar"></div>
+            <select name="servicio" class="data_d">
+                <option value="" disabled selected>Áreas</option>
+                <option value="A">Asesorias</option> 
+                <option value="S">Asesoría legal y psicológica</option>
+            </select>
+        </div>
         <div class="content-data_row" >
-            <a class="item-G-A-Selec content-a" href="<%=Url.URL_HOME%>">Ménu principal</a></div>
+            <input type="hidden" name="clave" value="menu"/>
+            <input class="data_d input-submit" type="submit" value="Consultar"/>
+        </div>
+        <div class="content-data_row" >
+            <a class="item-G-A-Selec content-a" href="<%=Url.URL_HOME%>">Ménu principal</a>
+        </div>
         </form>
     </body>
 </html>

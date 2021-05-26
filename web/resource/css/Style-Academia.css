@@ -1,0 +1,104 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 9/05/2021, 03:09:19 PM
+    Author     : danielhernandezreyes
+*/
+
+:root {
+    --height-item: 1.8rem;
+    --width-item: 6rem;
+    --color-apro: #6FFF74;
+    --color-repr: #FF6F6F;
+    --color-nocur: #FFED6F;
+}
+
+
+.content {
+    flex-flow: row wrap;
+    list-style: none;
+    margin-left: 0rem;
+    margin-right: -7.5rem;
+}
+
+.content-item {
+    text-decoration: none;
+    font-size: 2rem;
+    
+    margin: 0;
+}
+.content-item:hover {
+    background: none;
+}
+
+.content-img {
+    margin-top: 1rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: var(--width-item);
+    padding-left: var(--width-item);
+}
+
+.description-p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-description);
+    text-align: center;
+    
+    margin: var(--size-description);
+}
+
+.input-submit {
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: var(--color-base);
+    
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    padding-right: 3.5rem;
+    padding-left: 3.5rem;
+    margin-top: 2rem;
+    margin-left: 38%;
+    border: 0;
+}
+.input-submit:hover{
+    background: var(--color-hover);
+}
+
+.container-body {
+    display: flex;
+    flex-direction: row;
+}
+
+.item-body {
+    display: flex;
+    flex-direction: column;    
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: .5rem;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+.item-body-item {
+    text-align: center;
+    flex-grow: 1;
+    padding: 1rem;
+    color: #4D4D90;
+}
+
+.item-body-item-t {
+    background-color: #6F9AFF;
+    color: #695B5B;
+}
+.item-apro {
+    background-color: var(--color-apro);
+}
+.item-repro {
+    background-color: var(--color-repr);
+}
+.item-nocur {
+    background-color: var(--color-nocur);
+}

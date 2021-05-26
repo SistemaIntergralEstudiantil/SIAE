@@ -40,20 +40,19 @@ public class Docente extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession sesion = request.getSession();
         Session sec = (Session) sesion.getAttribute("user");
-        if(sec == null){ // Control para el acceso no autorizado.
-            sec = new Session();
-            sec.setTypeSessionNull(0);
-            sesion.setAttribute("user", sec);
-            request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
-            // Redireccionamiento a la pagina de error.
-        }else{
-            try {
+        try {
+            if(sec == null) { // Control para el acceso no autorizado.
+                sec = new Session();
+                sec.setTypeSessionNull(0);
+                sesion.setAttribute("user", sec);
+                request.getRequestDispatcher(Url.URL_ERROR).forward(request, response);
+                // Redireccionamiento a la pagina de error.
+            } else {
                 String clave = request.getParameter("clave");
                 if(clave.equals("inicio") || clave.equals("change")){
                     String idUsuario = sec.getUser().getIdUsuario();
@@ -80,19 +79,25 @@ public class Docente extends HttpServlet {
                     // Redirección a la interfaz
                     request.getRequestDispatcher(Url.URL_DOCENTE_CURSOS).forward(request, response);
                 }
-            } catch (ClassNotFoundException ex) {
-                sesion.setAttribute("user", sec);
-                sec.setErrorMsj("Error al declarar el conector a la SGBD:");
-                sec.setErrorType(ex.toString());
-                sec.setErrorUrl(Url.URL_HOME);
-                response.sendRedirect(Url.URL_ERROR);
-            } catch (SQLException ex) {
-                sesion.setAttribute("user", sec);
-                sec.setErrorMsj("Error en la conexión con el SGBD:");
-                sec.setErrorType(ex.toString());
-                sec.setErrorUrl(Url.URL_HOME);
-                response.sendRedirect(Url.URL_ERROR);
             }
+        } catch (ClassNotFoundException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj("Error al declarar el conector a la SGBD:");
+            sec.setErrorType(ex.toString());
+            sec.setErrorUrl(Url.URL_HOME);
+            response.sendRedirect(Url.URL_ERROR);
+        } catch (SQLException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj("Error en la conexión con el SGBD:");
+            sec.setErrorType(ex.toString());
+            sec.setErrorUrl(Url.URL_HOME);
+            response.sendRedirect(Url.URL_ERROR);
+        } catch (IOException | NumberFormatException | ServletException ex) {
+            sesion.setAttribute("user", sec);
+            sec.setErrorMsj(ex.getMessage());
+            sec.setErrorType("java.lang.Exception");
+            sec.setErrorUrl(Url.URL_LOGIN);
+            response.sendRedirect(Url.URL_ERROR);
         }
         
     }

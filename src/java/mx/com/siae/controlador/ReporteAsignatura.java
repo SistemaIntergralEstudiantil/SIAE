@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import mx.com.siae.conector.config.Url;
 import mx.com.siae.modelo.AsignaturaDAO;
 import mx.com.siae.modelo.Session;
+import mx.com.siae.modelo.beans.Asignatura;
 import mx.com.siae.modelo.beans.ReporteAsig;
 
 /**
@@ -50,11 +51,20 @@ public class ReporteAsignatura extends HttpServlet {
             // Redireccionamiento a la pagina de error.
         }else{
             try { // Operaciones a la BD.
+                String clave = request.getParameter("clave");
                 AsignaturaDAO crl = new AsignaturaDAO();
-                ArrayList<ReporteAsig> list = crl.reporte();
-                request.setAttribute("lista", list);
-                request.getRequestDispatcher("Asignaturas.jsp").forward(request, response);
-                // Redirección a la pagina de asignaturas.
+                if(clave==null) {
+                    ArrayList<ReporteAsig> list = crl.reporte();
+                    request.setAttribute("lista", list);
+                    request.getRequestDispatcher("Asignaturas.jsp").forward(request, response);
+                    // Redirección a la pagina de asignaturas.
+                } else {
+                    if(clave.equals("verano")) {
+                        ArrayList<Asignatura> lista = crl.reporteAsignaturaVerano();
+                        request.setAttribute("lista", lista);
+                        request.getRequestDispatcher(Url.URL_CONTROLG_MENU_4).forward(request, response);
+                    }
+                }
             } catch (ClassNotFoundException ex) {
                 sesion.setAttribute("user", sec);
                 sec.setErrorMsj("Error al declarar el conector a la SGBD:");

@@ -1,0 +1,104 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7/05/2021, 06:16:29 PM
+    Author     : danielhernandezreyes
+*/
+
+:root {
+    --height-item: 1.8rem;
+    --width-item: 5rem;
+}
+
+.content {
+    flex-flow: row wrap;
+    list-style: none;
+}
+
+.content-item {
+    text-decoration: none;
+    font-size: 1.7rem;
+    
+    margin: 0;
+}
+.content-item:hover {
+    background: none;
+}
+
+.content-img {
+    margin-top: .5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: var(--width-item);
+    padding-left: var(--width-item);
+}
+.content-img:hover {
+    background: none;
+}
+
+.description-p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-description);
+    text-align: center;
+    
+    margin: 1.5rem;
+}
+
+.input-submit {
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: var(--color-base);
+    
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    padding-right: 3.5rem;
+    padding-left: 3.5rem;
+    margin-top: 2rem;
+    
+    border: 0;
+}
+.input-submit:hover{
+    background: var(--color-hover);
+}
+
+.input-submit-ft {
+    margin-left: 41.5%;
+}
+
+.input-submit-f {
+    margin-left: 37%;
+}
+
+.info {
+    font-size: 2rem;
+    max-width: 28rem;
+}
+
+.input-submit-table {
+    color: #fff;
+    font-size: 1.1rem;
+    
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-right: 1.7rem;
+    padding-left: 1.7rem;
+    border: 0;
+}
+
+.input-T-E {
+    background-color: var(--color-base);
+}
+.input-T-E:hover{
+    background: var(--color-hover);
+}
+
+.input-T-D {
+    background-color: var(--color-disable);
+}
+.input-T-D:hover{
+    background: var(--color-d-hover);
+}
