@@ -153,6 +153,7 @@ public class Correo {
         contentStream.newLine();
         contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
         String data[] = txt.split(":");
+        int crTol = 0;
         for (int i = 0; i < data.length; i++) {
             String d[] = data[i].split(",");
             String idCurso = new String(d[0].getBytes(Charset.forName("ISO-8859-1")));
@@ -160,6 +161,7 @@ public class Correo {
             String estado = new String(d[2].getBytes(Charset.forName("ISO-8859-1")));
             String idA = new String(d[4].getBytes(Charset.forName("ISO-8859-1")));
             String cr = new String(d[5].getBytes(Charset.forName("ISO-8859-1")));
+            int cre = Integer.parseInt(cr); crTol += cre;
             contentStream.showText(" IdCurso: ");
             contentStream.showText(idCurso);
             contentStream.showText(" <");
@@ -170,9 +172,11 @@ public class Correo {
             contentStream.showText(idA);
             contentStream.showText(" | ");
             contentStream.showText(cr);
-            //contentStream.showText(" IdCurso: "+idCurso +" <"+estado+"> Asignatura:"+ asignatura);
+            //contentStream.showText(" Total de creditos solicitados: "+ crTol);
             contentStream.newLine();
         }
+        contentStream.showText(" Total de creditos solicitados: "+ crTol);
+        contentStream.newLine();
         contentStream.endText();
     }
     /**

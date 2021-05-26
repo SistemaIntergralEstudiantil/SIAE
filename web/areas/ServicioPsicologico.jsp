@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="/SIAE/resource/css/Style-General.css"/>
         <link rel="stylesheet" href="/SIAE/resource/css/Style-ServicioPsicologico.css"/>
     </head>
-    <body style="background-image: url(/SIAE/resource/images/ServSpsi.png);background-size: 100% 140%;background-position: 0% -80%;background-repeat: no-repeat">
+    <body class="marca-servicio">
         <%  HttpSession sesion = request.getSession();
             Session sec = (Session) sesion.getAttribute("user");
             Usuarios user = null;
@@ -38,6 +38,7 @@
                 </ul>
             </nav>
         </header>   
+        <div class="content-correo">
         <a class="item-G-A-Selec content-a" 
            href="mailto:sandrabtal@gmail.com?subject=Solicitud de servicio psicólogico
            &body=Nombre: <%=(user == null) ? "" : user.getNombreCompleto()%>%0AMatricula: <%=(user == null) ? "" : user.getIdUsuario()%>%0APrograma educativo: Ingeniería en sistemas computacionales%0ANúmero telefónico: <%=(user == null) ? "" : user.getNumTel()%>">
@@ -46,5 +47,6 @@
            href="mailto:sandrabtal@gmail.com?subject=Solicitud de asesoría legal
            &body=Nombre: <%=(user == null) ? "" : user.getNombreCompleto()%>%0AMatricula: <%=(user == null) ? "" : user.getIdUsuario()%>%0APrograma educativo: Ingeniería en sistemas computacionales%0ANúmero telefónico: <%=(user == null) ? "" : user.getNumTel()%>">
             Asesoría legal<br>Enviar correo</a>
+        </div>
     </body>
 </html>

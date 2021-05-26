@@ -259,6 +259,7 @@ END $$
 DELIMITER ;
 ;
 -- SELECT funci_nombre_user('D00002') from dual;
+-- SELECT funci_nombre_user('18011126') from dual;
 
 DROP PROCEDURE IF EXISTS proce_iniciar_sesion;
 DELIMITER $$
@@ -797,24 +798,25 @@ CALL proce_nuevo_user('D00012','Lucino',null,null,'Lugo','Lopez','llugol@itsoeh.
 CALL proce_nuevo_user('D00013','Lorena',null,null,'Mendoza','Guzman','lmendozag@itsoeh.edu.mx','R','lmendozag','');
 CALL proce_nuevo_user('D00014','Juan','Carlos',null,'Ceron','Almaraz','jcerona@itsoeh.edu.mx','R','jcerona','');
 CALL proce_nuevo_user('D00015','Guillermo',null,null,'Castañeda','Ortiz','gcastanedao@itsoeh.edu.mx','R','gcastanedao','');
+CALL proce_nuevo_user('D00016','Juan','Adolfo',null,'Álvarez','Martínez','jaalvarez@itsoeh.edu.mx','R','jaalvarez','');
 -- CALL proce_nuevo_user('D00016','Alberto',null,null,'Montoya','Buendia','amontoyab@itsoeh.edu.mx','R','amontoyab','');
 
-CALL proce_nuevo_respo('D','D00001','MC');
-CALL proce_nuevo_respo('D','D00002','MC');
-CALL proce_nuevo_respo('D','D00003','CC');
-CALL proce_nuevo_respo('D','D00004','MC');
-CALL proce_nuevo_respo('D','D00005','MC.');
-CALL proce_nuevo_respo('D','D00006','MC');
-CALL proce_nuevo_respo('D','D00007','');
-CALL proce_nuevo_respo('D','D00008','');
-CALL proce_nuevo_respo('D','D00009','');
-CALL proce_nuevo_respo('D','D00010','');
-CALL proce_nuevo_respo('D','D00011','');
-CALL proce_nuevo_respo('D','D00012','');
-CALL proce_nuevo_respo('D','D00013','');
-CALL proce_nuevo_respo('D','D00014','');
-CALL proce_nuevo_respo('D','D00015','');
--- CALL proce_nuevo_respo('R','D00016');
+CALL proce_nuevo_respo('D','D00001','Mtra.');
+CALL proce_nuevo_respo('D','D00002','M. C.');
+CALL proce_nuevo_respo('D','D00003','Mtra.');
+CALL proce_nuevo_respo('D','D00004','Mtra.');
+CALL proce_nuevo_respo('D','D00005','M. C.');
+CALL proce_nuevo_respo('D','D00006','Lic.');
+CALL proce_nuevo_respo('D','D00007','Dra.');
+CALL proce_nuevo_respo('D','D00008','Mtro.');
+CALL proce_nuevo_respo('D','D00009','Mtro.');
+CALL proce_nuevo_respo('D','D00010','Ing.');
+CALL proce_nuevo_respo('D','D00011','Ing.');
+CALL proce_nuevo_respo('D','D00012','Mtro.');
+CALL proce_nuevo_respo('D','D00013','Mtra.');
+CALL proce_nuevo_respo('D','D00014','M. C.');
+CALL proce_nuevo_respo('D','D00015','Ing.');
+CALL proce_nuevo_respo('D','D00016','Mtro.');
 
 CALL proce_nuevo_alumno('18011830','2020-08-06');
 CALL proce_nuevo_alumno('18011225','2020-08-06');

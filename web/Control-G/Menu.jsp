@@ -38,9 +38,7 @@
                 <ul class="content-G content">
                     <li><a class="content-item-G content-item" href="/SIAE/Control?clave=course">Control Cursos</a></li>
                     <li><a class="content-item-G content-item" href="/SIAE/CambiosCA?clave=asesor">Control Asesorias</a></li>
-                    <li>
-                        <img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/>
-                    </li>
+                    <li><img class="content-item-G content-item content-img" src="/SIAE/resource/images/logo_SIAE.png" width="80" height="80"/></li>
                 </ul>
             </nav>
         </header>

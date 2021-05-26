@@ -36,22 +36,6 @@ and open the template in the editor.
     padding-left: var(--width-item);
 }
 
-.description-p {
-    font-size: var(--size-description);
-    font-weight: bold;
-    color: var(--color-description);
-    text-align: center;
-    margin: 1rem;
-}
-
-.description-tile {
-    font-size: var(--size-description);
-    font-weight: bold;
-    color: #0A1172;
-    text-align: center;
-    margin: 1rem;
-}
-
 .input-submit {
     font-size: 1.2rem;
     color: #fff;

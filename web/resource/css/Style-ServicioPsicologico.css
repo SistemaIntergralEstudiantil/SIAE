@@ -35,4 +35,7 @@ and open the template in the editor.
     margin-top: 1rem;
     padding: 0 var(--width-item) 0 var(--width-item);
 }
-
+.content-correo {
+    margin-top: 11.2rem;
+    margin-bottom: 11.2rem;
+}

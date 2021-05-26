@@ -37,12 +37,12 @@
         </ul>
         </nav>
         </header>
-        <div style="color: #00a3aa;text-align: center;">
-            <h3>DIRECTORIO DE ASESORES ACADÉMICOS PARA EL SEMESTRE ENERO-MAYO 2021</h3>
-            <h5>EL ESTUDIANTE PODRÁ SOLICITAR EL APOYO DE CUALQUIER ASESOR SIN IMPORTAR EL PROGRAMA EDUCATIVO AL QUE PERTENEZCA.</h5>
+        <div class="description-p">
+            <p>El estudiante podrá solicitar el apoyo de cualquier asesor, sin importar el programa educativo al que pertenezca.</p>
         </div>
         <div class="content-table" >
             <table class="table" >
+            <caption class="description-tile" >Directorio de asesores académicos para el semestre en curso</caption>
             <thead>
             <tr>
                 <th style="width: 8rem;">Docente</th>
@@ -54,15 +54,17 @@
             </tr>
             </thead>
             <tbody id="content-body" >
-                <%  if (sec != null) {
-                        ArrayList<ReporteAsesoria> l = (ArrayList<ReporteAsesoria>) request.getAttribute("lista");
-                        for (ReporteAsesoria r : l) { %><tr>
-                    <th><%=r.getDocente()%></th>
-                    <th><%=(r.getAsignatura() == null) ? "No espesificado" : r.getAsignatura()%></th>
-                    <th><%=r.getDia()%></th>
-                    <th><%=r.getHorario()%></th>
-                    <th> <a href="<%=r.getUrl()%>" target="_blank">URL</a></th>
-                    <th><%=r.getCodigo()%></th></tr><% } } %>
+            <%  if (sec != null) {
+                    ArrayList<ReporteAsesoria> l = (ArrayList<ReporteAsesoria>) request.getAttribute("lista");
+                    for (ReporteAsesoria r : l) { %>
+            <tr>
+                <th><%=r.getDocente()%></th>
+                <th><%=(r.getAsignatura() == null) ? "No espesificado" : r.getAsignatura()%></th>
+                <th><%=r.getDia()%></th>
+                <th><%=r.getHorario()%></th>
+                <th><a href="<%=r.getUrl()%>" target="_blank">URL</a></th>
+                <th><%=r.getCodigo()%></th>
+            </tr><% } } %>
             </tbody>
             </table>
         </div>
